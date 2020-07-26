@@ -1,0 +1,6 @@
+module Pods_YogurtStudio_YogurtStudioTests {
+  umbrella header "Pods-YogurtStudio-YogurtStudioTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
