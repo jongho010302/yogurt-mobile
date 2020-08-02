@@ -38,7 +38,7 @@ const HomeNavigator = createStackNavigator(
       navigationOptions: {
         headerTitle: '서울숲필라테스 수강권',
         headerTintColor: '',
-        headerBackTitle: '',
+        headerBackTitle: ' ',
       },
     },
     BookingDetails: {

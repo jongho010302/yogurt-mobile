@@ -8,10 +8,17 @@ import BaseText from '../components/base/BaseText';
 
 // Types
 import { navigationProps } from '../types';
+import colors from 'src/styles/colors';
 
 const Home: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
   
+  const createLectureComponent = (item: any) => {
+    return (
+      <LectureComponent lecture={item} />
+    );
+  };
+
   // set Home Screen with lectures
   const setLectureList = () => {
 
@@ -68,7 +75,7 @@ const Home: React.FC<navigationProps> = ({ navigation }) => {
       return (
         <FlatList
           data={lectureList}
-          renderItem={({item}) => <LectureComponent lecture={item} />}
+          renderItem={({item}) => createLectureComponent(item)}
           keyExtractor={item => item.date}
         />
       );
@@ -90,15 +97,11 @@ const Home: React.FC<navigationProps> = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.8 }}>
+      <View style={{ flex: 0.8 }}>
+        <View style={{ flex: 0.8, marginTop: '10%', borderBottomWidth: 0.5, borderBottomColor: '#b0c4de' }}>
           <TouchableOpacity onPress={() => navigate('Booking')}>
             <TicketExample />
           </TouchableOpacity>
-        </View>
-        <View style={{ flex: 0.2, flexDirection: 'row', marginLeft: 'auto', marginRight: 'auto' }}>
-          <BaseText text="현재 이용권의 잔여 횟수" />
-          <BaseText customStyle={{ marginLeft: 10, fontSize: 16 }} text="10회 남음" />
         </View>
       </View>
       <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
@@ -114,6 +117,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   scrollView: {
+    flex: 1,
     paddingLeft: '5%',
     marginHorizontal: '5%',
   }

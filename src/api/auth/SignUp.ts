@@ -6,13 +6,13 @@ export const getStudioListApi = async () => {
 };
 
 export const validateUsernameApi = async (username: string) => {
-  return await await makeRequest('post', `${BACK_URL}/auth/validation-username`, {
+  return await await makeRequest('post', `${BACK_URL}/auth/verification/username-duplication`, {
     username
   });
 };
 
 export const validateEmailApi = async (email: string) => {
-  return await await makeRequest('post', `${BACK_URL}/auth/validation-email`, {
+  return await await makeRequest('post', `${BACK_URL}/auth/verification/email-duplication`, {
     email
   });
 };

@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../styles/colors';
-// Component
-import { View } from 'react-native';
+
 
 const TicketExample: React.FC = () => {
   Icon.loadFont();
@@ -22,6 +21,10 @@ const TicketExample: React.FC = () => {
         <Icon style={styles.icon} name="md-time" />
         <Text style={styles.bottomText}>그룹 수업 주2회 24회</Text>
       </View>
+      <View style={styles.bottomTextRow}>
+        <Text style={styles.bottomText}>현재 이용권의 잔여 횟수</Text>
+        <Text style={styles.bottomText}> 10회 남음</Text>
+      </View>
     </View>
   );
 };
@@ -31,9 +34,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: '5%',
     marginRight: '5%',
-    marginBottom: '10%',
-    height: '80%',
-    width: '80%',
+    height: '85%',
+    width: '70%',
     borderRadius: 10,
     backgroundColor: colors.lightSkyBlue,
     shadowColor: '#000',
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   headerText: {
-    fontSize: 13,
+    fontSize: 10,
     color: 'white',
     marginLeft: '5%',
     marginTop: '5%',
@@ -63,28 +65,24 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
   },
   centerText: {
-    fontSize: 20,
+    fontSize: 15,
     color: 'white',
     marginLeft: '5%',
     marginBottom: '20%',
   },
   bottomText: {
-    fontSize: 12,
+    fontSize: 10,
     color: 'white',
-    marginBottom: '15%',
-
   },
   bottomTextRow: {
     flexDirection: 'row',
     paddingHorizontal: 10,
     marginLeft: '5%',
-    marginBottom: '20%',
   },
   icon: {
     fontSize: 13,
     alignSelf: 'auto',
     marginRight: 10,
-    marginBottom: '15%',
     color: 'white',
   },
 });
