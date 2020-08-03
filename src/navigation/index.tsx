@@ -37,8 +37,7 @@ const HomeNavigator = createStackNavigator(
       screen: Booking,
       navigationOptions: {
         headerTitle: '서울숲필라테스 수강권',
-        headerTintColor: '',
-        headerBackTitle: ' ',
+        headerBackTitleVisible: false,
       },
     },
     BookingDetails: {
@@ -46,24 +45,10 @@ const HomeNavigator = createStackNavigator(
       navigationOptions: {
         headerTitle: '이용내역 상세보기',
         headerTintColor: 'white',
-        headerBackTitle: ' ',
+        headerBackTitleVisible: false,
         headerStyle: { backgroundColor: colors.lightSkyBlue },
       }
     },
-    Notification: {
-      screen: Notification,
-      navigationOptions: {
-        headerTitle: '서울숲필라테스 알림',
-        headerBackTitle: ' ',
-      },
-    },
-    NotificationDetails: {
-      screen: NotificationDetails,
-      navigationOptions: {
-        headerTitle: '알림 상세보기',
-        headerBackTitle: ' ',
-      },
-    }
   },
   {
     initialRouteName: 'Home',
@@ -87,12 +72,79 @@ HomeNavigator.navigationOptions = ({ navigation }: any) => {
   };
 };
 
+const NotificationNavigator = createStackNavigator(
+  {
+    Notification: {
+      screen: Notification,
+      navigationOptions: {
+        headerTitle: '서울숲필라테스 알림',
+        headerBackTitleVisible: false,
+      },
+    },
+    NotificationDetails: {
+      screen: NotificationDetails,
+      navigationOptions: {
+        headerTitle: '알림 상세보기',
+        headerBackTitleVisible: false,
+      },
+    },
+  },
+  {
+    initialRouteName: 'Notification',
+    defaultNavigationOptions: {
+      cardStyle: {
+        backgroundColor: '#ffffff',
+      }
+    }
+  }
+)
+
+const ProfileNavigator = createStackNavigator(
+  {
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        headerShown: false,
+        headerBackTitleVisible: false,
+      }
+    }
+  },
+  {
+    initialRouteName: 'Profile',
+    defaultNavigationOptions: {
+      cardStyle: {
+        backgroundColor: '#ffffff',
+      }
+    }
+  }
+)
+
+const SettingNavigation = createStackNavigator(
+  {
+    Setting: {
+      screen: Setting,
+      navigationOptions: {
+        headerShown: false,
+        headerBackTitleVisible: false
+      }
+    }
+  },
+  {
+    initialRouteName: 'Setting',
+    defaultNavigationOptions: {
+      cardStyle: {
+        backgroundColor: '#ffffff',
+      }
+    }
+  }
+)
+
 const AppNavigator = createBottomTabNavigator(
   {
     Home: { screen: HomeNavigator },
-    Notification: { screen: Notification },
-    Profile: { screen: Profile },
-    Setting: { screen: Setting },
+    Notification: { screen: NotificationNavigator },
+    Profile: { screen: ProfileNavigator },
+    Setting: { screen: SettingNavigation },
   },
   {
     initialRouteName: 'Home',

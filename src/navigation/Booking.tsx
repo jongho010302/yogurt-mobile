@@ -59,10 +59,10 @@ const Booking: React.FC<navigationProps> = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, marginTop: '10%' }}>
+      <View style={{ flex: 2, marginTop: '10%' }}>
         <TicketExample />
       </View>
-      <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <TabView
           renderTabBar={renderTabBar}
           navigationState={{ index, routes }}
