@@ -44,13 +44,13 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   };
 
   const handleLogin = async (): Promise<void> => {
-    // const res = await loginApi(username, password);
+    const res = await loginApi(username, password);
     
-    // if(!res.success) {
-    //   return;
-    // }
+    if(!res.success) {
+      return;
+    }
 
-    // Alert.alert(res.message);
+    Alert.alert(res.message);
     navigate('App');
   };
 
