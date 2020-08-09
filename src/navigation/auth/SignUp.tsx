@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, TouchableHighlight, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableHighlight,
+  Alert,
+} from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker';
 
 // components
 import BaseInput from '../../components/base/BaseInput';
 
-import { yogurtAlert, formatDate, passwordRegex, emailRegex, usernameRegex, nameRegex } from '../../utils';
+import {
+  yogurtAlert,
+  formatDate,
+  passwordRegex,
+  emailRegex,
+  usernameRegex,
+  nameRegex,
+} from '../../utils';
 
 // Etc
 import { navigationProps } from '../../types';
@@ -32,7 +48,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [isEmailAvailable, setEmailAvailability] = useState(false);
   const [isEmailValidationVisible, setEmailValidationVisibility] = useState(false);
-  // gender  
+  // gender
   const [gender, setGender] = useState('여');
   // studio
   const [studios, setStudios] = useState<any>();
@@ -43,8 +59,15 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isPhoneNumberAvailable, setPhoneNumberAvailability] = useState(false);
 
-  const signUpAvailable = isNameAvailable && isUsernameAvailable && isEmailAvailable && isPasswordAvailable && isPhoneNumberAvailable && gender && birthDay;
-  
+  const signUpAvailable =
+    isNameAvailable &&
+    isUsernameAvailable &&
+    isEmailAvailable &&
+    isPasswordAvailable &&
+    isPhoneNumberAvailable &&
+    gender &&
+    birthDay;
+
   // Use Effect
   useEffect(() => {
     loadStudioList();
@@ -53,15 +76,17 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const loadStudioList = async () => {
     const res = await getStudioListApi();
 
-    const studioList = [{
-      value: '',
-      label: '선택'
-    }];
+    const studioList = [
+      {
+        value: '',
+        label: '선택',
+      },
+    ];
 
     for (const studioItem of res.data) {
       studioList.push({
         value: studioItem,
-        label: studioItem.name
+        label: studioItem.name,
       });
     }
 
@@ -72,19 +97,19 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const handleNameChange = (paramName: string) => {
     setName(paramName);
 
-    if(!nameRegex.test(paramName)) {
+    if (!nameRegex.test(paramName)) {
       return setNameAvailability(false);
     }
 
     setNameAvailability(true);
   };
-  
-  // username, must do validation check to proceed to sign up 
+
+  // username, must do validation check to proceed to sign up
   const handleChangeUsername = (paramUsername: string) => {
     setUsername(paramUsername);
     setUsernameAvailability(false);
 
-    if(!usernameRegex.test(paramUsername)) {
+    if (!usernameRegex.test(paramUsername)) {
       return setUsernameValidationVisibility(false);
     }
 
@@ -108,7 +133,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const handlePasswordChange = (paramPassword: string) => {
     setPassword(paramPassword);
 
-    if(!passwordRegex.test(paramPassword)) {
+    if (!passwordRegex.test(paramPassword)) {
       return setPasswordValidation(false);
     }
 
@@ -118,7 +143,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const handleDupPasswordChange = (paramPassword: string) => {
     setSecondPassword(paramPassword);
 
-    if(!(password === paramPassword)) {
+    if (!(password === paramPassword)) {
       return setPasswordAvailability(false);
     }
 
@@ -131,7 +156,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
     setEmail(paramEmail);
     setEmailAvailability(false);
 
-    if(!emailRegex.test(paramEmail)) {
+    if (!emailRegex.test(paramEmail)) {
       return setEmailValidationVisibility(false);
     }
 
@@ -141,7 +166,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const checkEmailValidation = async () => {
     const res = await validateEmailApi(email);
 
-    if(!res.success) {
+    if (!res.success) {
       return setEmailAvailability(false);
     }
 
@@ -151,8 +176,12 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
 
   // gender
   const printGenderDropdownBox = () => {
-    let genderList = [{ value: '', label: '선택' }, { value: 'M', label: '남' }, { value: 'F', label: '여' }];
-    
+    let genderList = [
+      { value: '', label: '선택' },
+      { value: 'M', label: '남' },
+      { value: 'F', label: '여' },
+    ];
+
     return (
       <View>
         <Dropdown
@@ -181,7 +210,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
       </View>
     );
   };
-  
+
   // birthday
   const printBirthDatePicker = () => {
     return (
@@ -206,9 +235,9 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             color: colors.white,
             fontSize: 14,
             fontWeight: 'bold',
-          }
+          },
         }}
-        onDateChange={(date) => setBirthDay(date)}
+        onDateChange={date => setBirthDay(date)}
       />
     );
   };
@@ -217,10 +246,13 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   // TODO: phone number to be displayed with a format(010-1234-1234)
   const handlePhoneNumberChange = (paramPhoneNumber: string) => {
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-    const parsingPhoneNumber = paramPhoneNumber.replace(/[^0-9]/g, '').replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3').replace('--', '-');
+    const parsingPhoneNumber = paramPhoneNumber
+      .replace(/[^0-9]/g, '')
+      .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+      .replace('--', '-');
     setPhoneNumber(parsingPhoneNumber);
 
-    if(!phoneNumberCheckRegex.test(parsingPhoneNumber)) {
+    if (!phoneNumberCheckRegex.test(parsingPhoneNumber)) {
       return setPhoneNumberAvailability(false);
     }
 
@@ -236,7 +268,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
       name,
       gender,
       birthDay,
-      phoneNumber
+      phoneNumber,
     );
 
     yogurtAlert(res.message);
@@ -245,14 +277,14 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
 
   const completeSignUp = () => {
     Alert.alert('', '회원가입을 완료하시겠습니까?\n 완료 후 로그인 페이지로 이동합니다.', [
-      { text: '취소', onPress: () => console.log('function completeSignUp: Click Cancel') }, 
-      { text: '확인', onPress: () => handleSignUpSubmit() }
+      { text: '취소', onPress: () => console.log('function completeSignUp: Click Cancel') },
+      { text: '확인', onPress: () => handleSignUpSubmit() },
     ]);
   };
 
   const printBottomText = (text: string, color: string) => {
     return (
-      <View style={{ paddingTop: -10}}>
+      <View style={{ paddingTop: -10 }}>
         <Text style={{ fontSize: 11, color }}>{text}</Text>
       </View>
     );
@@ -274,11 +306,9 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             onChangeText={handleNameChange}
             autoFocus
           />
-          {
-            isNameAvailable
-              ? printBottomText('이름이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText('올바른 이름을 입력해주세요.', colors.darkOrange)
-          }
+          {isNameAvailable
+            ? printBottomText('이름이 올바릅니다.', colors.lightSkyBlue)
+            : printBottomText('올바른 이름을 입력해주세요.', colors.darkOrange)}
         </View>
 
         {/* 아이디 */}
@@ -296,43 +326,50 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               onChangeText={handleChangeUsername}
               autoFocus
             />
-            <View style={{ backgroundColor: colors.lightSkyBlue, borderRadius: 10, alignItems: 'center', padding: '4%', paddingLeft: '8%', paddingRight: '8%', height: '80%', position: 'relative' }}>
+            <View
+              style={{
+                backgroundColor: colors.lightSkyBlue,
+                borderRadius: 10,
+                alignItems: 'center',
+                padding: '4%',
+                paddingLeft: '8%',
+                paddingRight: '8%',
+                height: '80%',
+                position: 'relative',
+              }}>
               <TouchableHighlight
-                style={[{opacity: isUsernameValidationVisible ? 1 : 0.2 }]}
+                style={[{ opacity: isUsernameValidationVisible ? 1 : 0.2 }]}
                 onPress={() => checkUsernameValidation()}
-                disabled={!isUsernameValidationVisible}
-              >
+                disabled={!isUsernameValidationVisible}>
                 <View>
-                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>중복확인</Text>
+                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
+                    중복확인
+                  </Text>
                 </View>
               </TouchableHighlight>
             </View>
           </View>
-          {
-            isUsernameValidationVisible
-              ? printBottomText('올바른 형식입니다.', colors.lightSkyBlue)
-              : printBottomText('형식에 맞는 아이디를 입력해주세요.', colors.darkOrange)
-          }
+          {isUsernameValidationVisible
+            ? printBottomText('올바른 형식입니다.', colors.lightSkyBlue)
+            : printBottomText('형식에 맞는 아이디를 입력해주세요.', colors.darkOrange)}
         </View>
 
         {/* 비밀번호 */}
-          <BaseInput
-            inputValue={password}
-            labelText="비밀번호를 입력하세요"
-            placeholder="특수문자, 문자, 숫자 포함 형태의 8~15자리를 입력해주세요."
-            labelTextSize={12}
-            labelColor={colors.lightSkyBlue}
-            textColor={colors.lightBlack}
-            borderBottomColor={colors.lightGray}
-            inputType="password"
-            onChangeText={handlePasswordChange}
-            autoFocus
-          />
-          {
-            isPasswordValidated
-              ? printBottomText('형식이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText('비밀번호 형식이 올바르지 않습니다.', colors.darkOrange)
-          }
+        <BaseInput
+          inputValue={password}
+          labelText="비밀번호를 입력하세요"
+          placeholder="특수문자, 문자, 숫자 포함 형태의 8~15자리를 입력해주세요."
+          labelTextSize={12}
+          labelColor={colors.lightSkyBlue}
+          textColor={colors.lightBlack}
+          borderBottomColor={colors.lightGray}
+          inputType="password"
+          onChangeText={handlePasswordChange}
+          autoFocus
+        />
+        {isPasswordValidated
+          ? printBottomText('형식이 올바릅니다.', colors.lightSkyBlue)
+          : printBottomText('비밀번호 형식이 올바르지 않습니다.', colors.darkOrange)}
 
         {/* 중복 비밀번호 */}
         <View style={{ marginBottom: '6%' }}>
@@ -348,11 +385,9 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             onChangeText={handleDupPasswordChange}
             autoFocus
           />
-          {
-            isPasswordAvailable
-              ? printBottomText('비밀번호가 같습니다.', colors.lightSkyBlue)
-              : printBottomText('비밀번호가 다릅니다.', colors.darkOrange)
-          }
+          {isPasswordAvailable
+            ? printBottomText('비밀번호가 같습니다.', colors.lightSkyBlue)
+            : printBottomText('비밀번호가 다릅니다.', colors.darkOrange)}
         </View>
 
         {/* 이메일 주소 */}
@@ -370,40 +405,73 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               onChangeText={handleEmailChange}
               autoFocus
             />
-            <View style={{backgroundColor: colors.lightSkyBlue, borderRadius: 10, alignItems: 'center', padding: '4%', paddingLeft: '8%', paddingRight: '8%', height: '80%', position: 'relative'}}>
+            <View
+              style={{
+                backgroundColor: colors.lightSkyBlue,
+                borderRadius: 10,
+                alignItems: 'center',
+                padding: '4%',
+                paddingLeft: '8%',
+                paddingRight: '8%',
+                height: '80%',
+                position: 'relative',
+              }}>
               <TouchableHighlight
-                style={[{opacity: isEmailValidationVisible ? 1 : 0.2}]}
+                style={[{ opacity: isEmailValidationVisible ? 1 : 0.2 }]}
                 onPress={() => checkEmailValidation()}
-                disabled={!isEmailValidationVisible}
-              >
+                disabled={!isEmailValidationVisible}>
                 <View>
-                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>중복확인</Text>
+                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
+                    중복확인
+                  </Text>
                 </View>
               </TouchableHighlight>
             </View>
           </View>
-          {
-            isEmailValidationVisible
-              ? printBottomText('이메일 형식이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)
-          }
-        </View> 
+          {isEmailValidationVisible
+            ? printBottomText('이메일 형식이 올바릅니다.', colors.lightSkyBlue)
+            : printBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)}
+        </View>
 
         {/* 성별 */}
         <View style={{ marginBottom: '6%' }}>
-          <Text style={{ color: colors.lightSkyBlue, fontSize: 12, fontWeight: '700', marginBottom: -20 }}>성별을 선택하세요</Text>
+          <Text
+            style={{
+              color: colors.lightSkyBlue,
+              fontSize: 12,
+              fontWeight: '700',
+              marginBottom: -20,
+            }}>
+            성별을 선택하세요
+          </Text>
           {printGenderDropdownBox()}
         </View>
 
         {/* 지점 */}
         <View style={{ marginBottom: '6%' }}>
-          <Text style={{ color: colors.lightSkyBlue, fontSize: 12, fontWeight: '700', marginBottom: -20 }}>등록하는 지점을 선택하세요</Text>
+          <Text
+            style={{
+              color: colors.lightSkyBlue,
+              fontSize: 12,
+              fontWeight: '700',
+              marginBottom: -20,
+            }}>
+            등록하는 지점을 선택하세요
+          </Text>
           {printStudioDropdownBox()}
         </View>
 
         {/* 생일 */}
         <View style={{ marginBottom: '10%', flexDirection: 'column' }}>
-          <Text style={{ color: colors.lightSkyBlue, fontSize: 12, fontWeight: '700', marginBottom: '2%' }}>생년월일을 선택하세요</Text>
+          <Text
+            style={{
+              color: colors.lightSkyBlue,
+              fontSize: 12,
+              fontWeight: '700',
+              marginBottom: '2%',
+            }}>
+            생년월일을 선택하세요
+          </Text>
           <View style={{ alignItems: 'center' }}>{printBirthDatePicker()}</View>
         </View>
 
@@ -424,20 +492,43 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
         </View>
 
         {/* 회원가입 */}
-        <View style={{ flex: 0.1, flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-evenly' }}>
-          <View style={{ backgroundColor: colors.lightSteelGray, borderRadius: 10, alignItems: 'center', padding: '4%', paddingLeft: '15%', paddingRight: '15%' }}>
+        <View
+          style={{
+            flex: 0.1,
+            flexDirection: 'row',
+            alignItems: 'stretch',
+            justifyContent: 'space-evenly',
+          }}>
+          <View
+            style={{
+              backgroundColor: colors.lightSteelGray,
+              borderRadius: 10,
+              alignItems: 'center',
+              padding: '4%',
+              paddingLeft: '15%',
+              paddingRight: '15%',
+            }}>
             <TouchableOpacity onPress={() => navigate('AuthLoading')}>
               <Text style={{ color: colors.white, fontSize: 15, fontWeight: '700' }}>취소</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ backgroundColor: colors.lightSkyBlue, borderRadius: 10, alignItems: 'center', padding: '4%', paddingLeft: '12%', paddingRight: '12%' }}>
+          <View
+            style={{
+              backgroundColor: colors.lightSkyBlue,
+              borderRadius: 10,
+              alignItems: 'center',
+              padding: '4%',
+              paddingLeft: '12%',
+              paddingRight: '12%',
+            }}>
             <TouchableHighlight
               style={[{ opacity: signUpAvailable ? 1 : 0.2 }]}
               onPress={() => completeSignUp()}
-              disabled={!signUpAvailable}
-            >
+              disabled={!signUpAvailable}>
               <View>
-                <Text style={{ color: colors.white, fontSize: 15, fontWeight: '700' }}>회원가입</Text>
+                <Text style={{ color: colors.white, fontSize: 15, fontWeight: '700' }}>
+                  회원가입
+                </Text>
               </View>
             </TouchableHighlight>
           </View>

@@ -12,9 +12,16 @@ import Footer from '../components/layout/Footer';
 import Home from './Home';
 import Notification from './Notification';
 import Profile from './Profile';
-import Setting from './Setting';
 import Booking from './Booking';
 import NotificationDetails from '../components/notification/NotificationDetails';
+
+// Setting
+import Setting from './setting/Setting';
+import PersonalInfo from './setting/PersonalInfo';
+import ProfileInfo from './setting/ProfileInfo';
+import PhoneNumberInfo from './setting/PhoneNumberInfo';
+import EmailInfo from './setting/EmailInfo';
+import PasswordInfo from './setting/PasswordInfo';
 
 // Auth
 import Authentication from './auth/Authentication';
@@ -47,7 +54,7 @@ const HomeNavigator = createStackNavigator(
         headerTintColor: 'white',
         headerBackTitleVisible: false,
         headerStyle: { backgroundColor: colors.lightSkyBlue },
-      }
+      },
     },
   },
   {
@@ -55,7 +62,7 @@ const HomeNavigator = createStackNavigator(
     defaultNavigationOptions: {
       cardStyle: {
         backgroundColor: '#ffffff',
-      }
+      },
     },
   },
 );
@@ -68,7 +75,7 @@ HomeNavigator.navigationOptions = ({ navigation }: any) => {
     };
   }
   return {
-    tabBarVisible
+    tabBarVisible,
   };
 };
 
@@ -94,10 +101,10 @@ const NotificationNavigator = createStackNavigator(
     defaultNavigationOptions: {
       cardStyle: {
         backgroundColor: '#ffffff',
-      }
-    }
-  }
-)
+      },
+    },
+  },
+);
 
 const ProfileNavigator = createStackNavigator(
   {
@@ -106,18 +113,18 @@ const ProfileNavigator = createStackNavigator(
       navigationOptions: {
         headerShown: false,
         headerBackTitleVisible: false,
-      }
-    }
+      },
+    },
   },
   {
     initialRouteName: 'Profile',
     defaultNavigationOptions: {
       cardStyle: {
         backgroundColor: '#ffffff',
-      }
-    }
-  }
-)
+      },
+    },
+  },
+);
 
 const SettingNavigation = createStackNavigator(
   {
@@ -125,19 +132,54 @@ const SettingNavigation = createStackNavigator(
       screen: Setting,
       navigationOptions: {
         headerShown: false,
-        headerBackTitleVisible: false
-      }
-    }
+        headerBackTitleVisible: false,
+      },
+    },
+    PersonalInfo: {
+      screen: PersonalInfo,
+      navigationOptions: {
+        headerTitle: '회원정보변경',
+        headerBackTitleVisible: false,
+      },
+    },
+    ProfileInfo: {
+      screen: ProfileInfo,
+      navigationOptions: {
+        headerTitle: '',
+        headerBackTitleVisible: false,
+      },
+    },
+    PhoneNumberInfo: {
+      screen: PhoneNumberInfo,
+      navigationOptions: {
+        headerTitle: '휴대폰 번호 변경',
+        headerBackTitleVisible: false,
+      },
+    },
+    EmailInfo: {
+      screen: EmailInfo,
+      navigationOptions: {
+        headerTitle: '이메일 변경',
+        headerBackTitleVisible: false,
+      },
+    },
+    PasswordInfo: {
+      screen: PasswordInfo,
+      navigationOptions: {
+        headerTitle: '비밀번호 변경',
+        headerBackTitleVisible: false,
+      },
+    },
   },
   {
     initialRouteName: 'Setting',
     defaultNavigationOptions: {
       cardStyle: {
         backgroundColor: '#ffffff',
-      }
-    }
-  }
-)
+      },
+    },
+  },
+);
 
 const AppNavigator = createBottomTabNavigator(
   {
@@ -148,13 +190,13 @@ const AppNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: 'Home',
-    tabBarComponent: (props) => {
+    tabBarComponent: props => {
       return <Footer {...props} />;
     },
     tabBarOptions: {
       activeTintColor: colors.lightSkyBlue,
     },
-  }
+  },
 );
 
 const AuthNavigator = createStackNavigator(
@@ -196,8 +238,7 @@ const AuthNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Authentication',
-    defaultNavigationOptions: {
-    },
+    defaultNavigationOptions: {},
   },
 );
 
@@ -210,6 +251,6 @@ export default createAppContainer(
     },
     {
       initialRouteName: 'AuthLoading',
-    }
-  )
+    },
+  ),
 );

@@ -19,14 +19,14 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   // State
   const [username, setUsername] = useState('');
   const [isUsernameValidated, setUsernameValidation] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('!');
   const [isPasswordValidatde, setPasswordValidation] = useState(false);
 
   // Function
   const handleUsernameChange = (paramUsername: string) => {
     setUsername(paramUsername);
 
-    if(!usernameRegex.test(paramUsername)) {
+    if (!usernameRegex.test(paramUsername)) {
       return setUsernameValidation(false);
     }
 
@@ -36,7 +36,7 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   const handlePasswordChange = (paramPassword: string) => {
     setPassword(paramPassword);
 
-    if(!passwordRegex.test(paramPassword)) {
+    if (!passwordRegex.test(paramPassword)) {
       return setPasswordValidation(false);
     }
 
@@ -45,12 +45,11 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
 
   const handleLogin = async (): Promise<void> => {
     const res = await loginApi(username, password);
-    
-    if(!res.success) {
+
+    if (!res.success) {
       return;
     }
 
-    Alert.alert(res.message);
     navigate('App');
   };
 
@@ -84,17 +83,22 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
           />
           <View style={{ flexDirection: 'row', paddingTop: '10%' }}>
             <Text>계정이 없으신가요? </Text>
-            <TouchableOpacity onPress={() => navigate('TermsAndConditions')} >
+            <TouchableOpacity onPress={() => navigate('TermsAndConditions')}>
               <Text style={styles.signinButton}>회원가입</Text>
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: 'row', paddingTop: '10%', paddingBottom: '20%' }}>
             <View style={{ flexDirection: 'column' }}>
-              <TouchableOpacity onPress={() => navigate('EmailSearch')} >
-                <Text style={{ fontSize: 15, fontWeight: '400', color: '#4485F7' }}>아이디 찾기</Text>
+              <TouchableOpacity onPress={() => navigate('EmailSearch')}>
+                <Text style={{ fontSize: 15, fontWeight: '400', color: '#4485F7' }}>
+                  아이디 찾기
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigate('PasswordSearch')} >
-                <Text style={{ fontSize: 15, fontWeight: '400', color: '#4485F7', paddingTop: '2%' }}>비밀번호 찾기</Text>
+              <TouchableOpacity onPress={() => navigate('PasswordSearch')}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: '400', color: '#4485F7', paddingTop: '2%' }}>
+                  비밀번호 찾기
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
