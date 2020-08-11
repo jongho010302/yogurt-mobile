@@ -12,26 +12,24 @@ interface Props {
   setPasswordValidation: (validated: boolean) => void;
 }
 
-const PasswordInput: React.FC<Props> = ({
+export const PasswordInput: React.FC<Props> = ({
   password,
   setPassword,
-  setPasswordValidation, 
+  setPasswordValidation,
 }) => {
-
   // password
   const handlePasswordChange = (paramPassword: string) => {
     // 특수문자 / 문자 / 숫자 포함 형태의 8~15자리 이내의 암호 정규식
     const passwordCheckRegex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
     setPassword(paramPassword);
 
-    if(!passwordCheckRegex.test(paramPassword)) {
+    if (!passwordCheckRegex.test(paramPassword)) {
       return setPasswordValidation(false);
     }
 
     setPasswordValidation(true);
   };
 
-  
   return (
     <BaseInput
       inputValue={password}
@@ -47,5 +45,3 @@ const PasswordInput: React.FC<Props> = ({
     />
   );
 };
-
-export default PasswordInput;
