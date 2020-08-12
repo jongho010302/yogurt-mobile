@@ -19,7 +19,7 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   // State
   const [username, setUsername] = useState('');
   const [isUsernameValidated, setUsernameValidation] = useState(false);
-  const [password, setPassword] = useState('!');
+  const [password, setPassword] = useState('');
   const [isPasswordValidatde, setPasswordValidation] = useState(false);
 
   // Function

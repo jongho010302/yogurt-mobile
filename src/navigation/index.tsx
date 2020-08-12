@@ -22,6 +22,8 @@ import ProfileInfo from './setting/ProfileInfo';
 import PhoneNumberInfo from './setting/PhoneNumberInfo';
 import EmailInfo from './setting/EmailInfo';
 import PasswordInfo from './setting/PasswordInfo';
+import NotificationSettings from './setting/NotificationSettings';
+import CustomerService from './setting/CustomerService';
 
 // Auth
 import Authentication from './auth/Authentication';
@@ -167,6 +169,20 @@ const SettingNavigation = createStackNavigator(
       screen: PasswordInfo,
       navigationOptions: {
         headerTitle: '비밀번호 변경',
+        headerBackTitleVisible: false,
+      },
+    },
+    NotificationSettings: {
+      screen: NotificationSettings,
+      navigationOptions: {
+        headerTitle: '알림 설정',
+        headerBackTitleVisible: false,
+      },
+    },
+    CustomerService: {
+      screen: CustomerService,
+      navigationOptions: {
+        headerTitle: '고객센터',
         headerBackTitleVisible: false,
       },
     },
