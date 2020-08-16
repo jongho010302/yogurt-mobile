@@ -24,6 +24,8 @@ import EmailInfo from './setting/EmailInfo';
 import PasswordInfo from './setting/PasswordInfo';
 import NotificationSettings from './setting/NotificationSettings';
 import CustomerService from './setting/CustomerService';
+import TermsOfService from './setting/TermsOfService';
+import PrivacyPolicy from './setting/PrivacyPolicy';
 
 // Auth
 import Authentication from './auth/Authentication';
@@ -183,6 +185,21 @@ const SettingNavigation = createStackNavigator(
       screen: CustomerService,
       navigationOptions: {
         headerTitle: '고객센터',
+        headerBackTitleVisible: false,
+      },
+    },
+    TermsOfService: {
+      screen: TermsOfService,
+      navigationOptions: {
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    PrivacyPolicy: {
+      screen: PrivacyPolicy,
+      navigationOptions: {
+        headerShown: false,
+        headerTitle: '',
         headerBackTitleVisible: false,
       },
     },

@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  AsyncStorage,
-  Button,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-} from 'react-native';
+import { View, AsyncStorage, Button, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { navigationProps } from '../../types';
+import { CreateSettingComponent } from '../../components/layout/NavigationButton';
 import BaseStatusBar from '../../components/base/StatusBar';
 import BaseText from '../../components/base/BaseText';
 import colors from '../../styles/colors';
@@ -19,37 +12,15 @@ const Setting: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const settingItemList = [
-    { name: '회원정보 변경', screen: 'PersonalInfo' },
-    { name: '알림설정', screen: 'NotificationSettings' },
-    { name: '고객센터', screen: 'CustomerService' },
-    { name: '로그아웃' },
+    { name: '회원정보 변경', screen: 'PersonalInfo', method: (item: any) => navigate(item) },
+    { name: '알림설정', screen: 'NotificationSettings', method: (item: any) => navigate(item) },
+    { name: '고객센터', screen: 'CustomerService', method: (item: any) => navigate(item) },
+    { name: '로그아웃', method: () => logOut() },
   ];
 
-  const LogOut = async (): Promise<void> => {
+  const logOut = async (): Promise<void> => {
     AsyncStorage.removeItem('jwtToken');
     navigate('AuthLoading');
-  };
-
-  const CreateSettingComponent = (item: any) => {
-    return (
-      <View style={{ flex: 1, margin: '5%', marginLeft: '10%', marginRight: '10%' }}>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-          onPress={() => navigate(item.screen, { item })}>
-          {console.log(item)}
-          <View>
-            <BaseText text={item.name} customStyle={{ fontSize: 17, fontWeight: '500' }} />
-          </View>
-          <View>
-            <Icon name="md-checkmark" style={{ fontSize: 17 }} />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
   };
 
   return (
@@ -68,15 +39,9 @@ const Setting: React.FC<navigationProps> = ({ navigation }) => {
           customStyle={{ fontSize: 30, fontWeight: '600', marginLeft: '5%' }}
         />
       </View>
-      {console.log(navigate)}
       <FlatList data={settingItemList} renderItem={({ item }) => CreateSettingComponent(item)} />
-      <Button title="로그아웃" onPress={() => LogOut()} />
     </View>
   );
 };
 
 export default Setting;
-
-const styles = StyleSheet.create({
-  settingItem: {},
-});
