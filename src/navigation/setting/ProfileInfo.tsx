@@ -1,34 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Image, Platform } from 'react-native';
 import ActionSheet from 'react-native-action-sheet';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
-
 import { navigationProps } from '../../types';
 import BaseButton from '../../components/base/BaseButton';
 import colors from '../../styles/colors';
 import BaseInput from '../../components/base/BaseInput';
 import { nameRegex } from '../../utils/regex';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { changeProfileUrlApi, changeNameApi } from '../../api/settings';
+import { yogurtAlert, getUser } from '../../utils/common';
+
+interface Photo {
+  uri: string;
+  name: string;
+  type: string;
+}
 
 const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
-  const { navigate } = navigation;
-  const defaultPhotoUri = 'http://www.futurekorea.co.kr/news/photo/201903/116160_116410_1321.jpg';
   const [name, setName] = useState('');
   const [isNameAvailable, setNameAvailability] = useState(false);
-  const [photoUri, setPhotoUri] = useState(defaultPhotoUri);
+  const [photo, setPhoto] = useState<Photo | null>();
+  const [user, setUser] = useState(getUser());
+
+  const getCurrentName = () => {
+    return 'userName';
+  };
 
   const handleNameChange = (paramName: string) => {
+    console.log(user);
     setName(paramName);
-
     if (!nameRegex.test(paramName)) {
-      return setNameAvailability(false);
+      setNameAvailability(false);
     }
-
     setNameAvailability(true);
   };
 
   const ButtonsForIos = ['앨범에서 사진 선택', '사진 촬영', '기본 이미지로 변경', '취소'];
-
   const ButtonsForAndroid = ['앨범에서 사진 선택', '사진 촬영', '기본 이미지로 변경', '취소'];
 
   const selectProfilePhoto = () => {
@@ -44,8 +52,9 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
         } else if (buttonIndex === 1) {
           selectPhotoFromCamera();
         } else if (buttonIndex === 2) {
-          setPhotoUri(defaultPhotoUri);
+          // setPhoto(defaultPhotoUri);
         }
+        console.log(buttonIndex);
       },
     );
   };
@@ -57,7 +66,11 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
       cropping: true,
     })) as ImageType;
 
-    setPhotoUri(image.path);
+    setPhoto({
+      uri: image.path,
+      name: image.filename,
+      type: image.mime,
+    });
   };
 
   const selectPhotoFromCamera = async () => {
@@ -67,13 +80,30 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
       cropping: true,
     })) as ImageType;
 
-    setPhotoUri(image.path);
+    setPhoto({
+      uri: image.path,
+      name: image.filename,
+      type: image.mime,
+    });
+  };
+
+  const saveProfileInfo = () => {
+    uploadProfileImage();
+
+    changeNameApi(name);
+  };
+
+  const uploadProfileImage = async () => {
+    const formData = new FormData();
+    formData.append('profile', photo);
+    const res = await changeProfileUrlApi(formData);
+    yogurtAlert(res.message);
   };
 
   return (
     <SafeAreaView style={styles.profileWrapper}>
       <TouchableOpacity onPress={() => selectProfilePhoto()}>
-        <Image source={{ uri: photoUri }} style={styles.profileImage} />
+        <Image source={{ uri: photo?.uri }} style={styles.profileImage} />
       </TouchableOpacity>
       <ScrollView style={{ marginTop: '10%' }}>
         <BaseInput
@@ -86,11 +116,11 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
           inputType="text"
           onChangeText={handleNameChange}
           autoFocus
-          placeholder="실명입력"
+          placeholder={getCurrentName()}
         />
         <BaseButton
           customStyle={{ marginTop: '20%' }}
-          handleClick={() => console.log('저장하기')}
+          handleClick={() => saveProfileInfo()}
           disabled={!isNameAvailable}
           text="저장하기"
           backgroundColor={colors.lightSkyBlue}

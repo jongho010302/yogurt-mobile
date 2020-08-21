@@ -1,10 +1,8 @@
 import React from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View, FlatList } from 'react-native';
 
 import { navigationProps } from '../../types';
 import { CreateSettingComponent } from '../../components/layout/NavigationButton';
-import BaseText from '../../components/base/BaseText';
 
 const PersonalInfo: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;

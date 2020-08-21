@@ -1,14 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  View,
-} from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { navigationProps } from '../../types';
 
 const AuthLoadingScreen: React.FC<navigationProps> = ({ navigation }) => {
-
   const { navigate } = navigation;
 
   const navigateUser = useCallback(async () => {
@@ -18,7 +14,7 @@ const AuthLoadingScreen: React.FC<navigationProps> = ({ navigation }) => {
     // await AsyncStorage.removeItem('jwtToken');
 
     navigate(jwtToken ? 'App' : 'Auth');
-  }, [ navigate ]);
+  }, [navigate]);
 
   useEffect(() => {
     navigateUser();

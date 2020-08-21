@@ -4,6 +4,8 @@ import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableHighlight } 
 import { navigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import { PhoneNumberInput } from '../../components/form/PhoneNumberInput';
+import { changePhoneNumberApi } from '../../api/settings';
+import { yogurtAlert } from '../../utils/common';
 import colors from '../../styles/colors';
 
 const PhoneNumberInfo: React.FC<navigationProps> = ({ navigation }) => {
@@ -18,6 +20,12 @@ const PhoneNumberInfo: React.FC<navigationProps> = ({ navigation }) => {
         <BaseText text={text} customStyle={{ fontSize: 11, color }} />
       </View>
     );
+  };
+
+  const savePhoneNumberInfo = async () => {
+    const res = await changePhoneNumberApi(phoneNumber);
+
+    yogurtAlert(res.message);
   };
 
   return (
@@ -36,7 +44,7 @@ const PhoneNumberInfo: React.FC<navigationProps> = ({ navigation }) => {
           <View style={styles.button}>
             <TouchableHighlight
               style={[{ opacity: isPhoneNumberAvailable ? 1 : 0.2 }]}
-              onPress={() => console.log('change phone number api')}
+              onPress={() => savePhoneNumberInfo()}
               disabled={!isPhoneNumberAvailable}>
               <View>
                 <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>

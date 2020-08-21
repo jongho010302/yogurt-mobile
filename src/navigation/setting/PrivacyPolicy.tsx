@@ -4,7 +4,6 @@ import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 import { navigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import BaseStatusBar from '../../components/base/StatusBar';
-import colors from '../../styles/colors';
 
 const PrivacyPolicy: React.FC<navigationProps> = ({ navigation }) => {
   const instructionMessage = '개인정보처리방침';

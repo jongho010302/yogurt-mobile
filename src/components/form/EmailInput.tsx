@@ -1,8 +1,7 @@
 import React from 'react';
-
 import BaseInput from '../base/BaseInput';
 import colors from '../../styles/colors';
-import { emailRegex } from '../../utils';
+import { emailRegex } from '../../utils/regex';
 
 interface Props {
   email: string;

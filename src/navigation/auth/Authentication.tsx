@@ -1,28 +1,23 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, ScrollView, View, Text, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-// Component
 import BaseButton from '../../components/base/BaseButton';
 import BaseInput from '../../components/base/BaseInput';
-
-// Etc
 import { navigationProps } from '../../types';
 import colors from '../../styles/colors';
 import styles from '../styles/Authentication';
-import { loginApi } from '../../api';
-import { passwordRegex, usernameRegex } from '../../utils';
+import { loginApi } from '../../api/auth';
+import { passwordRegex, usernameRegex } from '../../utils/regex';
+import { setToken, setAxiosHeaders, setUser } from '../..//utils/common';
 
 const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
-  // State
   const [username, setUsername] = useState('');
   const [isUsernameValidated, setUsernameValidation] = useState(false);
   const [password, setPassword] = useState('');
   const [isPasswordValidatde, setPasswordValidation] = useState(false);
 
-  // Function
   const handleUsernameChange = (paramUsername: string) => {
     setUsername(paramUsername);
 
@@ -43,14 +38,22 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
     setPasswordValidation(true);
   };
 
-  const handleLogin = async (): Promise<void> => {
-    const res = await loginApi(username, password);
+  const handleLogin = async () => {
+    try {
+      const res = await loginApi(username, password);
 
-    if (!res.success) {
-      return;
+      if (!res.success) {
+        return;
+      }
+
+      setToken(res.data.jwtToken);
+      setUser(res.data.user);
+      setAxiosHeaders(res.data.jwtToken);
+
+      navigate('App');
+    } catch (err) {
+      throw err;
     }
-
-    navigate('App');
   };
 
   return (

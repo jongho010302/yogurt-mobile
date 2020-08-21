@@ -11,23 +11,15 @@ import {
 } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker';
-
-// components
 import BaseInput from '../../components/base/BaseInput';
-
-import {
-  yogurtAlert,
-  formatDate,
-  passwordRegex,
-  emailRegex,
-  usernameRegex,
-  nameRegex,
-} from '../../utils';
+import { yogurtAlert } from '../../utils/common';
+import { formatDate } from '../../utils/date';
+import { passwordRegex, emailRegex, usernameRegex, nameRegex } from '../../utils/regex';
 
 // Etc
 import { navigationProps } from '../../types';
 import colors from '../../styles/colors';
-import { getStudioListApi, validateUsernameApi, validateEmailApi, signUpApi } from '../../api';
+import { getStudiosApi, validateUsernameApi, validateEmailApi, signUpApi } from '../../api/auth';
 
 const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
@@ -74,7 +66,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   }, []);
 
   const loadStudioList = async () => {
-    const res = await getStudioListApi();
+    const res = await getStudiosApi();
 
     const studioList = [
       {
