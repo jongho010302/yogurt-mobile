@@ -9,166 +9,231 @@ import {
   TouchableHighlight,
   Alert,
 } from 'react-native';
-import { Dropdown } from 'react-native-material-dropdown';
+import { Dropdown, DropDownData } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker';
 import BaseInput from '../../components/base/BaseInput';
 import { yogurtAlert } from '../../utils/common';
 import { formatDate } from '../../utils/date';
 import { passwordRegex, emailRegex, usernameRegex, nameRegex } from '../../utils/regex';
-
-// Etc
 import { navigationProps } from '../../types';
 import colors from '../../styles/colors';
-import { getStudiosApi, validateUsernameApi, validateEmailApi, signUpApi } from '../../api/auth';
+import { useAuth } from '../../hooks';
+import { AsyncState } from '../../modules/types';
 
 const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
+  const {
+    auth,
+    handleGetStudios,
+    handleVerifyUsername,
+    handleSendSignUpCode,
+    handleVerifySignUpCode,
+    handleSignUp,
+  } = useAuth();
+
   // name
   const [name, setName] = useState('');
-  const [isNameAvailable, setNameAvailability] = useState(false);
+  const [isNameVaildated, setNameValidated] = useState(false);
   // userName
   const [username, setUsername] = useState('');
-  const [isUsernameAvailable, setUsernameAvailability] = useState(false);
   const [isUsernameValidationVisible, setUsernameValidationVisibility] = useState(false);
+  const [isUsernameValidated, setUsernameValidated] = useState(false);
   // password
   const [password, setPassword] = useState('');
   const [secondPassword, setSecondPassword] = useState('');
-  const [isPasswordAvailable, setPasswordAvailability] = useState(false);
   const [isPasswordValidated, setPasswordValidation] = useState(false);
+  const [isPasswordSame, setIsPasswordSame] = useState(false);
   // email
   const [email, setEmail] = useState('');
-  const [isEmailAvailable, setEmailAvailability] = useState(false);
-  const [isEmailValidationVisible, setEmailValidationVisibility] = useState(false);
+  const [isEmailValidated, setEmailValidated] = useState(false);
+  // verifyCode
+  const [verifyCode, setVerifyCode] = useState('');
+  const [isVerifyCodeSend, setIsVerifyCodeSend] = useState(false);
+  const [isEmailVerified, setEmailVerified] = useState(false);
   // gender
-  const [gender, setGender] = useState('여');
+  const [gender, setGender] = useState('');
   // studio
-  const [studios, setStudios] = useState<any>();
-  const [studio, setStudio] = useState<any>({});
+  const [studios, setStudios] = useState<DropDownData[]>();
+  const [selectedStudio, setSelectedStudio] = useState<number>();
   // birthday
   const [birthDay, setBirthDay] = useState(formatDate(new Date()));
   // phone
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isPhoneNumberAvailable, setPhoneNumberAvailability] = useState(false);
 
+  // 회원가입 버튼 활성화 여부
   const signUpAvailable =
-    isNameAvailable &&
-    isUsernameAvailable &&
-    isEmailAvailable &&
-    isPasswordAvailable &&
+    isNameVaildated &&
+    isUsernameValidated &&
+    isEmailValidated &&
+    isPasswordValidated &&
+    isPasswordSame &&
     isPhoneNumberAvailable &&
     gender &&
+    selectedStudio &&
     birthDay;
 
-  // Use Effect
   useEffect(() => {
-    loadStudioList();
-  }, []);
+    handleGetStudios();
+  }, [handleGetStudios]);
 
-  const loadStudioList = async () => {
-    const res = await getStudiosApi();
+  // 센터 가져오기
+  useEffect(() => {
+    if (auth.getStudios.state === AsyncState.SUCCESS) {
+      if (!auth.getStudios.data) {
+        yogurtAlert('이용 가능한 센터가 존재하지 않습니다.');
+        return;
+      }
+      const studioData: DropDownData[] = auth.getStudios.data.map(studio => ({
+        value: studio.id.toString(),
+        label: studio.name,
+      }));
 
-    const studioList = [
-      {
+      studioData.unshift({
         value: '',
         label: '선택',
-      },
-    ];
-
-    for (const studioItem of res.data) {
-      studioList.push({
-        value: studioItem,
-        label: studioItem.name,
       });
+
+      setStudios(studioData);
     }
+  }, [auth.getStudios]);
 
-    setStudios(studioList);
-  };
+  // 아이디 중복 검사
+  useEffect(() => {
+    if (auth.verifyUsername.state === AsyncState.SUCCESS) {
+      setUsernameValidated(true);
+    }
+  }, [auth.verifyUsername]);
 
-  // When Change Name.
-  const handleNameChange = (paramName: string) => {
+  // 이메일 인증코드 인증
+  useEffect(() => {
+    if (auth.verifySignUpCode.state === AsyncState.SUCCESS) {
+      setEmailVerified(true);
+    } else if (auth.verifySignUpCode.state === AsyncState.FAILURE) {
+      setEmailVerified(false);
+    }
+  }, [auth.verifySignUpCode.state]);
+
+  // 회원가입 성공
+  useEffect(() => {
+    if (auth.signUp.state === AsyncState.SUCCESS) {
+      navigate('AuthLoading');
+    }
+  }, [auth.signUp.state, navigate]);
+
+  const onNameChange = (paramName: string) => {
     setName(paramName);
 
-    if (!nameRegex.test(paramName)) {
-      return setNameAvailability(false);
+    if (nameRegex.test(paramName)) {
+      setNameValidated(true);
+    } else {
+      setNameValidated(false);
     }
-
-    setNameAvailability(true);
   };
 
-  // username, must do validation check to proceed to sign up
-  const handleChangeUsername = (paramUsername: string) => {
+  const onUsernameChange = (paramUsername: string) => {
     setUsername(paramUsername);
-    setUsernameAvailability(false);
+    setUsernameValidated(false);
 
-    if (!usernameRegex.test(paramUsername)) {
-      return setUsernameValidationVisibility(false);
+    if (usernameRegex.test(paramUsername)) {
+      setUsernameValidationVisibility(true);
+    } else {
+      setUsernameValidationVisibility(false);
     }
-
-    setUsernameValidationVisibility(true);
   };
 
-  const checkUsernameValidation = async () => {
-    const res = await validateUsernameApi(username);
-
-    if (!res.success) {
-      return setUsernameAvailability(false);
-    }
-
-    setUsernameAvailability(true);
-    yogurtAlert(res.message);
-  };
-
-  // isPasswordValidated
-
-  // password
-  const handlePasswordChange = (paramPassword: string) => {
+  const onPasswordChange = (paramPassword: string) => {
     setPassword(paramPassword);
 
-    if (!passwordRegex.test(paramPassword)) {
-      return setPasswordValidation(false);
+    if (passwordRegex.test(paramPassword)) {
+      return setPasswordValidation(true);
+    } else {
+      setPasswordValidation(false);
     }
-
-    setPasswordValidation(true);
   };
 
-  const handleDupPasswordChange = (paramPassword: string) => {
+  const onSecondPasswordChange = (paramPassword: string) => {
     setSecondPassword(paramPassword);
 
-    if (!(password === paramPassword)) {
-      return setPasswordAvailability(false);
+    if (password === paramPassword) {
+      return setIsPasswordSame(true);
+    } else {
+      return setIsPasswordSame(false);
     }
-
-    setPasswordAvailability(true);
   };
 
   // email, must do validation check to proceed to sign up
-  const handleEmailChange = (paramEmail: string) => {
-    // setEmailValidatiion(false);
+  const onEmailChange = (paramEmail: string) => {
+    setIsVerifyCodeSend(false);
     setEmail(paramEmail);
-    setEmailAvailability(false);
+    setEmailVerified(false);
+    setVerifyCode('');
 
-    if (!emailRegex.test(paramEmail)) {
-      return setEmailValidationVisibility(false);
+    if (emailRegex.test(paramEmail)) {
+      setEmailValidated(true);
+    } else {
+      setEmailValidated(false);
     }
-
-    setEmailValidationVisibility(true);
   };
 
-  const checkEmailValidation = async () => {
-    const res = await validateEmailApi(email);
+  const onVerfiyCodeChange = (paramVerifyCode: string) => {
+    setVerifyCode(paramVerifyCode);
+    setEmailVerified(false);
+  };
 
-    if (!res.success) {
-      return setEmailAvailability(false);
+  // TODO: phone number to be displayed with a format(010-1234-1234)
+  const onPhoneNumberChange = (paramPhoneNumber: string) => {
+    const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    const parsingPhoneNumber = paramPhoneNumber
+      .replace(/[^0-9]/g, '')
+      .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+      .replace('--', '-');
+    setPhoneNumber(parsingPhoneNumber);
+
+    if (phoneNumberCheckRegex.test(parsingPhoneNumber)) {
+      setPhoneNumberAvailability(true);
+    } else {
+      setPhoneNumberAvailability(false);
     }
+  };
 
-    setEmailAvailability(true);
-    yogurtAlert(res.message);
+  const onSendSignUpCodeClick = () => {
+    setIsVerifyCodeSend(true);
+    handleSendSignUpCode(email);
+  };
+
+  const onVerifySignUpCodeClick = () => {
+    handleVerifySignUpCode(email, verifyCode);
+  };
+
+  const completeSignUp = () => {
+    Alert.alert('', '회원가입을 완료하시겠습니까?\n 완료 후 로그인 페이지로 이동합니다.', [
+      { text: '취소', onPress: () => console.log('function completeSignUp: Click Cancel') },
+      {
+        text: '확인',
+        onPress: () => {
+          console.log(selectedStudio);
+          handleSignUp(
+            selectedStudio!,
+            username,
+            password,
+            email,
+            name,
+            gender,
+            birthDay,
+            phoneNumber,
+            'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+            verifyCode,
+          );
+        },
+      },
+    ]);
   };
 
   // gender
   const printGenderDropdownBox = () => {
-    let genderList = [
+    const genders = [
       { value: '', label: '선택' },
       { value: 'M', label: '남' },
       { value: 'F', label: '여' },
@@ -178,8 +243,8 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
       <View>
         <Dropdown
           useNativeDriver={true}
-          value={''}
-          data={genderList}
+          value=""
+          data={genders}
           onChangeText={value => setGender(value)}
           textColor={colors.lightBlack}
           fontSize={12}
@@ -193,9 +258,9 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
       <View>
         <Dropdown
           useNativeDriver={true}
-          value={''}
-          data={studios}
-          onChangeText={value => setStudio(value)}
+          value=""
+          data={studios!}
+          onChangeText={value => setSelectedStudio(value as any)}
           textColor={colors.lightBlack}
           fontSize={12}
         />
@@ -234,46 +299,6 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
     );
   };
 
-  // phone
-  // TODO: phone number to be displayed with a format(010-1234-1234)
-  const handlePhoneNumberChange = (paramPhoneNumber: string) => {
-    const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-    const parsingPhoneNumber = paramPhoneNumber
-      .replace(/[^0-9]/g, '')
-      .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
-      .replace('--', '-');
-    setPhoneNumber(parsingPhoneNumber);
-
-    if (!phoneNumberCheckRegex.test(parsingPhoneNumber)) {
-      return setPhoneNumberAvailability(false);
-    }
-
-    setPhoneNumberAvailability(true);
-  };
-
-  const handleSignUpSubmit = async () => {
-    const res = await signUpApi(
-      { id: studio.id },
-      username,
-      password,
-      email,
-      name,
-      gender,
-      birthDay,
-      phoneNumber,
-    );
-
-    yogurtAlert(res.message);
-    navigate('AuthLoading');
-  };
-
-  const completeSignUp = () => {
-    Alert.alert('', '회원가입을 완료하시겠습니까?\n 완료 후 로그인 페이지로 이동합니다.', [
-      { text: '취소', onPress: () => console.log('function completeSignUp: Click Cancel') },
-      { text: '확인', onPress: () => handleSignUpSubmit() },
-    ]);
-  };
-
   const printBottomText = (text: string, color: string) => {
     return (
       <View style={{ paddingTop: -10 }}>
@@ -295,12 +320,14 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="text"
-            onChangeText={handleNameChange}
+            onChangeText={onNameChange}
             autoFocus
           />
-          {isNameAvailable
-            ? printBottomText('이름이 올바릅니다.', colors.lightSkyBlue)
-            : printBottomText('올바른 이름을 입력해주세요.', colors.darkOrange)}
+          {name
+            ? isNameVaildated
+              ? printBottomText('이름이 올바릅니다.', colors.lightSkyBlue)
+              : printBottomText('올바른 이름을 입력해주세요.', colors.darkOrange)
+            : null}
         </View>
 
         {/* 아이디 */}
@@ -315,8 +342,9 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               textColor={colors.lightBlack}
               borderBottomColor={colors.lightGray}
               inputType="text"
-              onChangeText={handleChangeUsername}
+              onChangeText={onUsernameChange}
               autoFocus
+              inputStyle={{ width: 200 }}
             />
             <View
               style={{
@@ -331,7 +359,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               }}>
               <TouchableHighlight
                 style={[{ opacity: isUsernameValidationVisible ? 1 : 0.2 }]}
-                onPress={() => checkUsernameValidation()}
+                onPress={() => handleVerifyUsername(username)}
                 disabled={!isUsernameValidationVisible}>
                 <View>
                   <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
@@ -341,27 +369,35 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               </TouchableHighlight>
             </View>
           </View>
-          {isUsernameValidationVisible
-            ? printBottomText('올바른 형식입니다.', colors.lightSkyBlue)
-            : printBottomText('형식에 맞는 아이디를 입력해주세요.', colors.darkOrange)}
+          {username
+            ? !isUsernameValidationVisible
+              ? printBottomText('형식에 맞는 아이디를 입력해주세요.', colors.darkOrange)
+              : isUsernameValidated
+              ? printBottomText('사용 가능한 아이디입니다.', colors.lightSkyBlue)
+              : printBottomText('중복검사를 해주세요.', colors.darkOrange)
+            : null}
         </View>
 
         {/* 비밀번호 */}
-        <BaseInput
-          inputValue={password}
-          labelText="비밀번호를 입력하세요"
-          placeholder="특수문자, 문자, 숫자 포함 형태의 8~15자리를 입력해주세요."
-          labelTextSize={12}
-          labelColor={colors.lightSkyBlue}
-          textColor={colors.lightBlack}
-          borderBottomColor={colors.lightGray}
-          inputType="password"
-          onChangeText={handlePasswordChange}
-          autoFocus
-        />
-        {isPasswordValidated
-          ? printBottomText('형식이 올바릅니다.', colors.lightSkyBlue)
-          : printBottomText('비밀번호 형식이 올바르지 않습니다.', colors.darkOrange)}
+        <View style={{ marginBottom: '6%' }}>
+          <BaseInput
+            inputValue={password}
+            labelText="비밀번호를 입력하세요"
+            placeholder="특수문자, 문자, 숫자 포함 형태의 8~15자리를 입력해주세요."
+            labelTextSize={12}
+            labelColor={colors.lightSkyBlue}
+            textColor={colors.lightBlack}
+            borderBottomColor={colors.lightGray}
+            inputType="password"
+            onChangeText={onPasswordChange}
+            autoFocus
+          />
+          {password
+            ? isPasswordValidated
+              ? printBottomText('형식이 올바릅니다.', colors.lightSkyBlue)
+              : printBottomText('비밀번호 형식이 올바르지 않습니다.', colors.darkOrange)
+            : null}
+        </View>
 
         {/* 중복 비밀번호 */}
         <View style={{ marginBottom: '6%' }}>
@@ -374,12 +410,14 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="password"
-            onChangeText={handleDupPasswordChange}
+            onChangeText={onSecondPasswordChange}
             autoFocus
           />
-          {isPasswordAvailable
-            ? printBottomText('비밀번호가 같습니다.', colors.lightSkyBlue)
-            : printBottomText('비밀번호가 다릅니다.', colors.darkOrange)}
+          {secondPassword
+            ? isPasswordSame
+              ? printBottomText('비밀번호가 같습니다.', colors.lightSkyBlue)
+              : printBottomText('비밀번호가 다릅니다.', colors.darkOrange)
+            : null}
         </View>
 
         {/* 이메일 주소 */}
@@ -388,14 +426,15 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             <BaseInput
               inputValue={email}
               labelText="이메일 주소를 입력하세요"
-              placeholder="e.g. yogurt@yogurt-studio.com"
+              placeholder="contact@yogurt-studio.com"
               labelTextSize={12}
               labelColor={colors.lightSkyBlue}
               textColor={colors.lightBlack}
               borderBottomColor={colors.lightGray}
               inputType="email"
-              onChangeText={handleEmailChange}
+              onChangeText={onEmailChange}
               autoFocus
+              inputStyle={{ width: 200 }}
             />
             <View
               style={{
@@ -409,20 +448,69 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
                 position: 'relative',
               }}>
               <TouchableHighlight
-                style={[{ opacity: isEmailValidationVisible ? 1 : 0.2 }]}
-                onPress={() => checkEmailValidation()}
-                disabled={!isEmailValidationVisible}>
+                style={[{ opacity: isEmailValidated ? 1 : 0.2 }]}
+                onPress={onSendSignUpCodeClick}
+                disabled={!isEmailValidated}>
                 <View>
                   <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
-                    중복확인
+                    인증번호 전송
                   </Text>
                 </View>
               </TouchableHighlight>
             </View>
           </View>
-          {isEmailValidationVisible
-            ? printBottomText('이메일 형식이 올바릅니다.', colors.lightSkyBlue)
-            : printBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)}
+          {email
+            ? !isEmailValidated
+              ? printBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)
+              : !isVerifyCodeSend
+              ? printBottomText('인증번호를 전송해 주세요.', colors.darkOrange)
+              : printBottomText('인증번호가 전송되었습니다.', colors.lightSkyBlue)
+            : null}
+        </View>
+
+        {/* 이메일 인증번호 */}
+        <View style={{ marginBottom: '6%' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <BaseInput
+              inputValue={verifyCode}
+              labelText="인증번호를 입력하세요"
+              placeholder=""
+              labelTextSize={12}
+              labelColor={colors.lightSkyBlue}
+              textColor={colors.lightBlack}
+              borderBottomColor={colors.lightGray}
+              inputType="text"
+              onChangeText={onVerfiyCodeChange}
+              autoFocus
+              inputStyle={{ width: 200 }}
+              disable={!isVerifyCodeSend}
+            />
+            <View
+              style={{
+                backgroundColor: colors.lightSkyBlue,
+                borderRadius: 10,
+                alignItems: 'center',
+                padding: '4%',
+                paddingLeft: '8%',
+                paddingRight: '8%',
+                height: '80%',
+                position: 'relative',
+              }}>
+              <TouchableHighlight
+                style={[{ opacity: isEmailValidated ? 1 : 0.2 }]}
+                onPress={onVerifySignUpCodeClick}
+                disabled={!isEmailValidated}>
+                <View>
+                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>인증</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
+          {isVerifyCodeSend
+            ? !isEmailVerified
+              ? printBottomText('인증해주세요.', colors.darkOrange)
+              : printBottomText('인증돠었습니다.', colors.lightSkyBlue)
+            : null}
         </View>
 
         {/* 성별 */}
@@ -472,13 +560,13 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           <BaseInput
             inputValue={phoneNumber}
             labelText="핸드폰 번호를 입력하세요"
-            placeholder="010-xxxx-xxxx"
+            placeholder="010-7570-3529"
             labelTextSize={12}
             labelColor={colors.lightSkyBlue}
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="phone"
-            onChangeText={handlePhoneNumberChange}
+            onChangeText={onPhoneNumberChange}
             autoFocus
           />
         </View>
@@ -490,6 +578,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             flexDirection: 'row',
             alignItems: 'stretch',
             justifyContent: 'space-evenly',
+            marginBottom: 20,
           }}>
           <View
             style={{

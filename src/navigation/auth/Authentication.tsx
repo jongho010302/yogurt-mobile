@@ -1,58 +1,47 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, ScrollView, View, Text, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { KeyboardAvoidingView, ScrollView, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import BaseButton from '../../components/base/BaseButton';
 import BaseInput from '../../components/base/BaseInput';
-import { navigationProps } from '../../types';
 import colors from '../../styles/colors';
 import styles from '../styles/Authentication';
-import { loginApi } from '../../api/auth';
+import { navigationProps } from '../../types';
 import { passwordRegex, usernameRegex } from '../../utils/regex';
-import { setToken, setAxiosHeaders, setUser } from '../..//utils/common';
+import { useAuth } from '../../hooks';
+import { AsyncState } from '../../modules/types';
 
 const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
+  const { auth, handleLogIn } = useAuth();
   const [username, setUsername] = useState('');
   const [isUsernameValidated, setUsernameValidation] = useState(false);
   const [password, setPassword] = useState('');
   const [isPasswordValidatde, setPasswordValidation] = useState(false);
 
+  useEffect(() => {
+    if (auth.logIn.state === AsyncState.SUCCESS) {
+      navigate('App');
+    }
+  }, [auth.logIn.state, navigate]);
+
   const handleUsernameChange = (paramUsername: string) => {
     setUsername(paramUsername);
 
-    if (!usernameRegex.test(paramUsername)) {
-      return setUsernameValidation(false);
+    if (usernameRegex.test(paramUsername)) {
+      setUsernameValidation(true);
+    } else {
+      setUsernameValidation(false);
     }
-
-    setUsernameValidation(true);
   };
 
   const handlePasswordChange = (paramPassword: string) => {
     setPassword(paramPassword);
 
-    if (!passwordRegex.test(paramPassword)) {
-      return setPasswordValidation(false);
-    }
-
-    setPasswordValidation(true);
-  };
-
-  const handleLogin = async () => {
-    try {
-      const res = await loginApi(username, password);
-
-      if (!res.success) {
-        return;
-      }
-
-      setToken(res.data.jwtToken);
-      setUser(res.data.user);
-      setAxiosHeaders(res.data.jwtToken);
-
-      navigate('App');
-    } catch (err) {
-      throw err;
+    if (passwordRegex.test(paramPassword)) {
+      setPasswordValidation(true);
+    } else {
+      setPasswordValidation(false);
     }
   };
 
@@ -107,7 +96,7 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
           </View>
           <BaseButton
             text="로그인"
-            handleClick={handleLogin}
+            handleClick={() => handleLogIn(username, password)}
             disabled={!(isUsernameValidated && isPasswordValidatde)}
             backgroundColor={colors.lightSkyBlue}
           />

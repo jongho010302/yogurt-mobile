@@ -1,0 +1,13 @@
+export const CHECK_USER = 'auth/CHECK_USER';
+export const LOG_IN = 'auth/LOG_IN';
+export const LOG_OUT = 'auth/LOG_OUT';
+export const FIND_MASKING_USERNAME = 'auth/FIND_MASKING_USERNAME';
+export const FIND_USERNAME = 'auth/FIND_USERNAME';
+export const SEND_FIND_PASSWORD_CODE = 'auth/SEND_FIND_PASSWORD_CODE';
+export const VERIFY_FIND_PASSWORD_CODE = 'auth/VERIFY_FIND_PASSWORD_CODE';
+export const FIND_PASSWORD = 'auth/FIND_PASSWORD';
+export const GET_STUDIOS = 'auth/GET_STUDIOS';
+export const VERIFY_USERNAME = 'auth/VERIFY_USERNAME';
+export const SEND_SIGN_UP_CODE = 'auth/SEND_SIGN_UP_CODE';
+export const VERIFY_SIGN_UP_CODE = 'auth/VERIFY_SIGN_UP_CODE';
+export const SIGN_UP = 'auth/SIGN_UP';

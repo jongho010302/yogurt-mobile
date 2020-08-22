@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Image, Platform } from 'react-native';
 import ActionSheet from 'react-native-action-sheet';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
@@ -8,8 +8,9 @@ import colors from '../../styles/colors';
 import BaseInput from '../../components/base/BaseInput';
 import { nameRegex } from '../../utils/regex';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { changeProfileUrlApi, changeNameApi } from '../../api/settings';
-import { yogurtAlert, getUser } from '../../utils/common';
+import { yogurtAlert } from '../../utils/common';
+import { useAuth, useUser } from '../../hooks';
+import { AsyncState } from '../../modules/types';
 
 interface Photo {
   uri: string;
@@ -18,22 +19,66 @@ interface Photo {
 }
 
 const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
+  const { auth } = useAuth();
+  const { user, handleChangeName, handleChangeProfile } = useUser();
   const [name, setName] = useState('');
-  const [isNameAvailable, setNameAvailability] = useState(false);
-  const [photo, setPhoto] = useState<Photo | null>();
-  const [user, setUser] = useState(getUser());
+  const [isNameValidated, setNameValidated] = useState(true);
+  const [photo, setPhoto] = useState<Photo>();
 
-  const getCurrentName = () => {
-    return 'userName';
-  };
+  const userData = auth.logIn.data!;
 
-  const handleNameChange = (paramName: string) => {
-    console.log(user);
-    setName(paramName);
-    if (!nameRegex.test(paramName)) {
-      setNameAvailability(false);
+  useEffect(() => {
+    let isNameChange = false;
+    let isProfileChange = false;
+
+    if (user.changeName.state === AsyncState.SUCCESS) {
+      isNameChange = true;
     }
-    setNameAvailability(true);
+    if (user.changeProfile.state === AsyncState.SUCCESS) {
+      isProfileChange = true;
+    }
+
+    if (isNameChange || isProfileChange) {
+      return;
+    }
+
+    function changeSuccess() {
+      yogurtAlert('프로필이 성공적으로 변경되었습니다.');
+      navigation.navigate('Setting');
+    }
+
+    if (name && photo) {
+      if (isNameChange && isProfileChange) {
+        changeSuccess();
+      } else {
+        return;
+      }
+    }
+
+    if (name) {
+      if (isNameChange) {
+        changeSuccess();
+      } else {
+        return;
+      }
+    }
+
+    if (photo) {
+      if (isProfileChange) {
+        changeSuccess();
+      } else {
+        return;
+      }
+    }
+  }, [name, photo, user.changeName.state, user.changeProfile.state, navigation]);
+
+  const onNameChange = (paramName: string) => {
+    setName(paramName);
+    if (nameRegex.test(paramName)) {
+      setNameValidated(true);
+    } else {
+      setNameValidated(false);
+    }
   };
 
   const ButtonsForIos = ['앨범에서 사진 선택', '사진 촬영', '기본 이미지로 변경', '취소'];
@@ -46,15 +91,18 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
         destructiveButtonIndex: 2,
         cancelButtonIndex: 3,
       },
-      buttonIndex => {
+      (buttonIndex) => {
         if (buttonIndex === 0) {
           selectPhotoFromAlbum();
         } else if (buttonIndex === 1) {
           selectPhotoFromCamera();
         } else if (buttonIndex === 2) {
-          // setPhoto(defaultPhotoUri);
+          setPhoto({
+            uri: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+            name: 'Default image',
+            type: 'image/png',
+          });
         }
-        console.log(buttonIndex);
       },
     );
   };
@@ -88,40 +136,38 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
   };
 
   const saveProfileInfo = () => {
-    uploadProfileImage();
+    if (photo) {
+      const formData = new FormData();
+      formData.append('profile', photo);
+      handleChangeProfile(formData);
+    }
 
-    changeNameApi(name);
-  };
-
-  const uploadProfileImage = async () => {
-    const formData = new FormData();
-    formData.append('profile', photo);
-    const res = await changeProfileUrlApi(formData);
-    yogurtAlert(res.message);
+    if (name) {
+      handleChangeName(name);
+    }
   };
 
   return (
     <SafeAreaView style={styles.profileWrapper}>
       <TouchableOpacity onPress={() => selectProfilePhoto()}>
-        <Image source={{ uri: photo?.uri }} style={styles.profileImage} />
+        <Image source={{ uri: photo?.uri || userData.profileUrl }} style={styles.profileImage} />
       </TouchableOpacity>
       <ScrollView style={{ marginTop: '10%' }}>
         <BaseInput
-          inputValue={name}
+          inputValue={name || userData.name}
           labelText="이름을 입력하세요"
           labelTextSize={12}
           labelColor={colors.lightSkyBlue}
           textColor={colors.lightBlack}
           borderBottomColor={colors.lightGray}
           inputType="text"
-          onChangeText={handleNameChange}
+          onChangeText={onNameChange}
           autoFocus
-          placeholder={getCurrentName()}
         />
         <BaseButton
           customStyle={{ marginTop: '20%' }}
           handleClick={() => saveProfileInfo()}
-          disabled={!isNameAvailable}
+          disabled={!isNameValidated}
           text="저장하기"
           backgroundColor={colors.lightSkyBlue}
         />
