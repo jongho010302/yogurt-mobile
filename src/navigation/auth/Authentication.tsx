@@ -7,23 +7,32 @@ import colors from '../../styles/colors';
 import styles from '../styles/Authentication';
 import { navigationProps } from '../../types';
 import { passwordRegex, usernameRegex } from '../../utils/regex';
-import { useAuth } from '../../hooks';
-import { AsyncState } from '../../modules/types';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 
 const Authentication: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
-  const { auth, handleLogIn } = useAuth();
+  const { user, handleLogIn, handleChangeField } = useUser();
   const [username, setUsername] = useState('');
   const [isUsernameValidated, setUsernameValidation] = useState(false);
   const [password, setPassword] = useState('');
   const [isPasswordValidatde, setPasswordValidation] = useState(false);
 
   useEffect(() => {
-    if (auth.logIn.state === AsyncState.SUCCESS) {
+    if (user.logIn.status === AsyncStatus.SUCCESS) {
       navigate('App');
     }
-  }, [auth.logIn.state, navigate]);
+  }, [user.logIn.status, navigate]);
+
+  useEffect(() => {
+    return () => {
+      handleChangeField('logIn', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+    };
+  }, []);
 
   const handleUsernameChange = (paramUsername: string) => {
     setUsername(paramUsername);

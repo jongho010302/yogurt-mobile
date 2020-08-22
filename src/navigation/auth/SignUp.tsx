@@ -17,20 +17,21 @@ import { formatDate } from '../../utils/date';
 import { passwordRegex, emailRegex, usernameRegex, nameRegex } from '../../utils/regex';
 import { navigationProps } from '../../types';
 import colors from '../../styles/colors';
-import { useAuth } from '../../hooks';
-import { AsyncState } from '../../modules/types';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 
 const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const {
-    auth,
+    user,
+    handleChangeField,
     handleGetStudios,
     handleVerifyUsername,
     handleSendSignUpCode,
     handleVerifySignUpCode,
     handleSignUp,
-  } = useAuth();
+  } = useUser();
 
   // name
   const [name, setName] = useState('');
@@ -78,14 +79,42 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
     handleGetStudios();
   }, [handleGetStudios]);
 
+  useEffect(() => {
+    return () => {
+      handleChangeField('getStudios', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+
+      handleChangeField('verifyUsername', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+
+      handleChangeField('sendSignUpCode', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+      handleChangeField('verifySignUpCode', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+
+      handleChangeField('signUp', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+    };
+  }, []);
+
   // 센터 가져오기
   useEffect(() => {
-    if (auth.getStudios.state === AsyncState.SUCCESS) {
-      if (!auth.getStudios.data) {
+    if (user.getStudios.status === AsyncStatus.SUCCESS) {
+      if (!user.getStudios.data) {
         yogurtAlert('이용 가능한 센터가 존재하지 않습니다.');
         return;
       }
-      const studioData: DropDownData[] = auth.getStudios.data.map(studio => ({
+      const studioData: DropDownData[] = user.getStudios.data.map((studio) => ({
         value: studio.id.toString(),
         label: studio.name,
       }));
@@ -97,30 +126,30 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
 
       setStudios(studioData);
     }
-  }, [auth.getStudios]);
+  }, [user.getStudios]);
 
   // 아이디 중복 검사
   useEffect(() => {
-    if (auth.verifyUsername.state === AsyncState.SUCCESS) {
+    if (user.verifyUsername.status === AsyncStatus.SUCCESS) {
       setUsernameValidated(true);
     }
-  }, [auth.verifyUsername]);
+  }, [user.verifyUsername]);
 
   // 이메일 인증코드 인증
   useEffect(() => {
-    if (auth.verifySignUpCode.state === AsyncState.SUCCESS) {
+    if (user.verifySignUpCode.status === AsyncStatus.SUCCESS) {
       setEmailVerified(true);
-    } else if (auth.verifySignUpCode.state === AsyncState.FAILURE) {
+    } else if (user.verifySignUpCode.status === AsyncStatus.FAILURE) {
       setEmailVerified(false);
     }
-  }, [auth.verifySignUpCode.state]);
+  }, [user.verifySignUpCode.status]);
 
   // 회원가입 성공
   useEffect(() => {
-    if (auth.signUp.state === AsyncState.SUCCESS) {
+    if (user.signUp.status === AsyncStatus.SUCCESS) {
       navigate('AuthLoading');
     }
-  }, [auth.signUp.state, navigate]);
+  }, [user.signUp.status, navigate]);
 
   const onNameChange = (paramName: string) => {
     setName(paramName);
@@ -245,7 +274,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           useNativeDriver={true}
           value=""
           data={genders}
-          onChangeText={value => setGender(value)}
+          onChangeText={(value) => setGender(value)}
           textColor={colors.lightBlack}
           fontSize={12}
         />
@@ -260,7 +289,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           useNativeDriver={true}
           value=""
           data={studios!}
-          onChangeText={value => setSelectedStudio(value as any)}
+          onChangeText={(value) => setSelectedStudio(value as any)}
           textColor={colors.lightBlack}
           fontSize={12}
         />
@@ -294,7 +323,7 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
             fontWeight: 'bold',
           },
         }}
-        onDateChange={date => setBirthDay(date)}
+        onDateChange={(date) => setBirthDay(date)}
       />
     );
   };

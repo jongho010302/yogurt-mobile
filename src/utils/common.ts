@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, { Method } from 'axios';
 import { ApiResponse } from '../types';
-import { User } from '../modules/auth';
+import { User } from '../modules/user';
 
 export const getToken = async () => {
   const token = (await AsyncStorage.getItem('jwtToken')) as string | null;
@@ -24,14 +24,6 @@ export const getUser = async () => {
   } else {
     return token;
   }
-};
-
-export const setUser = async (user: User) => {
-  return await AsyncStorage.setItem('user', JSON.stringify(user));
-};
-
-export const removeUser = async () => {
-  return await AsyncStorage.removeItem('user');
 };
 
 export const yogurtAlert = (message: string) => {

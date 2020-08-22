@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
-
-import { navigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import { PhoneNumberInput } from '../../components/form/PhoneNumberInput';
-import { changePhoneNumberApi } from '../../api/settings';
 import { yogurtAlert } from '../../utils/common';
+import { navigationProps } from '../../types';
 import colors from '../../styles/colors';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 
 const PhoneNumberInfo: React.FC<navigationProps> = ({ navigation }) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const { user, handleCheckUser, handleChangePhone, handleChangeField } = useUser();
+  const [isPhoneNumberAvailable, setPhoneNumberAvailability] = useState(false);
+
+  const userData = user.data!;
   const instructionMessage = '변경 할 휴대폰 번호를 입력하고 번호 변경하기 버튼을 누르세요.';
   const changePhoneNumberMessage = '입력된 값으로 휴대폰 번호가 변경됩니다.';
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [isPhoneNumberAvailable, setPhoneNumberAvailability] = useState(false);
+
+  useEffect(() => {
+    if (user.changePhone.status === AsyncStatus.SUCCESS) {
+      yogurtAlert('핸드폰 번호가 성공적으로 변경되었습니다.');
+      navigation.navigate('PersonalInfo');
+    }
+  }, [user.changePhone.status, handleCheckUser, navigation]);
+
+  useEffect(() => {
+    return () => {
+      handleChangeField('changeName', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+    };
+  }, []);
 
   const printBottomText = (text: string, color: string) => {
     return (
@@ -23,9 +42,7 @@ const PhoneNumberInfo: React.FC<navigationProps> = ({ navigation }) => {
   };
 
   const savePhoneNumberInfo = async () => {
-    const res = await changePhoneNumberApi(phoneNumber);
-
-    yogurtAlert(res.message);
+    handleChangePhone(phoneNumber);
   };
 
   return (
@@ -38,6 +55,7 @@ const PhoneNumberInfo: React.FC<navigationProps> = ({ navigation }) => {
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
               setPhoneNumberAvailability={setPhoneNumberAvailability}
+              placeholder={userData.phone}
             />
             {printBottomText(changePhoneNumberMessage, colors.lightGray)}
           </View>

@@ -7,12 +7,14 @@ interface Props {
   phoneNumber: string;
   setPhoneNumber: (phoneNumber: string) => void;
   setPhoneNumberAvailability: (isAvailable: boolean) => void;
+  placeholder?: string;
 }
 
 export const PhoneNumberInput: React.FC<Props> = ({
   phoneNumber,
   setPhoneNumber,
   setPhoneNumberAvailability,
+  placeholder,
 }) => {
   const handlePhoneNumberChange = (paramPhoneNumber: string) => {
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
@@ -40,7 +42,7 @@ export const PhoneNumberInput: React.FC<Props> = ({
       inputType="phone"
       onChangeText={handlePhoneNumberChange}
       autoFocus
-      placeholder="01012341234"
+      placeholder={placeholder}
     />
   );
 };

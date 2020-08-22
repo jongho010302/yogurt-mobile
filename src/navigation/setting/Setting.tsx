@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, FlatList } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
-
 import { navigationProps } from '../../types';
 import { CreateSettingComponent } from '../../components/layout/NavigationButton';
 import BaseStatusBar from '../../components/base/StatusBar';
 import BaseText from '../../components/base/BaseText';
 import colors from '../../styles/colors';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 
 const Setting: React.FC<navigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
+
+  const { user, handleChangeField, handleLogOut } = useUser();
+
+  useEffect(() => {
+    if (user.logOut.status === AsyncStatus.SUCCESS) {
+      navigate('AuthLoading');
+    }
+  }, [user.logOut.status]);
+
+  useEffect(() => {
+    return () => {
+      handleChangeField('logOut', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+    };
+  }, []);
 
   const settingItemList = [
     { name: '회원정보 변경', screen: 'PersonalInfo', method: (item: any) => navigate(item) },
@@ -19,9 +36,8 @@ const Setting: React.FC<navigationProps> = ({ navigation }) => {
     { name: '로그아웃', method: () => logOut() },
   ];
 
-  const logOut = async (): Promise<void> => {
-    AsyncStorage.removeItem('jwtToken');
-    navigate('AuthLoading');
+  const logOut = () => {
+    handleLogOut();
   };
 
   return (

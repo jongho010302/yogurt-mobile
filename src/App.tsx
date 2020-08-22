@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import Navigation from './navigation';
-import { useAuth } from './hooks';
+import { useUser } from './hooks';
 import { setAxiosHeaders, getToken } from './utils/common';
 
 const App = () => {
-  const { handleCheckUser } = useAuth();
+  const { handleCheckUser } = useUser();
 
   useEffect(() => {
     (async () => {

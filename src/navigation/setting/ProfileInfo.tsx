@@ -9,8 +9,8 @@ import colors from '../../styles/colors';
 import BaseInput from '../../components/base/BaseInput';
 import { nameRegex } from '../../utils/regex';
 import { yogurtAlert } from '../../utils/common';
-import { useAuth, useUser } from '../../hooks';
-import { AsyncState } from '../../modules/types';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 
 interface Photo {
   uri: string;
@@ -19,28 +19,33 @@ interface Photo {
 }
 
 const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
-  const { auth, handleCheckUser } = useAuth();
-  const { user, handleChangeName, handleChangeProfile, handleInitUserStatus } = useUser();
+  const { user, handleChangeName, handleChangeProfile, handleChangeField } = useUser();
   const [name, setName] = useState('');
   const [isNameValidated, setNameValidated] = useState(false);
   const [photo, setPhoto] = useState<Photo>();
 
-  const userData = auth.logIn.data!;
+  const userData = user.data!;
 
   useEffect(() => {
     if (
-      user.changeName.state === AsyncState.SUCCESS ||
-      user.changeProfile.state === AsyncState.SUCCESS
+      user.changeName.status === AsyncStatus.SUCCESS ||
+      user.changeProfile.status === AsyncStatus.SUCCESS
     ) {
-      handleCheckUser();
       yogurtAlert('프로필이 성공적으로 변경되었습니다.');
       navigation.navigate('PersonalInfo');
     }
-  }, [user.changeName.state, user.changeProfile.state, navigation]);
+  }, [user.changeName.status, user.changeProfile.status, navigation]);
 
   useEffect(() => {
     return () => {
-      handleInitUserStatus();
+      handleChangeField('changeName', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+      handleChangeField('changeProfile', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
     };
   }, []);
 
