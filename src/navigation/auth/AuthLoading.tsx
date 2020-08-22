@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import { getToken } from '../../utils/common';
 
-const AuthLoadingScreen: React.FC<navigationProps> = ({ navigation }) => {
+const AuthLoadingScreen: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const navigateUser = useCallback(async () => {

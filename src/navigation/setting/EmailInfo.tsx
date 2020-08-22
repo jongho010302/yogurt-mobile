@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView, TouchableHighlight, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableHighlight,
+  Text,
+} from 'react-native';
 
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import { EmailInput } from '../../components/form/EmailInput';
 import colors from '../../styles/colors';
 
-const EmailInfo: React.FC<navigationProps> = ({ navigation }) => {
-  const instructionMessage = '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
+const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
+  const instructionMessage =
+    '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
   const changeEmailMessage = '입력된 값으로 이메일이 변경됩니다.';
   const [email, setEmail] = useState('');
   const [isEmailAvailable, setEmailAvailability] = useState(false);
-  const [isEmailValidationVisible, setEmailValidationVisibility] = useState(false);
+  const [isEmailValidationVisible, setEmailValidationVisibility] = useState(
+    false,
+  );
 
   const printBottomText = (text: string, color: string) => {
     return (
@@ -41,7 +51,12 @@ const EmailInfo: React.FC<navigationProps> = ({ navigation }) => {
               onPress={() => console.log('change phone number api')}
               disabled={!isEmailAvailable}>
               <View>
-                <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: 11,
+                    fontWeight: '700',
+                  }}>
                   이메일 변경하기
                 </Text>
               </View>

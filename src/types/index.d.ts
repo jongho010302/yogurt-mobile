@@ -1,11 +1,15 @@
-import { NavigationScreenProp, NavigationParams, NavigationState } from 'react-navigation';
+import {
+  NavigationScreenProp,
+  NavigationParams,
+  NavigationState,
+} from 'react-navigation';
 
-export interface navigationProps {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>
+export interface NavigationProps {
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 export interface AxiosResponse {
-  data: ApiResponse
+  data: ApiResponse;
 }
 
 export interface ApiResponse {

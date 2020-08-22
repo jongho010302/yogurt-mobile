@@ -9,10 +9,9 @@ import BookingHistory from '../components/lecture/BookingHistory';
 import TicketInformation from '../components/tickets/TicketInformation';
 
 // Type
-import { navigationProps } from '../types';
+import { NavigationProps } from '../types';
 
-const Booking: React.FC<navigationProps> = ({ navigation }) => {
-
+const Booking: React.FC<NavigationProps> = ({ navigation }) => {
   const FirstRoute = () => (
     <View style={{ flex: 1 }}>
       <AgendaExample />
@@ -35,11 +34,9 @@ const Booking: React.FC<navigationProps> = ({ navigation }) => {
     <TabBar
       {...props}
       renderLabel={({ route }) => (
-        <Text style={{ color: 'black' }}>
-          {route.title}
-        </Text>
+        <Text style={{ color: 'black' }}>{route.title}</Text>
       )}
-      indicatorStyle={{ backgroundColor: 'white', }}
+      indicatorStyle={{ backgroundColor: 'white' }}
       style={{ backgroundColor: 'white' }}
     />
   );
@@ -62,7 +59,13 @@ const Booking: React.FC<navigationProps> = ({ navigation }) => {
       <View style={{ flex: 2, marginTop: '10%' }}>
         <TicketExample />
       </View>
-      <View style={{ flex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          flex: 5,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <TabView
           renderTabBar={renderTabBar}
           navigationState={{ index, routes }}

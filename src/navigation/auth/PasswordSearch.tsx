@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { navigationProps } from '../../types';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
+import { NavigationProps } from '../../types';
 
 // Components
 import BaseInput from '../../components/base/BaseInput';
@@ -9,7 +15,7 @@ import BaseButton from '../../components/base/BaseButton';
 // Etc
 import colors from '../../styles/colors';
 
-const PasswordSearch: React.FC<navigationProps> = () => {
+const PasswordSearch: React.FC<NavigationProps> = () => {
   const [email, setEmail] = useState('');
   const [isEmailAvailable, setEmailAvailability] = useState(false);
   const [username, setUsername] = useState('');
@@ -18,7 +24,7 @@ const PasswordSearch: React.FC<navigationProps> = () => {
     const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setEmail(paramEmail);
 
-    if(!emailCheckRegex.test(paramEmail)) {
+    if (!emailCheckRegex.test(paramEmail)) {
       return setEmailAvailability(false);
     }
 
@@ -36,8 +42,7 @@ const PasswordSearch: React.FC<navigationProps> = () => {
     return true;
   };
 
-  const handleNextButton = async (): Promise<void> => {
-  };
+  const handleNextButton = async (): Promise<void> => {};
 
   const setBottomText = (text: string, color: string) => {
     return (
@@ -69,11 +74,12 @@ const PasswordSearch: React.FC<navigationProps> = () => {
               autoFocus
             />
           </View>
-          {
-            isEmailAvailable
-              ? setBottomText('이메일을 입력해주세요.', colors.lightSkyBlue)
-              : setBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)
-          }
+          {isEmailAvailable
+            ? setBottomText('이메일을 입력해주세요.', colors.lightSkyBlue)
+            : setBottomText(
+                '형식에 맞는 이메일을 입력해주세요.',
+                colors.darkOrange,
+              )}
           <View>
             <BaseInput
               inputValue={username}
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     paddingTop: 20,
     flex: 1,
-  }
+  },
 });
 
 export default PasswordSearch;

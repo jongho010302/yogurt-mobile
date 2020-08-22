@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { View, StyleSheet, Linking } from 'react-native';
 
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import BaseButton from '../../components/base/BaseButton';
 import BaseText from '../../components/base/BaseText';
 import colors from '../../styles/colors';
 
-const NotificationSettings: React.FC<navigationProps> = ({ navigation }) => {
+const NotificationSettings: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage = '설정에서 알림(PUSH) 수신을 변경할 수 있습니다.';
   const handleClick = useCallback(async () => {
     await Linking.openSettings();
@@ -14,7 +14,10 @@ const NotificationSettings: React.FC<navigationProps> = ({ navigation }) => {
 
   return (
     <View style={styles.Wrapper}>
-      <BaseText text="알림 수신" customStyle={{ fontSize: 15, fontWeight: '700' }} />
+      <BaseText
+        text="알림 수신"
+        customStyle={{ fontSize: 15, fontWeight: '700' }}
+      />
       <BaseText text={instructionMessage} />
       <View style={styles.settingsButtonWrapper}>
         <BaseButton

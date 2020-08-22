@@ -1,60 +1,79 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 
 // Component
 import BaseText from '../components/base/BaseText';
 import NotificationComponent from '../components/notification/NotificationComponent';
 import colors from '../styles/colors';
-import { navigationProps } from '../types';
+import { NavigationProps } from '../types';
 
-const Notification: React.FC<navigationProps> = ({ navigation }) => {
+const Notification: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
-  const lectureList = [{
-    date: '2020-02-09',
-    name: '전다은1-1',
-    lectureName: '기구 필라테스',
-    time: '9:00~9:50',
-    attendedCount: '3/5',
-    profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-  }, {
-    date: '2020-02-09',
-    name: '전다은2-1',
-    lectureName: '기구 필라테스',
-    lecturer: '전다은',
-    time: '14:00~14:50',
-    attendedCount: '3/5',
-    profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-  }, {
-    date: '2020-02-09',
-    name: '전다은1-1',
-    lectureName: '기구 필라테스',
-    time: '10:00~10:50',
-    attendedCount: '3/5',
-    profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-  }, {
-    date: '2020-02-09',
-    name: '전다은2-1',
-    lectureName: '기구 필라테스',
-    lecturer: '전다은',
-    time: '12:00~12:50',
-    attendedCount: '3/5',
-    profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-  }, {
-    date: '2020-02-09',
-    name: '전다은1-1',
-    lectureName: '기구 필라테스',
-    time: '9:00~9:50',
-    attendedCount: '3/5',
-    profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-  }, {
-    date: '2020-02-09',
-    name: '전다은2-1',
-    lectureName: '기구 필라테스',
-    lecturer: '전다은',
-    time: '9:00~9:50',
-    attendedCount: '3/5',
-    profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-  }];
+  const lectureList = [
+    {
+      date: '2020-02-09',
+      name: '전다은1-1',
+      lectureName: '기구 필라테스',
+      time: '9:00~9:50',
+      attendedCount: '3/5',
+      profileUrl:
+        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+    },
+    {
+      date: '2020-02-09',
+      name: '전다은2-1',
+      lectureName: '기구 필라테스',
+      lecturer: '전다은',
+      time: '14:00~14:50',
+      attendedCount: '3/5',
+      profileUrl:
+        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+    },
+    {
+      date: '2020-02-09',
+      name: '전다은1-1',
+      lectureName: '기구 필라테스',
+      time: '10:00~10:50',
+      attendedCount: '3/5',
+      profileUrl:
+        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+    },
+    {
+      date: '2020-02-09',
+      name: '전다은2-1',
+      lectureName: '기구 필라테스',
+      lecturer: '전다은',
+      time: '12:00~12:50',
+      attendedCount: '3/5',
+      profileUrl:
+        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+    },
+    {
+      date: '2020-02-09',
+      name: '전다은1-1',
+      lectureName: '기구 필라테스',
+      time: '9:00~9:50',
+      attendedCount: '3/5',
+      profileUrl:
+        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+    },
+    {
+      date: '2020-02-09',
+      name: '전다은2-1',
+      lectureName: '기구 필라테스',
+      lecturer: '전다은',
+      time: '9:00~9:50',
+      attendedCount: '3/5',
+      profileUrl:
+        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+    },
+  ];
 
   // const ShowNotificationDetails = () => {
   //   return (
@@ -67,7 +86,9 @@ const Notification: React.FC<navigationProps> = ({ navigation }) => {
   const ShowNotificationComponent = (item: any) => {
     console.log(item);
     return (
-      <TouchableOpacity style={{}} onPress={() => navigate('NotificationDetails', { item })}>
+      <TouchableOpacity
+        style={{}}
+        onPress={() => navigate('NotificationDetails', { item })}>
         <NotificationComponent notification={item} />
       </TouchableOpacity>
     );
@@ -76,14 +97,14 @@ const Notification: React.FC<navigationProps> = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.text}>
-        <BaseText text={'서울숲필라테스 일정 및 예약 내용을 확인하세요.'}/>
+        <BaseText text={'서울숲필라테스 일정 및 예약 내용을 확인하세요.'} />
       </View>
       <ScrollView style={styles.scrollView}>
-          <FlatList
-            data={lectureList}
-            renderItem={({ item }) => ShowNotificationComponent(item)}
-            keyExtractor={item => item.date}
-          />
+        <FlatList
+          data={lectureList}
+          renderItem={({ item }) => ShowNotificationComponent(item)}
+          keyExtractor={(item) => item.date}
+        />
       </ScrollView>
     </View>
   );
@@ -99,9 +120,8 @@ const styles = StyleSheet.create({
     height: '10%',
     alignSelf: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default Notification;
-

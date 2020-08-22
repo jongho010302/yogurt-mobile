@@ -14,13 +14,18 @@ import DatePicker from 'react-native-datepicker';
 import BaseInput from '../../components/base/BaseInput';
 import { yogurtAlert } from '../../utils/common';
 import { formatDate } from '../../utils/date';
-import { passwordRegex, emailRegex, usernameRegex, nameRegex } from '../../utils/regex';
-import { navigationProps } from '../../types';
+import {
+  passwordRegex,
+  emailRegex,
+  usernameRegex,
+  nameRegex,
+} from '../../utils/regex';
+import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
 
-const SignUp: React.FC<navigationProps> = ({ navigation }) => {
+const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const {
@@ -38,7 +43,10 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   const [isNameVaildated, setNameValidated] = useState(false);
   // userName
   const [username, setUsername] = useState('');
-  const [isUsernameValidationVisible, setUsernameValidationVisibility] = useState(false);
+  const [
+    isUsernameValidationVisible,
+    setUsernameValidationVisibility,
+  ] = useState(false);
   const [isUsernameValidated, setUsernameValidated] = useState(false);
   // password
   const [password, setPassword] = useState('');
@@ -216,7 +224,10 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     const parsingPhoneNumber = paramPhoneNumber
       .replace(/[^0-9]/g, '')
-      .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+      .replace(
+        /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
+        '$1-$2-$3',
+      )
       .replace('--', '-');
     setPhoneNumber(parsingPhoneNumber);
 
@@ -237,27 +248,34 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   };
 
   const completeSignUp = () => {
-    Alert.alert('', '회원가입을 완료하시겠습니까?\n 완료 후 로그인 페이지로 이동합니다.', [
-      { text: '취소', onPress: () => console.log('function completeSignUp: Click Cancel') },
-      {
-        text: '확인',
-        onPress: () => {
-          console.log(selectedStudio);
-          handleSignUp(
-            selectedStudio!,
-            username,
-            password,
-            email,
-            name,
-            gender,
-            birthDay,
-            phoneNumber,
-            'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-            verifyCode,
-          );
+    Alert.alert(
+      '',
+      '회원가입을 완료하시겠습니까?\n 완료 후 로그인 페이지로 이동합니다.',
+      [
+        {
+          text: '취소',
+          onPress: () => console.log('function completeSignUp: Click Cancel'),
         },
-      },
-    ]);
+        {
+          text: '확인',
+          onPress: () => {
+            console.log(selectedStudio);
+            handleSignUp(
+              selectedStudio!,
+              username,
+              password,
+              email,
+              name,
+              gender,
+              birthDay,
+              phoneNumber,
+              'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+              verifyCode,
+            );
+          },
+        },
+      ],
+    );
   };
 
   // gender
@@ -337,7 +355,9 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.white }} behavior="padding">
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: colors.white }}
+      behavior="padding">
       <ScrollView style={styles.scrollView}>
         {/* 이름 */}
         <View style={{ marginBottom: '6%' }}>
@@ -355,13 +375,17 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           {name
             ? isNameVaildated
               ? printBottomText('이름이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText('올바른 이름을 입력해주세요.', colors.darkOrange)
+              : printBottomText(
+                  '올바른 이름을 입력해주세요.',
+                  colors.darkOrange,
+                )
             : null}
         </View>
 
         {/* 아이디 */}
         <View style={{ marginBottom: '6%' }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <BaseInput
               inputValue={username}
               labelText="아이디를 입력하세요"
@@ -391,7 +415,12 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
                 onPress={() => handleVerifyUsername(username)}
                 disabled={!isUsernameValidationVisible}>
                 <View>
-                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
+                  <Text
+                    style={{
+                      color: colors.white,
+                      fontSize: 11,
+                      fontWeight: '700',
+                    }}>
                     중복확인
                   </Text>
                 </View>
@@ -400,9 +429,15 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           </View>
           {username
             ? !isUsernameValidationVisible
-              ? printBottomText('형식에 맞는 아이디를 입력해주세요.', colors.darkOrange)
+              ? printBottomText(
+                  '형식에 맞는 아이디를 입력해주세요.',
+                  colors.darkOrange,
+                )
               : isUsernameValidated
-              ? printBottomText('사용 가능한 아이디입니다.', colors.lightSkyBlue)
+              ? printBottomText(
+                  '사용 가능한 아이디입니다.',
+                  colors.lightSkyBlue,
+                )
               : printBottomText('중복검사를 해주세요.', colors.darkOrange)
             : null}
         </View>
@@ -424,7 +459,10 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           {password
             ? isPasswordValidated
               ? printBottomText('형식이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText('비밀번호 형식이 올바르지 않습니다.', colors.darkOrange)
+              : printBottomText(
+                  '비밀번호 형식이 올바르지 않습니다.',
+                  colors.darkOrange,
+                )
             : null}
         </View>
 
@@ -451,7 +489,8 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
 
         {/* 이메일 주소 */}
         <View style={{ marginBottom: '6%' }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <BaseInput
               inputValue={email}
               labelText="이메일 주소를 입력하세요"
@@ -481,7 +520,12 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
                 onPress={onSendSignUpCodeClick}
                 disabled={!isEmailValidated}>
                 <View>
-                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
+                  <Text
+                    style={{
+                      color: colors.white,
+                      fontSize: 11,
+                      fontWeight: '700',
+                    }}>
                     인증번호 전송
                   </Text>
                 </View>
@@ -490,16 +534,23 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
           </View>
           {email
             ? !isEmailValidated
-              ? printBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)
+              ? printBottomText(
+                  '형식에 맞는 이메일을 입력해주세요.',
+                  colors.darkOrange,
+                )
               : !isVerifyCodeSend
               ? printBottomText('인증번호를 전송해 주세요.', colors.darkOrange)
-              : printBottomText('인증번호가 전송되었습니다.', colors.lightSkyBlue)
+              : printBottomText(
+                  '인증번호가 전송되었습니다.',
+                  colors.lightSkyBlue,
+                )
             : null}
         </View>
 
         {/* 이메일 인증번호 */}
         <View style={{ marginBottom: '6%' }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <BaseInput
               inputValue={verifyCode}
               labelText="인증번호를 입력하세요"
@@ -530,7 +581,14 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
                 onPress={onVerifySignUpCodeClick}
                 disabled={!isEmailValidated}>
                 <View>
-                  <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>인증</Text>
+                  <Text
+                    style={{
+                      color: colors.white,
+                      fontSize: 11,
+                      fontWeight: '700',
+                    }}>
+                    인증
+                  </Text>
                 </View>
               </TouchableHighlight>
             </View>
@@ -619,7 +677,14 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               paddingRight: '15%',
             }}>
             <TouchableOpacity onPress={() => navigate('AuthLoading')}>
-              <Text style={{ color: colors.white, fontSize: 15, fontWeight: '700' }}>취소</Text>
+              <Text
+                style={{
+                  color: colors.white,
+                  fontSize: 15,
+                  fontWeight: '700',
+                }}>
+                취소
+              </Text>
             </TouchableOpacity>
           </View>
           <View
@@ -636,7 +701,12 @@ const SignUp: React.FC<navigationProps> = ({ navigation }) => {
               onPress={() => completeSignUp()}
               disabled={!signUpAvailable}>
               <View>
-                <Text style={{ color: colors.white, fontSize: 15, fontWeight: '700' }}>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: 15,
+                    fontWeight: '700',
+                  }}>
                   회원가입
                 </Text>
               </View>

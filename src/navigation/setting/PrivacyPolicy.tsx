@@ -1,18 +1,21 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import BaseStatusBar from '../../components/base/StatusBar';
 
-const PrivacyPolicy: React.FC<navigationProps> = ({ navigation }) => {
+const PrivacyPolicy: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage = '개인정보처리방침';
 
   return (
     <SafeAreaView style={styles.Wrapper}>
       <ScrollView>
         <BaseStatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-        <BaseText text={instructionMessage} customStyle={{ fontSize: 25, fontWeight: '800' }} />
+        <BaseText
+          text={instructionMessage}
+          customStyle={{ fontSize: 25, fontWeight: '800' }}
+        />
         <View style={styles.PrivacyPolicyWrapper} />
       </ScrollView>
     </SafeAreaView>

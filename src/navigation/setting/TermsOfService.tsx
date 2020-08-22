@@ -1,19 +1,22 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import BaseStatusBar from '../../components/base/StatusBar';
 import colors from '../../styles/colors';
 
-const TermsOfService: React.FC<navigationProps> = ({ navigation }) => {
+const TermsOfService: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage = '이용약관';
 
   return (
     <SafeAreaView style={styles.Wrapper}>
       <ScrollView>
         <BaseStatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-        <BaseText text={instructionMessage} customStyle={{ fontSize: 25, fontWeight: '800' }} />
+        <BaseText
+          text={instructionMessage}
+          customStyle={{ fontSize: 25, fontWeight: '800' }}
+        />
         <View style={styles.TermsOfServiceWrapper} />
       </ScrollView>
     </SafeAreaView>

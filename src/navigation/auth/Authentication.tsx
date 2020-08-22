@@ -5,12 +5,12 @@ import BaseButton from '../../components/base/BaseButton';
 import BaseInput from '../../components/base/BaseInput';
 import colors from '../../styles/colors';
 import styles from '../styles/Authentication';
-import { navigationProps } from '../../types';
 import { passwordRegex, usernameRegex } from '../../utils/regex';
 import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
+import { NavigationProps } from '../../types';
 
-const Authentication: React.FC<navigationProps> = ({ navigation }) => {
+const Authentication: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const { user, handleLogIn, handleChangeField } = useUser();
@@ -32,7 +32,7 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
         errorMessage: '',
       });
     };
-  }, []);
+  }, [handleChangeField]);
 
   const handleUsernameChange = (paramUsername: string) => {
     setUsername(paramUsername);
@@ -88,16 +88,27 @@ const Authentication: React.FC<navigationProps> = ({ navigation }) => {
               <Text style={styles.signinButton}>회원가입</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: 'row', paddingTop: '10%', paddingBottom: '20%' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: '10%',
+              paddingBottom: '20%',
+            }}>
             <View style={{ flexDirection: 'column' }}>
               <TouchableOpacity onPress={() => navigate('EmailSearch')}>
-                <Text style={{ fontSize: 15, fontWeight: '400', color: '#4485F7' }}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: '400', color: '#4485F7' }}>
                   아이디 찾기
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigate('PasswordSearch')}>
                 <Text
-                  style={{ fontSize: 15, fontWeight: '400', color: '#4485F7', paddingTop: '2%' }}>
+                  style={{
+                    fontSize: 15,
+                    fontWeight: '400',
+                    color: '#4485F7',
+                    paddingTop: '2%',
+                  }}>
                   비밀번호 찾기
                 </Text>
               </TouchableOpacity>

@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
-
-// Components
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
 import BaseInput from '../../components/base/BaseInput';
 import BaseButton from '../../components/base/BaseButton';
-
-// Etc
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 
-const EmailSearch: React.FC<navigationProps> = () => {
+const styles = StyleSheet.create({
+  scrollView: {
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 20,
+    flex: 1,
+  },
+});
 
+const EmailSearch: React.FC<NavigationProps> = () => {
   const [isEmailValid, setEmailValidation] = useState(false);
   const [email, setEmailAdress] = useState('');
 
   const handleEmailChange = (paramEmail: string) => {
-    const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailCheckRegex = /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setEmailAdress(paramEmail);
 
     if (!isEmailValid) {
@@ -37,19 +47,16 @@ const EmailSearch: React.FC<navigationProps> = () => {
   const setBottomText = (text: string, color: string) => {
     return (
       <View style={{ paddingTop: -30 }}>
-        <Text style={{ fontSize: 11, color: color }}>{text}</Text>
+        <Text style={{ fontSize: 11, color }}>{text}</Text>
       </View>
     );
   };
 
-  const handleNextButton = async (): Promise<void> => {
-
-  };
+  const handleNextButton = async (): Promise<void> => {};
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.white }}>
       <ScrollView style={styles.scrollView}>
-
         <View>
           <Text>이메일로 아이디 정보를 보내드립니다.</Text>
           <Text>이메일을 입력해주세요.</Text>
@@ -68,11 +75,12 @@ const EmailSearch: React.FC<navigationProps> = () => {
             autoFocus
           />
         </View>
-        {
-          isEmailValid
-            ? setBottomText('이메일을 입력해주세요.', colors.lightSkyBlue)
-            : setBottomText('형식에 맞는 이메일을 입력해주세요.', colors.darkOrange)
-        }
+        {isEmailValid
+          ? setBottomText('이메일을 입력해주세요.', colors.lightSkyBlue)
+          : setBottomText(
+              '형식에 맞는 이메일을 입력해주세요.',
+              colors.darkOrange,
+            )}
       </ScrollView>
       <BaseButton
         handleClick={handleNextButton}
@@ -84,14 +92,5 @@ const EmailSearch: React.FC<navigationProps> = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    paddingLeft: 40,
-    paddingRight: 40,
-    paddingTop: 20,
-    flex: 1,
-  }
-});
 
 export default EmailSearch;

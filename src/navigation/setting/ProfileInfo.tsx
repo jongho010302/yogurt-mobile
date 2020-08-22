@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Image, Platform } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Platform,
+} from 'react-native';
 import ActionSheet from 'react-native-action-sheet';
-import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
+import ImagePicker, {
+  Image as ImageType,
+} from 'react-native-image-crop-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import BaseButton from '../../components/base/BaseButton';
 import colors from '../../styles/colors';
 import BaseInput from '../../components/base/BaseInput';
@@ -18,8 +26,13 @@ interface Photo {
   type: string;
 }
 
-const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
-  const { user, handleChangeName, handleChangeProfile, handleChangeField } = useUser();
+const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
+  const {
+    user,
+    handleChangeName,
+    handleChangeProfile,
+    handleChangeField,
+  } = useUser();
   const [name, setName] = useState('');
   const [isNameValidated, setNameValidated] = useState(false);
   const [photo, setPhoto] = useState<Photo>();
@@ -58,8 +71,18 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
     }
   };
 
-  const ButtonsForIos = ['앨범에서 사진 선택', '사진 촬영', '기본 이미지로 변경', '취소'];
-  const ButtonsForAndroid = ['앨범에서 사진 선택', '사진 촬영', '기본 이미지로 변경', '취소'];
+  const ButtonsForIos = [
+    '앨범에서 사진 선택',
+    '사진 촬영',
+    '기본 이미지로 변경',
+    '취소',
+  ];
+  const ButtonsForAndroid = [
+    '앨범에서 사진 선택',
+    '사진 촬영',
+    '기본 이미지로 변경',
+    '취소',
+  ];
 
   const selectProfilePhoto = () => {
     ActionSheet.showActionSheetWithOptions(
@@ -75,7 +98,8 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
           selectPhotoFromCamera();
         } else if (buttonIndex === 2) {
           setPhoto({
-            uri: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+            uri:
+              'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
             name: 'Default image',
             type: 'image/png',
           });
@@ -125,7 +149,10 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.profileWrapper}>
       <TouchableOpacity onPress={() => selectProfilePhoto()}>
-        <Image source={{ uri: photo?.uri || userData.profileUrl }} style={styles.profileImage} />
+        <Image
+          source={{ uri: photo?.uri || userData.profileUrl }}
+          style={styles.profileImage}
+        />
       </TouchableOpacity>
       <ScrollView style={{ marginTop: '10%' }}>
         <BaseInput

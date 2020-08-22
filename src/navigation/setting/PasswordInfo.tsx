@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView, TouchableHighlight, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableHighlight,
+  Text,
+} from 'react-native';
 import BaseText from '../../components/base/BaseText';
-import { navigationProps } from '../../types';
+import { NavigationProps } from '../../types';
 import { PasswordInput } from '../../components/form/PasswordInput';
 import colors from '../../styles/colors';
 
-const PasswordInfo: React.FC<navigationProps> = () => {
-  const instructionMessage = '변경 할 비밀번호를 입력하고 이메일 변경하기 버튼을 누르세요.';
+const PasswordInfo: React.FC<NavigationProps> = () => {
+  const instructionMessage =
+    '변경 할 비밀번호를 입력하고 이메일 변경하기 버튼을 누르세요.';
   const changeEmailMessage = '입력된 값으로 비밀번호가 변경됩니다.';
   const [password, setPassword] = useState('');
   const [secondPassword, setSecondPassword] = useState('');
   const [isPasswordValidated, setPasswordValidation] = useState(false);
-  const [isSecondPasswordValidated, setSecondPasswordValidation] = useState(false);
+  const [isSecondPasswordValidated, setSecondPasswordValidation] = useState(
+    false,
+  );
 
   const printBottomText = (text: string, color: string) => {
     return (
@@ -46,17 +56,26 @@ const PasswordInfo: React.FC<navigationProps> = () => {
               style={[
                 {
                   opacity:
-                    isPasswordValidated && isSecondPasswordValidated && password == secondPassword
+                    isPasswordValidated &&
+                    isSecondPasswordValidated &&
+                    password == secondPassword
                       ? 1
                       : 0.2,
                 },
               ]}
               onPress={() => console.log('change password api')}
               disabled={
-                !isPasswordValidated && !isSecondPasswordValidated && password != secondPassword
+                !isPasswordValidated &&
+                !isSecondPasswordValidated &&
+                password != secondPassword
               }>
               <View>
-                <Text style={{ color: colors.white, fontSize: 11, fontWeight: '700' }}>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: 11,
+                    fontWeight: '700',
+                  }}>
                   비밀번호 변경하기
                 </Text>
               </View>
