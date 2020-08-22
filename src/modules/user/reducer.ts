@@ -1,6 +1,6 @@
 import { handle } from 'redux-pack';
 import { produce } from 'immer';
-import { CHANGE_NAME, CHANGE_PHONE, CHANGE_PROFILE } from './constants';
+import { CHANGE_NAME, CHANGE_PHONE, CHANGE_PROFILE, INIT_STATUS } from './constants';
 import { AsyncState } from '../types';
 import { UserState } from './types';
 
@@ -27,51 +27,57 @@ export const reducer = (
   switch (type) {
     case CHANGE_NAME:
       return handle(state, action, {
-        start: prevState =>
-          produce(prevState, draft => {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
             draft.changeName.state = AsyncState.WAITING;
           }),
         failure: (prevState, { payload }) =>
-          produce(prevState, draft => {
+          produce(prevState, (draft) => {
             draft.changeName.state = AsyncState.FAILURE;
             draft.changeName.errorMessage = payload.message || 'Failed to check user.';
           }),
         success: (prevState, { payload }) =>
-          produce(prevState, draft => {
+          produce(prevState, (draft) => {
             draft.changeName.state = AsyncState.SUCCESS;
           }),
       });
     case CHANGE_PHONE:
       return handle(state, action, {
-        start: prevState =>
-          produce(prevState, draft => {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
             draft.changePhone.state = AsyncState.WAITING;
           }),
         failure: (prevState, { payload }) =>
-          produce(prevState, draft => {
+          produce(prevState, (draft) => {
             draft.changePhone.state = AsyncState.FAILURE;
             draft.changePhone.errorMessage = payload.message || 'Failed to check user.';
           }),
         success: (prevState, { payload }) =>
-          produce(prevState, draft => {
+          produce(prevState, (draft) => {
             draft.changePhone.state = AsyncState.SUCCESS;
           }),
       });
     case CHANGE_PROFILE:
       return handle(state, action, {
-        start: prevState =>
-          produce(prevState, draft => {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
             draft.changeProfile.state = AsyncState.WAITING;
           }),
         failure: (prevState, { payload }) =>
-          produce(prevState, draft => {
+          produce(prevState, (draft) => {
             draft.changeProfile.state = AsyncState.FAILURE;
             draft.changeProfile.errorMessage = payload.message || 'Failed to check user.';
           }),
         success: (prevState, { payload }) =>
-          produce(prevState, draft => {
+          produce(prevState, (draft) => {
             draft.changeProfile.state = AsyncState.SUCCESS;
           }),
+      });
+    case INIT_STATUS:
+      return produce(state, (draft) => {
+        draft.changeName.state = AsyncState.INIT;
+        draft.changePhone.state = AsyncState.INIT;
+        draft.changeProfile.state = AsyncState.INIT;
       });
     default:
       return state;

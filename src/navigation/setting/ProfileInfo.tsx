@@ -19,58 +19,32 @@ interface Photo {
 }
 
 const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
-  const { auth } = useAuth();
-  const { user, handleChangeName, handleChangeProfile } = useUser();
+  const { auth, handleCheckUser } = useAuth();
+  const { user, handleChangeName, handleChangeProfile, handleInitUserStatus } = useUser();
   const [name, setName] = useState('');
   const [isNameValidated, setNameValidated] = useState(true);
+  const [isNameChange, setIsNameChange] = useState(false);
+  const [isProfileChange, setIsProfileChange] = useState(false);
   const [photo, setPhoto] = useState<Photo>();
 
   const userData = auth.logIn.data!;
 
   useEffect(() => {
-    let isNameChange = false;
-    let isProfileChange = false;
-
-    if (user.changeName.state === AsyncState.SUCCESS) {
-      isNameChange = true;
-    }
-    if (user.changeProfile.state === AsyncState.SUCCESS) {
-      isProfileChange = true;
-    }
-
-    if (isNameChange || isProfileChange) {
-      return;
-    }
-
-    function changeSuccess() {
+    if (
+      user.changeName.state === AsyncState.SUCCESS ||
+      user.changeProfile.state === AsyncState.SUCCESS
+    ) {
+      handleCheckUser();
       yogurtAlert('프로필이 성공적으로 변경되었습니다.');
-      navigation.navigate('Setting');
+      navigation.navigate('PersonalInfo');
     }
+  }, [user.changeName.state, user.changeProfile.state, navigation]);
 
-    if (name && photo) {
-      if (isNameChange && isProfileChange) {
-        changeSuccess();
-      } else {
-        return;
-      }
-    }
-
-    if (name) {
-      if (isNameChange) {
-        changeSuccess();
-      } else {
-        return;
-      }
-    }
-
-    if (photo) {
-      if (isProfileChange) {
-        changeSuccess();
-      } else {
-        return;
-      }
-    }
-  }, [name, photo, user.changeName.state, user.changeProfile.state, navigation]);
+  useEffect(() => {
+    return () => {
+      handleInitUserStatus();
+    };
+  }, []);
 
   const onNameChange = (paramName: string) => {
     setName(paramName);

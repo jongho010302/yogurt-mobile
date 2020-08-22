@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { changeName, changePhone, changeProfile } from '../modules/user/actions';
+import { changeName, changePhone, changeProfile, initStatus } from '../modules/user/actions';
 
 function useAuth() {
   const dispatch = useDispatch();
@@ -18,11 +18,14 @@ function useAuth() {
     [dispatch],
   );
 
+  const handleInitUserStatus = useCallback(() => dispatch(initStatus()), [dispatch]);
+
   return {
     user,
     handleChangeName,
     handleChangePhone,
     handleChangeProfile,
+    handleInitUserStatus,
   };
 }
 
