@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Image, Platform } from 'react-native';
 import ActionSheet from 'react-native-action-sheet';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { navigationProps } from '../../types';
 import BaseButton from '../../components/base/BaseButton';
 import colors from '../../styles/colors';
 import BaseInput from '../../components/base/BaseInput';
 import { nameRegex } from '../../utils/regex';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { yogurtAlert } from '../../utils/common';
 import { useAuth, useUser } from '../../hooks';
 import { AsyncState } from '../../modules/types';
@@ -22,9 +22,7 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
   const { auth, handleCheckUser } = useAuth();
   const { user, handleChangeName, handleChangeProfile, handleInitUserStatus } = useUser();
   const [name, setName] = useState('');
-  const [isNameValidated, setNameValidated] = useState(true);
-  const [isNameChange, setIsNameChange] = useState(false);
-  const [isProfileChange, setIsProfileChange] = useState(false);
+  const [isNameValidated, setNameValidated] = useState(false);
   const [photo, setPhoto] = useState<Photo>();
 
   const userData = auth.logIn.data!;
@@ -116,9 +114,7 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
       handleChangeProfile(formData);
     }
 
-    if (name) {
-      handleChangeName(name);
-    }
+    handleChangeName(name);
   };
 
   return (
@@ -128,7 +124,7 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
       </TouchableOpacity>
       <ScrollView style={{ marginTop: '10%' }}>
         <BaseInput
-          inputValue={name || userData.name}
+          inputValue={name}
           labelText="이름을 입력하세요"
           labelTextSize={12}
           labelColor={colors.lightSkyBlue}
@@ -136,6 +132,7 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
           borderBottomColor={colors.lightGray}
           inputType="text"
           onChangeText={onNameChange}
+          placeholder={userData.name}
           autoFocus
         />
         <BaseButton
@@ -150,8 +147,6 @@ const ProfileInfo: React.FC<navigationProps> = ({ navigation }) => {
   );
 };
 
-export default ProfileInfo;
-
 const styles = StyleSheet.create({
   profileWrapper: {
     flex: 1,
@@ -164,3 +159,5 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 });
+
+export default ProfileInfo;
