@@ -5,10 +5,9 @@ import colors from '../../styles/colors';
 
 interface Props {
   text: string;
-  customStyle?: object;
+  customStyle?: any;
 }
 const YogurtStudioDefaultText: React.FC<Props> = ({ text, customStyle }) => {
-
   return (
     <Text style={[{ color: colors.lightBlack }, customStyle]}>{text}</Text>
   );

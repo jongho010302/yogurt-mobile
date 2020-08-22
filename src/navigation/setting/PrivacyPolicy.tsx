@@ -5,6 +5,20 @@ import { NavigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
 import BaseStatusBar from '../../components/base/StatusBar';
 
+const styles = StyleSheet.create({
+  Wrapper: {
+    flex: 1,
+    marginTop: '20%',
+    margin: '10%',
+  },
+  PrivacyPolicyWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '20%',
+  },
+});
+
 const PrivacyPolicy: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage = '개인정보처리방침';
 
@@ -23,17 +37,3 @@ const PrivacyPolicy: React.FC<NavigationProps> = ({ navigation }) => {
 };
 
 export default PrivacyPolicy;
-
-const styles = StyleSheet.create({
-  Wrapper: {
-    flex: 1,
-    marginTop: '20%',
-    margin: '10%',
-  },
-  PrivacyPolicyWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: '20%',
-  },
-});

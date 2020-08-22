@@ -31,9 +31,9 @@ const EmailSearch: React.FC<NavigationProps> = () => {
     if (!isEmailValid) {
       if (emailCheckRegex.test(paramEmail)) {
         setEmailValidation(true);
+      } else {
+        setEmailValidation(false);
       }
-    } else if (!emailCheckRegex.test(paramEmail)) {
-      setEmailValidation(false);
     }
   };
 

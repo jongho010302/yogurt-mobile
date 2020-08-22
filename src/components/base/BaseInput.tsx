@@ -10,6 +10,33 @@ import {
 } from 'react-native';
 import colors from '../../styles/colors';
 
+const styles = StyleSheet.create({
+  wrapper: {
+    display: 'flex',
+  },
+  label: {
+    marginBottom: 10,
+  },
+  BaseInput: {
+    borderBottomWidth: 1,
+    paddingTop: 5,
+  },
+  showButton: {
+    position: 'absolute',
+    right: 0,
+  },
+  showButtonText: {
+    color: colors.black,
+    fontWeight: '300',
+    fontSize: 11,
+  },
+  checkmarkWrapper: {
+    position: 'absolute',
+    right: 0,
+    bottom: 12,
+  },
+});
+
 interface Props {
   labelText?: string;
   labelTextSize: number;
@@ -17,7 +44,7 @@ interface Props {
   textColor: string;
   borderBottomColor: string;
   inputType: string;
-  customStyle?: object;
+  customStyle?: any;
   onChangeText: (text: string) => void;
   inputValue: string;
   autoFocus?: boolean;
@@ -77,7 +104,9 @@ const BaseInput: React.FC<Props> = ({
 
   // UseEffect
   useEffect(() => {
-    setSecureInput(!(inputType === 'text' || inputType === 'email' || inputType === 'phone'));
+    setSecureInput(
+      !(inputType === 'text' || inputType === 'email' || inputType === 'phone'),
+    );
   }, [setSecureInput, inputType]);
 
   // Style
@@ -88,6 +117,7 @@ const BaseInput: React.FC<Props> = ({
   const borderBottom = borderBottomColor || 'transparent';
   const customInputStyle: any = inputStyle || {};
 
+  // @ts-ignore
   if (!inputStyle || (inputStyle && !inputStyle.paddingBottom)) {
     customInputStyle.paddingBottom = 5;
   }
@@ -98,10 +128,16 @@ const BaseInput: React.FC<Props> = ({
 
   return (
     <View style={[customStyle, styles.wrapper]}>
-      <Text style={[{ color, fontSize, fontWeight }, styles.label]}>{labelText}</Text>
+      <Text style={[{ color, fontSize, fontWeight }, styles.label]}>
+        {labelText}
+      </Text>
       {inputType === 'password' ? (
-        <TouchableOpacity style={styles.showButton} onPress={toggleShowPassword}>
-          <Text style={styles.showButtonText}>{secureInput ? 'Show' : 'Hide'}</Text>
+        <TouchableOpacity
+          style={styles.showButton}
+          onPress={toggleShowPassword}>
+          <Text style={styles.showButtonText}>
+            {secureInput ? 'Show' : 'Hide'}
+          </Text>
         </TouchableOpacity>
       ) : null}
       <TextInput
@@ -125,32 +161,5 @@ const BaseInput: React.FC<Props> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    display: 'flex',
-  },
-  label: {
-    marginBottom: 10,
-  },
-  BaseInput: {
-    borderBottomWidth: 1,
-    paddingTop: 5,
-  },
-  showButton: {
-    position: 'absolute',
-    right: 0,
-  },
-  showButtonText: {
-    color: colors.black,
-    fontWeight: '300',
-    fontSize: 11,
-  },
-  checkmarkWrapper: {
-    position: 'absolute',
-    right: 0,
-    bottom: 12,
-  },
-});
 
 export default BaseInput;

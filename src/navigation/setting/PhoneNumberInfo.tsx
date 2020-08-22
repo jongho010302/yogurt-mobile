@@ -63,7 +63,7 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
 
   useEffect(() => {
     return () => {
-      handleChangeField('changeName', {
+      handleChangeField('changePhone', {
         status: AsyncStatus.INIT,
         errorMessage: '',
       });

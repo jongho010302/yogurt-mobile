@@ -90,7 +90,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
           marginTop: '5%',
         }}>
         <BaseText
-          text={lectureList.length + '개의 내역'}
+          text={`${lectureList.length}개의 내역`}
           customStyle={{ fontSize: 15 }}
         />
         <TouchableOpacity>

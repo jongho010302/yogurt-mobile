@@ -1,14 +1,14 @@
 export const formatDate = (date: Date) => {
-  let d: Date = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+  const d: Date = new Date(date);
+  let month = (d.getMonth() + 1).toString();
+  let day = d.getDate().toString();
+  const year = d.getFullYear().toString();
 
   if (month.length < 2) {
-    month = '0' + month;
+    month = `0${month}`;
   }
   if (day.length < 2) {
-    day = '0' + day;
+    day = `0${day}`;
   }
 
   return [year, month, day].join('-');

@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-
-// Component
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AgendaExample from '../components/calendar/AgendaExample';
 import TicketExample from '../components/tickets/TicketExample';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import BookingHistory from '../components/lecture/BookingHistory';
 import TicketInformation from '../components/tickets/TicketInformation';
-
-// Type
 import { NavigationProps } from '../types';
 
 const Booking: React.FC<NavigationProps> = ({ navigation }) => {

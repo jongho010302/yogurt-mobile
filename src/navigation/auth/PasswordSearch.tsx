@@ -3,17 +3,22 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
   KeyboardAvoidingView,
+  StyleSheet,
 } from 'react-native';
 import { NavigationProps } from '../../types';
-
-// Components
 import BaseInput from '../../components/base/BaseInput';
 import BaseButton from '../../components/base/BaseButton';
-
-// Etc
 import colors from '../../styles/colors';
+
+const styles = StyleSheet.create({
+  scrollView: {
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 20,
+    flex: 1,
+  },
+});
 
 const PasswordSearch: React.FC<NavigationProps> = () => {
   const [email, setEmail] = useState('');
@@ -21,14 +26,14 @@ const PasswordSearch: React.FC<NavigationProps> = () => {
   const [username, setUsername] = useState('');
 
   const handleEmailChange = (paramEmail: string) => {
-    const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailCheckRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setEmail(paramEmail);
 
     if (!emailCheckRegex.test(paramEmail)) {
-      return setEmailAvailability(false);
+      setEmailAvailability(true);
+    } else {
+      setEmailAvailability(false);
     }
-
-    setEmailAvailability(true);
   };
 
   const handleUsernameChange = (paramUsername: string) => {
@@ -47,7 +52,7 @@ const PasswordSearch: React.FC<NavigationProps> = () => {
   const setBottomText = (text: string, color: string) => {
     return (
       <View style={{ paddingTop: -30 }}>
-        <Text style={{ fontSize: 11, color: color }}>{text}</Text>
+        <Text style={{ fontSize: 11, color }}>{text}</Text>
       </View>
     );
   };
@@ -105,14 +110,5 @@ const PasswordSearch: React.FC<NavigationProps> = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    paddingLeft: 40,
-    paddingRight: 40,
-    paddingTop: 20,
-    flex: 1,
-  },
-});
 
 export default PasswordSearch;

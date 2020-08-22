@@ -44,9 +44,10 @@ function useUser() {
     [dispatch],
   );
 
-  const handleFindUsername = useCallback((email: string) => dispatch(findUsername(email)), [
-    dispatch,
-  ]);
+  const handleFindUsername = useCallback(
+    (email: string) => dispatch(findUsername(email)),
+    [dispatch],
+  );
 
   const handleSendFindPasswordCode = useCallback(
     (email: string) => dispatch(sendFindPasswordCode(email)),
@@ -54,7 +55,8 @@ function useUser() {
   );
 
   const handleVerifyFindPasswordCode = useCallback(
-    (email: string, verifyCode: string) => dispatch(verifyFindPasswordCode(email, verifyCode)),
+    (email: string, verifyCode: string) =>
+      dispatch(verifyFindPasswordCode(email, verifyCode)),
     [dispatch],
   );
 
@@ -64,19 +66,23 @@ function useUser() {
     [dispatch],
   );
 
-  const handleGetStudios = useCallback(() => dispatch(getStudios()), [dispatch]);
+  const handleGetStudios = useCallback(() => dispatch(getStudios()), [
+    dispatch,
+  ]);
 
   const handleVerifyUsername = useCallback(
     (username: string) => dispatch(verifyUsername(username)),
     [dispatch],
   );
 
-  const handleSendSignUpCode = useCallback((email: string) => dispatch(sendSignUpCode(email)), [
-    dispatch,
-  ]);
+  const handleSendSignUpCode = useCallback(
+    (email: string) => dispatch(sendSignUpCode(email)),
+    [dispatch],
+  );
 
   const handleVerifySignUpCode = useCallback(
-    (email: string, verifyCode: string) => dispatch(verifySignUpCode(email, verifyCode)),
+    (email: string, verifyCode: string) =>
+      dispatch(verifySignUpCode(email, verifyCode)),
     [dispatch],
   );
 
@@ -110,11 +116,15 @@ function useUser() {
     [dispatch],
   );
 
-  const handleChangeName = useCallback((name: string) => dispatch(changeName(name)), [dispatch]);
+  const handleChangeName = useCallback(
+    (name: string) => dispatch(changeName(name)),
+    [dispatch],
+  );
 
-  const handleChangePhone = useCallback((phone: string) => dispatch(changePhone(phone)), [
-    dispatch,
-  ]);
+  const handleChangePhone = useCallback(
+    (phone: string) => dispatch(changePhone(phone)),
+    [dispatch],
+  );
 
   const handleChangeProfile = useCallback(
     (formData: FormData) => dispatch(changeProfile(formData)),

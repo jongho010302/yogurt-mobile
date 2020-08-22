@@ -20,6 +20,19 @@ import { yogurtAlert } from '../../utils/common';
 import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
 
+const styles = StyleSheet.create({
+  profileWrapper: {
+    flex: 1,
+    marginTop: '40%',
+    margin: '10%',
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+  },
+});
+
 interface Photo {
   uri: string;
   name: string;
@@ -60,7 +73,7 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
         errorMessage: '',
       });
     };
-  }, []);
+  }, [handleChangeField]);
 
   const onNameChange = (paramName: string) => {
     setName(paramName);
@@ -83,30 +96,6 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
     '기본 이미지로 변경',
     '취소',
   ];
-
-  const selectProfilePhoto = () => {
-    ActionSheet.showActionSheetWithOptions(
-      {
-        options: Platform.OS == 'ios' ? ButtonsForIos : ButtonsForAndroid,
-        destructiveButtonIndex: 2,
-        cancelButtonIndex: 3,
-      },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-          selectPhotoFromAlbum();
-        } else if (buttonIndex === 1) {
-          selectPhotoFromCamera();
-        } else if (buttonIndex === 2) {
-          setPhoto({
-            uri:
-              'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-            name: 'Default image',
-            type: 'image/png',
-          });
-        }
-      },
-    );
-  };
 
   const selectPhotoFromAlbum = async () => {
     const image = (await ImagePicker.openPicker({
@@ -146,6 +135,30 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
     handleChangeName(name);
   };
 
+  const selectProfilePhoto = () => {
+    ActionSheet.showActionSheetWithOptions(
+      {
+        options: Platform.OS === 'ios' ? ButtonsForIos : ButtonsForAndroid,
+        destructiveButtonIndex: 2,
+        cancelButtonIndex: 3,
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          selectPhotoFromAlbum();
+        } else if (buttonIndex === 1) {
+          selectPhotoFromCamera();
+        } else if (buttonIndex === 2) {
+          setPhoto({
+            uri:
+              'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+            name: 'Default image',
+            type: 'image/png',
+          });
+        }
+      },
+    );
+  };
+
   return (
     <SafeAreaView style={styles.profileWrapper}>
       <TouchableOpacity onPress={() => selectProfilePhoto()}>
@@ -178,18 +191,5 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  profileWrapper: {
-    flex: 1,
-    marginTop: '40%',
-    margin: '10%',
-  },
-  profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
-  },
-});
 
 export default ProfileInfo;

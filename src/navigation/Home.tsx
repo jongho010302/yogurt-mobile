@@ -7,15 +7,18 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-
-// Component
 import TicketExample from '../components/tickets/TicketExample';
 import LectureComponent from '../components/lecture/LectureComponent';
 import BaseText from '../components/base/BaseText';
-
-// Types
 import { NavigationProps } from '../types';
-import colors from 'src/styles/colors';
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    paddingLeft: '5%',
+    marginHorizontal: '5%',
+  },
+});
 
 const Home: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
@@ -24,10 +27,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
     return <LectureComponent lecture={item} />;
   };
 
-  // set Home Screen with lectures
   const setLectureList = () => {
-    // const lectureList = await getLectureList();
-
     const lectureList = [
       {
         date: '2020-02-09',
@@ -96,25 +96,24 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
           keyExtractor={(item) => item.date}
         />
       );
-    } else {
-      return (
-        <View>
-          <BaseText
-            customStyle={{ marginLeft: 'auto', marginRight: 'auto' }}
-            text="최근 예약 기록이 없습니다."
-          />
-          <TouchableOpacity
-            style={{ marginLeft: 'auto', marginRight: 'auto' }}
-            onPress={() => {
-              navigate('Booking');
-            }}>
-            <View>
-              <BaseText text="예약하러가기" />
-            </View>
-          </TouchableOpacity>
-        </View>
-      );
     }
+    return (
+      <View>
+        <BaseText
+          customStyle={{ marginLeft: 'auto', marginRight: 'auto' }}
+          text="최근 예약 기록이 없습니다."
+        />
+        <TouchableOpacity
+          style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          onPress={() => {
+            navigate('Booking');
+          }}>
+          <View>
+            <BaseText text="예약하러가기" />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
     // });
   };
 
@@ -141,11 +140,3 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-    paddingLeft: '5%',
-    marginHorizontal: '5%',
-  },
-});

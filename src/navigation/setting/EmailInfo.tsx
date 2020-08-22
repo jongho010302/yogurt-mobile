@@ -13,6 +13,30 @@ import BaseText from '../../components/base/BaseText';
 import { EmailInput } from '../../components/form/EmailInput';
 import colors from '../../styles/colors';
 
+const styles = StyleSheet.create({
+  Wrapper: {
+    flex: 1,
+    marginTop: '10%',
+    margin: '10%',
+  },
+  emailWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '20%',
+  },
+  button: {
+    backgroundColor: colors.lightSkyBlue,
+    borderRadius: 10,
+    alignItems: 'center',
+    padding: '4%',
+    paddingLeft: '8%',
+    paddingRight: '8%',
+    height: '70%',
+    position: 'relative',
+  },
+});
+
 const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage =
     '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
@@ -69,27 +93,3 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
 };
 
 export default EmailInfo;
-
-const styles = StyleSheet.create({
-  Wrapper: {
-    flex: 1,
-    marginTop: '10%',
-    margin: '10%',
-  },
-  emailWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: '20%',
-  },
-  button: {
-    backgroundColor: colors.lightSkyBlue,
-    borderRadius: 10,
-    alignItems: 'center',
-    padding: '4%',
-    paddingLeft: '8%',
-    paddingRight: '8%',
-    height: '70%',
-    position: 'relative',
-  },
-});

@@ -1,9 +1,5 @@
 import React from 'react';
-
-// Component
 import BaseInput from '../base/BaseInput';
-
-// Etc
 import colors from '../../styles/colors';
 
 interface Props {
@@ -23,11 +19,11 @@ export const PasswordInput: React.FC<Props> = ({
     const passwordCheckRegex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
     setPassword(paramPassword);
 
-    if (!passwordCheckRegex.test(paramPassword)) {
-      return setPasswordValidation(false);
+    if (passwordCheckRegex.test(paramPassword)) {
+      setPasswordValidation(true);
+    } else {
+      setPasswordValidation(false);
     }
-
-    setPasswordValidation(true);
   };
 
   return (

@@ -49,5 +49,7 @@ module.exports = {
     // 'react-hooks/exhaustive-deps': 'off',
     'jsx-a11y/accessible-emoji': 'off',
     'jsx-a11y/accessible-emoji': 'off',
+    'no-nested-ternary': 'off',
+    'import/no-cycle': 'off',
   },
 };

@@ -9,9 +9,7 @@ import BaseText from '../base/BaseText';
 
 const DayScheduleCard: React.FC<{ item: any }> = ({ item }) => {
   return (
-    <TouchableOpacity
-      onPress={() => Alert.alert(item.name)}
-    >
+    <TouchableOpacity onPress={() => Alert.alert(item.name)}>
       <LectureComponent lecture={item} />
     </TouchableOpacity>
   );
@@ -20,8 +18,7 @@ const DayScheduleCard: React.FC<{ item: any }> = ({ item }) => {
 const AgendaExample: React.FC = () => {
   const [items, setItems] = useState<any>({});
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const loadItems = async (day: any) => {
     let newItems: any = {};
@@ -33,22 +30,27 @@ const AgendaExample: React.FC = () => {
 
     // TODO:
     // const lectureList = await getLectureList();
-    let lectureList = [{
-      date: '2020-02-09',
-      name: '전다은1-1',
-      lectureName: '기구 필라테스',
-      time: '9:00~9:50',
-      attendedCount: '3/5',
-      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-    }, {
-      date: '2020-02-09',
-      name: '전다은2-1',
-      lectureName: '기구 필라테스',
-      lecturer: '전다은',
-      time: '9:00~9:50',
-      attendedCount: '3/5',
-      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-    }];
+    const lectureList = [
+      {
+        date: '2020-02-09',
+        name: '전다은1-1',
+        lectureName: '기구 필라테스',
+        time: '9:00~9:50',
+        attendedCount: '3/5',
+        profileUrl:
+          'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      },
+      {
+        date: '2020-02-09',
+        name: '전다은2-1',
+        lectureName: '기구 필라테스',
+        lecturer: '전다은',
+        time: '9:00~9:50',
+        attendedCount: '3/5',
+        profileUrl:
+          'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      },
+    ];
 
     let newLectureList: any = {};
 
@@ -66,7 +68,7 @@ const AgendaExample: React.FC = () => {
 
   const renderItem = (item: any) => {
     return (
-      <View >
+      <View>
         <DayScheduleCard item={item} />
       </View>
     );
@@ -83,7 +85,7 @@ const AgendaExample: React.FC = () => {
   const rowHasChanged = (r1: any, r2: any) => {
     return r1.name !== r2.name;
   };
-  
+
   return (
     <Agenda
       items={items}
@@ -92,7 +94,7 @@ const AgendaExample: React.FC = () => {
       renderItem={renderItem}
       renderEmptyDate={renderEmptyDate}
       rowHasChanged={rowHasChanged}
-      onDayPress={date => {
+      onDayPress={(date) => {
         console.log('selected date ', date);
       }}
     />

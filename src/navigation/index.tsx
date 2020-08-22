@@ -2,10 +2,7 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-
 import colors from '../styles/colors';
-
-// Components
 import Footer from '../components/layout/Footer';
 
 // App
@@ -223,7 +220,7 @@ const AppNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: 'Home',
-    tabBarComponent: props => {
+    tabBarComponent: (props) => {
       return <Footer {...props} />;
     },
     tabBarOptions: {

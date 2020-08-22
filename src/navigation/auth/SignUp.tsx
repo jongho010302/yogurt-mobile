@@ -25,6 +25,15 @@ import colors from '../../styles/colors';
 import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
 
+const styles = StyleSheet.create({
+  scrollView: {
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 20,
+    flex: 1,
+  },
+});
+
 const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
@@ -113,7 +122,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
         errorMessage: '',
       });
     };
-  }, []);
+  }, [handleChangeField]);
 
   // 센터 가져오기
   useEffect(() => {
@@ -184,7 +193,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     setPassword(paramPassword);
 
     if (passwordRegex.test(paramPassword)) {
-      return setPasswordValidation(true);
+      setPasswordValidation(true);
     } else {
       setPasswordValidation(false);
     }
@@ -194,9 +203,9 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     setSecondPassword(paramPassword);
 
     if (password === paramPassword) {
-      return setIsPasswordSame(true);
+      setIsPasswordSame(true);
     } else {
-      return setIsPasswordSame(false);
+      setIsPasswordSame(false);
     }
   };
 
@@ -289,7 +298,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     return (
       <View>
         <Dropdown
-          useNativeDriver={true}
+          useNativeDriver
           value=""
           data={genders}
           onChangeText={(value) => setGender(value)}
@@ -304,7 +313,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     return (
       <View>
         <Dropdown
-          useNativeDriver={true}
+          useNativeDriver
           value=""
           data={studios!}
           onChangeText={(value) => setSelectedStudio(value as any)}
@@ -717,14 +726,5 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    paddingLeft: 40,
-    paddingRight: 40,
-    paddingTop: 20,
-    flex: 1,
-  },
-});
 
 export default SignUp;

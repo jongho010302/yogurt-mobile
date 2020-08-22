@@ -7,7 +7,7 @@ import App from './App';
 
 const store = createStore(rootReducer, applyMiddleware(reduxPackMiddleware));
 
-export default function() {
+export default function () {
   return (
     <Provider store={store}>
       <App />

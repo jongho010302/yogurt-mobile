@@ -1,23 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import BaseText from '../../components/base/BaseText';
-
-export const CreateSettingComponent = (item: any) => {
-  return (
-    <View style={styles.navigationButtonWrapper}>
-      <TouchableOpacity style={styles.navigationButton} onPress={() => item.method(item.screen)}>
-        <View>
-          <BaseText text={item.name} customStyle={{ fontSize: 17, fontWeight: '500' }} />
-        </View>
-        <View>
-          <Icon name="md-checkmark" style={{ fontSize: 17 }} />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
+import BaseText from '../base/BaseText';
 
 const styles = StyleSheet.create({
   navigationButtonWrapper: {
@@ -32,3 +16,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
+
+export const CreateSettingComponent = (item: any) => {
+  return (
+    <View style={styles.navigationButtonWrapper}>
+      <TouchableOpacity
+        style={styles.navigationButton}
+        onPress={() => item.method(item.screen)}>
+        <View>
+          <BaseText
+            text={item.name}
+            customStyle={{ fontSize: 17, fontWeight: '500' }}
+          />
+        </View>
+        <View>
+          <Icon name="md-checkmark" style={{ fontSize: 17 }} />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};

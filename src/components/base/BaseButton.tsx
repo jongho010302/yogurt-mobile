@@ -1,13 +1,21 @@
-
 import React from 'react';
-import {
-  TouchableHighlight,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
- 
+import { TouchableHighlight, StyleSheet, Text, View } from 'react-native';
 import colors from '../../styles/colors';
+
+const styles = StyleSheet.create({
+  buttonWrapper: {
+    borderRadius: 20,
+  },
+  button: {
+    alignItems: 'center',
+    padding: '5%',
+  },
+  text: {
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+});
 
 interface Props {
   text: string;
@@ -17,7 +25,13 @@ interface Props {
   customStyle?: any;
 }
 
-const BaseButton: React.FC<Props> = ({ text, handleClick, disabled, backgroundColor, customStyle }) => {
+const BaseButton: React.FC<Props> = ({
+  text,
+  handleClick,
+  disabled,
+  backgroundColor,
+  customStyle,
+}) => {
   const opacity = disabled ? 0.2 : 1;
 
   return (
@@ -25,30 +39,13 @@ const BaseButton: React.FC<Props> = ({ text, handleClick, disabled, backgroundCo
       <TouchableHighlight
         onPress={handleClick}
         disabled={disabled}
-        style={[{ opacity }, styles.button]}
-      >
+        style={[{ opacity }, styles.button]}>
         <View>
           <Text style={styles.text}>{text}</Text>
         </View>
       </TouchableHighlight>
     </View>
-    
   );
 };
-
-const styles = StyleSheet.create({
-  buttonWrapper: {
-    borderRadius: 20,
-  },
-  button: {
-    alignItems: 'center',
-    padding:'5%'
-  },
-  text: {
-    color: colors.white,
-    fontSize: 15,
-    fontWeight: '700'
-  }
-});
 
 export default BaseButton;

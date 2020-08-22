@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { openComposer } from 'react-native-email-link';
 
 import { NavigationProps } from '../../types';
@@ -41,3 +41,5 @@ const CustomerService: React.FC<NavigationProps> = ({ navigation }) => {
     </View>
   );
 };
+
+export default CustomerService;

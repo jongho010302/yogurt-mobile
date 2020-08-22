@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-
-// Component
 import { Card } from 'native-base';
 import BaseButton from '../../components/base/BaseButton';
-
-// Etc
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 

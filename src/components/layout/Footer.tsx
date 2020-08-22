@@ -8,10 +8,10 @@ import {
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { Footer as FooterBase, FooterTab } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
-import BaseText from '../../components/base/BaseText';
+import BaseText from '../base/BaseText';
+
 const Footer: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
@@ -82,12 +82,11 @@ const FooterMenu: React.FC<FooterMenuProps> = ({
     isActive = true;
   }
 
-  const setNavName = (navName?: string) => {
-    if (navName != null) {
-      let navigationName = '';
-      navigationName = navName;
-      return <BaseText text={navigationName} customStyle={{ fontSize: 10 }} />;
+  const setNavName = (paramNavName?: string) => {
+    if (paramNavName) {
+      return <BaseText text={paramNavName} customStyle={{ fontSize: 10 }} />;
     }
+    return null;
   };
 
   return (

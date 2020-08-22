@@ -20,15 +20,18 @@ export const PhoneNumberInput: React.FC<Props> = ({
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     const parsingPhoneNumber = paramPhoneNumber
       .replace(/[^0-9]/g, '')
-      .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+      .replace(
+        /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
+        '$1-$2-$3',
+      )
       .replace('--', '-');
     setPhoneNumber(parsingPhoneNumber);
 
-    if (!phoneNumberCheckRegex.test(parsingPhoneNumber)) {
-      return setPhoneNumberAvailability(false);
+    if (phoneNumberCheckRegex.test(parsingPhoneNumber)) {
+      setPhoneNumberAvailability(true);
+    } else {
+      setPhoneNumberAvailability(false);
     }
-
-    setPhoneNumberAvailability(true);
   };
 
   return (

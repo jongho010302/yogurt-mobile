@@ -10,20 +10,19 @@ export const getToken = async () => {
 };
 
 export const setToken = async (jwtToken: string) => {
-  return await AsyncStorage.setItem('jwtToken', jwtToken);
+  await AsyncStorage.setItem('jwtToken', jwtToken);
 };
 
 export const removeToken = async () => {
-  return await AsyncStorage.removeItem('jwtToken');
+  await AsyncStorage.removeItem('jwtToken');
 };
 
 export const getUser = async () => {
   const token = await AsyncStorage.getItem('user');
   if (token) {
     return JSON.parse(token) as User;
-  } else {
-    return token;
   }
+  return token;
 };
 
 export const yogurtAlert = (message: string) => {

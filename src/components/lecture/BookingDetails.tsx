@@ -6,6 +6,40 @@ import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 import BaseText from '../base/BaseText';
 
+const styles = StyleSheet.create({
+  card: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    marginBottom: '30%',
+    marginTop: '2%',
+    width: '90%',
+    height: '68%',
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
+  button: {
+    borderColor: 'white',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderRadius: 10,
+    marginLeft: '5%',
+    marginRight: '5%',
+  },
+  lecture: {
+    margin: '10%',
+  },
+  card_ticket: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignContent: 'stretch',
+    width: '90%',
+    height: '20%',
+    padding: '5%',
+    borderRadius: 10,
+  },
+});
+
 const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
   const cancelAlert = () => {
     Alert.alert(
@@ -111,37 +145,3 @@ const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
 };
 
 export default BookingDetails;
-
-const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    marginBottom: '30%',
-    marginTop: '2%',
-    width: '90%',
-    height: '68%',
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-  button: {
-    borderColor: 'white',
-    borderWidth: 2,
-    borderStyle: 'solid',
-    borderRadius: 10,
-    marginLeft: '5%',
-    marginRight: '5%',
-  },
-  lecture: {
-    margin: '10%',
-  },
-  card_ticket: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignContent: 'stretch',
-    width: '90%',
-    height: '20%',
-    padding: '5%',
-    borderRadius: 10,
-  },
-});

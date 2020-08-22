@@ -12,6 +12,28 @@ import { NavigationProps } from '../../types';
 import { PasswordInput } from '../../components/form/PasswordInput';
 import colors from '../../styles/colors';
 
+const styles = StyleSheet.create({
+  Wrapper: {
+    flex: 1,
+    marginTop: '10%',
+    margin: '10%',
+  },
+  passwordWrapper: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginTop: '20%',
+  },
+  button: {
+    backgroundColor: colors.lightSkyBlue,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: '10%',
+    padding: '4%',
+    height: '20%',
+    position: 'relative',
+  },
+});
+
 const PasswordInfo: React.FC<NavigationProps> = () => {
   const instructionMessage =
     '변경 할 비밀번호를 입력하고 이메일 변경하기 버튼을 누르세요.';
@@ -58,7 +80,7 @@ const PasswordInfo: React.FC<NavigationProps> = () => {
                   opacity:
                     isPasswordValidated &&
                     isSecondPasswordValidated &&
-                    password == secondPassword
+                    password === secondPassword
                       ? 1
                       : 0.2,
                 },
@@ -67,7 +89,7 @@ const PasswordInfo: React.FC<NavigationProps> = () => {
               disabled={
                 !isPasswordValidated &&
                 !isSecondPasswordValidated &&
-                password != secondPassword
+                password !== secondPassword
               }>
               <View>
                 <Text
@@ -88,25 +110,3 @@ const PasswordInfo: React.FC<NavigationProps> = () => {
 };
 
 export default PasswordInfo;
-
-const styles = StyleSheet.create({
-  Wrapper: {
-    flex: 1,
-    marginTop: '10%',
-    margin: '10%',
-  },
-  passwordWrapper: {
-    flex: 1,
-    justifyContent: 'space-between',
-    marginTop: '20%',
-  },
-  button: {
-    backgroundColor: colors.lightSkyBlue,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: '10%',
-    padding: '4%',
-    height: '20%',
-    position: 'relative',
-  },
-});

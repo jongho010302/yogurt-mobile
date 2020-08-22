@@ -20,11 +20,11 @@ export const EmailInput: React.FC<Props> = ({
     setEmail(paramEmail);
     setEmailAvailability(false);
 
-    if (!emailRegex.test(paramEmail)) {
-      return setEmailValidationVisibility(false);
+    if (emailRegex.test(paramEmail)) {
+      setEmailValidationVisibility(true);
+    } else {
+      setEmailValidationVisibility(false);
     }
-
-    setEmailValidationVisibility(true);
   };
 
   return (

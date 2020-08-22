@@ -13,7 +13,11 @@ import {
   verifySignUpCodeApi,
   signUpApi,
 } from '../../api/auth';
-import { changeNameApi, changePhoneApi, changeProfileApi } from '../../api/settings';
+import {
+  changeNameApi,
+  changePhoneApi,
+  changeProfileApi,
+} from '../../api/settings';
 import {
   CHANGE_FIELD,
   CHECK_USER,
@@ -90,7 +94,11 @@ export const verifyFindPasswordCode = (email: string, verifyCode: string) => {
   };
 };
 
-export const findPassword = (email: string, password: string, verifyCode: string) => {
+export const findPassword = (
+  email: string,
+  password: string,
+  verifyCode: string,
+) => {
   return {
     type: FIND_PASSWORD,
     promise: findPasswordApi(email, password, verifyCode),

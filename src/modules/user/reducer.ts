@@ -21,8 +21,13 @@ import {
 } from './constants';
 import { AsyncStatus } from '../types';
 import { UserState } from './types';
-import { removeToken, setToken, setAxiosHeaders, removeAxiosHeaders } from '../../utils/common';
-import { ApiResponse } from 'src/types';
+import {
+  removeToken,
+  setToken,
+  setAxiosHeaders,
+  removeAxiosHeaders,
+} from '../../utils/common';
+import { ApiResponse } from '../../types';
 
 const initialState: UserState = {
   data: null,
@@ -114,7 +119,8 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.check.status = AsyncStatus.FAILURE;
-            draft.check.errorMessage = payload.message || 'Failed to check user.';
+            draft.check.errorMessage =
+              payload.message || 'Failed to check user.';
             removeToken();
             removeAxiosHeaders();
           }),
@@ -193,7 +199,8 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.findUsername.status = AsyncStatus.FAILURE;
-            draft.findUsername.errorMessage = payload.message || 'Failed to find username.';
+            draft.findUsername.errorMessage =
+              payload.message || 'Failed to find username.';
           }),
         success: (prevState) =>
           produce(prevState, (draft) => {
@@ -243,7 +250,8 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.findPassword.status = AsyncStatus.FAILURE;
-            draft.findPassword.errorMessage = payload.message || 'Failed to find password.';
+            draft.findPassword.errorMessage =
+              payload.message || 'Failed to find password.';
           }),
         success: (prevState) =>
           produce(prevState, (draft) => {
@@ -259,7 +267,8 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.getStudios.status = AsyncStatus.FAILURE;
-            draft.getStudios.errorMessage = payload.message || 'Failed to get studios.';
+            draft.getStudios.errorMessage =
+              payload.message || 'Failed to get studios.';
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
@@ -276,7 +285,8 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.verifyUsername.status = AsyncStatus.FAILURE;
-            draft.verifyUsername.errorMessage = payload.message || 'Failed to verify username.';
+            draft.verifyUsername.errorMessage =
+              payload.message || 'Failed to verify username.';
           }),
         success: (prevState) =>
           produce(prevState, (draft) => {
@@ -292,7 +302,8 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.sendSignUpCode.status = AsyncStatus.FAILURE;
-            draft.sendSignUpCode.errorMessage = payload.message || 'Failed to send signup code.';
+            draft.sendSignUpCode.errorMessage =
+              payload.message || 'Failed to send signup code.';
           }),
         success: (prevState) =>
           produce(prevState, (draft) => {
@@ -341,11 +352,13 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changeName.status = AsyncStatus.FAILURE;
-            draft.changeName.errorMessage = payload.message || 'Failed to check user.';
+            draft.changeName.errorMessage =
+              payload.message || 'Failed to check user.';
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changeName.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
           }),
       });
     case CHANGE_PHONE:
@@ -357,11 +370,13 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changePhone.status = AsyncStatus.FAILURE;
-            draft.changePhone.errorMessage = payload.message || 'Failed to check user.';
+            draft.changePhone.errorMessage =
+              payload.message || 'Failed to check user.';
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changePhone.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
           }),
       });
     case CHANGE_PROFILE:
@@ -373,11 +388,13 @@ export const reducer = (
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changeProfile.status = AsyncStatus.FAILURE;
-            draft.changeProfile.errorMessage = payload.message || 'Failed to check user.';
+            draft.changeProfile.errorMessage =
+              payload.message || 'Failed to check user.';
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changeProfile.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
           }),
       });
     default:
