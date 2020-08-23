@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, use } from 'react';
 import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 import moment from 'moment';
@@ -18,9 +18,7 @@ const DayScheduleCard: React.FC<{ item: any }> = ({ item }) => {
 const AgendaExample: React.FC = () => {
   const [items, setItems] = useState<any>({});
 
-  useEffect(() => {}, []);
-
-  const loadItems = async (day: any) => {
+  const loadItems = (day: any) => {
     let newItems: any = {};
     for (let i = -15; i < 85; i++) {
       const date = day.timestamp + i * 24 * 60 * 60 * 1000;

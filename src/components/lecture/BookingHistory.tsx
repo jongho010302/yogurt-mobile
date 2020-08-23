@@ -10,7 +10,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
 
   const lectureList = [
     {
-      date: '2020-02-09',
+      date: '2020-02-03',
       name: '전다은1-1',
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
@@ -19,7 +19,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      date: '2020-02-11',
       name: '전다은2-1',
       lectureName: '기구 필라테스',
       lecturer: '전다은',
@@ -29,7 +29,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      date: '2020-02-29',
       name: '전다은1-1',
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
@@ -38,7 +38,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      date: '2020-02-19',
       name: '전다은2-1',
       lectureName: '기구 필라테스',
       lecturer: '전다은',
@@ -48,7 +48,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      date: '2020-02-20',
       name: '전다은1-1',
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
@@ -57,7 +57,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      date: '2020-02-31',
       name: '전다은2-1',
       lectureName: '기구 필라테스',
       lecturer: '전다은',
@@ -101,7 +101,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
         <FlatList
           data={lectureList}
           renderItem={({ item }) => ShowLectureComponent(item)}
-          keyExtractor={(item) => item.date}
+          keyExtractor={(item) => item.date + item.time}
         />
       </ScrollView>
     </View>

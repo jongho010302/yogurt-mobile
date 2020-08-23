@@ -1,12 +1,39 @@
 import React from 'react';
-import { View, Image } from 'react-native';
-import { Card, CardItem, Left, Body, Text, Icon } from 'native-base';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import colors from '../../styles/colors';
 import BaseText from '../base/BaseText';
 
 interface Props {
   lecture?: any;
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    padding: '2%',
+    flex: 1,
+    alignSelf: 'center',
+    margin: '2%',
+    marginLeft: '5%',
+    marginRight: '5%',
+    height: '85%',
+    width: '100%',
+    borderRadius: 10,
+    borderColor: colors.lightSteelGray,
+    backgroundColor: colors.white,
+    borderWidth: 0.5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
+  },
+});
 
 // Component
 const LectureComponent: React.FC<Props> = ({ lecture }) => {
@@ -15,42 +42,55 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
   }
 
   return (
-    <Card style={{ borderRadius: 10, marginRight: '5%' }}>
-      <CardItem style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-        <Left>
-          <Image
-            source={{
-              uri:
-                'http://www.futurekorea.co.kr/news/photo/201903/116160_116410_1321.jpg',
-            }}
-            style={{ width: 40, height: 40, borderRadius: 50 }}
-          />
-          <Body>
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <BaseText
-                text={lecture.lectureName}
-                customStyle={{ fontSize: 10 }}
-              />
-              <Text style={{ color: colors.lightSkyBlue, fontSize: 12 }}>
-                예약완료
-              </Text>
-            </View>
+    <View style={styles.wrapper}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+        }}>
+        <Image
+          source={{
+            uri:
+              'http://www.futurekorea.co.kr/news/photo/201903/116160_116410_1321.jpg',
+          }}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 50,
+            marginLeft: '5%',
+            marginRight: '5%',
+            margin: '1%',
+          }}
+        />
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}>
+            <BaseText
+              text={lecture.lectureName}
+              customStyle={{ fontSize: 10 }}
+            />
             <BaseText
               text={`${lecture.lecturer}강사`}
               customStyle={{ fontSize: 12 }}
             />
-          </Body>
-        </Left>
-      </CardItem>
-      <CardItem
+          </View>
+          <Text style={{ color: colors.lightSkyBlue, fontSize: 12 }}>
+            예약완료
+          </Text>
+        </View>
+      </View>
+      <View
         style={{
+          flexDirection: 'row',
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
           justifyContent: 'space-evenly',
         }}>
         <Icon
-          name="md-clock"
+          name="time-outline"
           style={{ marginLeft: '5%', color: '#BDBDBD', fontSize: 12 }}
         />
         <BaseText text={lecture.time} customStyle={{ fontSize: 12 }} />
@@ -62,8 +102,21 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
           text={lecture.attendedCount}
           customStyle={{ fontSize: 12, marginRight: '20%' }}
         />
-      </CardItem>
-    </Card>
+      </View>
+    </View>
+    // <Card style={{ borderRadius: 10, marginRight: '5%' }}>
+    //   <CardItem style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+    //     <Left>
+    //       <Body>
+    //
+    //       </Body>
+    //     </Left>
+    //   </CardItem>
+    //   <CardItem
+    //     >
+    //
+    //   </CardItem>
+    // </Card>
   );
 };
 
