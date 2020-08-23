@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   Alert,
 } from 'react-native';
-import { Dropdown, DropDownData } from 'react-native-material-dropdown';
+import { Dropdown, DropDownData } from 'react-native-material-dropdown-v2';
 import DatePicker from 'react-native-datepicker';
 import BaseInput from '../../components/base/BaseInput';
 import { yogurtAlert } from '../../utils/common';
@@ -209,7 +209,6 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     }
   };
 
-  // email, must do validation check to proceed to sign up
   const onEmailChange = (paramEmail: string) => {
     setIsVerifyCodeSend(false);
     setEmail(paramEmail);
@@ -228,7 +227,6 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     setEmailVerified(false);
   };
 
-  // TODO: phone number to be displayed with a format(010-1234-1234)
   const onPhoneNumberChange = (paramPhoneNumber: string) => {
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     const parsingPhoneNumber = paramPhoneNumber
@@ -287,73 +285,11 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     );
   };
 
-  // gender
-  const printGenderDropdownBox = () => {
-    const genders = [
-      { value: '', label: '선택' },
-      { value: 'M', label: '남' },
-      { value: 'F', label: '여' },
-    ];
-
-    return (
-      <View>
-        <Dropdown
-          useNativeDriver
-          value=""
-          data={genders}
-          onChangeText={(value) => setGender(value)}
-          textColor={colors.lightBlack}
-          fontSize={12}
-        />
-      </View>
-    );
-  };
-
-  const printStudioDropdownBox = () => {
-    return (
-      <View>
-        <Dropdown
-          useNativeDriver
-          value=""
-          data={studios!}
-          onChangeText={(value) => setSelectedStudio(value as any)}
-          textColor={colors.lightBlack}
-          fontSize={12}
-        />
-      </View>
-    );
-  };
-
-  // birthday
-  const printBirthDatePicker = () => {
-    return (
-      <DatePicker
-        style={{ width: '100%', height: '5%' }}
-        date={birthDay}
-        mode="date"
-        placeholder="생년월일을 선택해주세요."
-        format="YYYY-MM-DD"
-        minDate="1900-01-01"
-        maxDate={formatDate(new Date())}
-        confirmBtnText="확인"
-        cancelBtnText="취소"
-        showIcon={false}
-        customStyles={{
-          dateInput: {
-            borderRadius: 10,
-            borderColor: colors.lightSkyBlue,
-            backgroundColor: colors.lightSkyBlue,
-          },
-          dateText: {
-            color: colors.white,
-            fontSize: 14,
-            fontWeight: 'bold',
-          },
-        }}
-        onDateChange={(date) => setBirthDay(date)}
-      />
-    );
-  };
+  const genders = [
+    { value: '', label: '선택' },
+    { value: 'M', label: '남' },
+    { value: 'F', label: '여' },
+  ];
 
   const printBottomText = (text: string, color: string) => {
     return (
@@ -620,7 +556,14 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             }}>
             성별을 선택하세요
           </Text>
-          {printGenderDropdownBox()}
+          <Dropdown
+            useNativeDriver
+            value=""
+            data={genders}
+            onChangeText={(value) => setGender(value)}
+            textColor={colors.lightBlack}
+            fontSize={12}
+          />
         </View>
 
         {/* 지점 */}
@@ -634,7 +577,14 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             }}>
             등록하는 지점을 선택하세요
           </Text>
-          {printStudioDropdownBox()}
+          <Dropdown
+            useNativeDriver
+            value=""
+            data={studios!}
+            onChangeText={(value) => setSelectedStudio(value as any)}
+            textColor={colors.lightBlack}
+            fontSize={12}
+          />
         </View>
 
         {/* 생일 */}
@@ -648,7 +598,33 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             }}>
             생년월일을 선택하세요
           </Text>
-          <View style={{ alignItems: 'center' }}>{printBirthDatePicker()}</View>
+          <View style={{ alignItems: 'center' }}>
+            <DatePicker
+              style={{ width: '100%', height: '5%' }}
+              date={birthDay}
+              mode="date"
+              placeholder="생년월일을 선택해주세요."
+              format="YYYY-MM-DD"
+              minDate="1900-01-01"
+              maxDate={formatDate(new Date())}
+              confirmBtnText="확인"
+              cancelBtnText="취소"
+              showIcon={false}
+              customStyles={{
+                dateInput: {
+                  borderRadius: 10,
+                  borderColor: colors.lightSkyBlue,
+                  backgroundColor: colors.lightSkyBlue,
+                },
+                dateText: {
+                  color: colors.white,
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                },
+              }}
+              onDateChange={(date) => setBirthDay(date)}
+            />
+          </View>
         </View>
 
         {/* 핸드폰 번호 */}
