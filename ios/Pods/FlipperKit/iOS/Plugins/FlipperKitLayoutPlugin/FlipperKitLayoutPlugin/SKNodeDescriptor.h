@@ -45,13 +45,9 @@ typedef void (^SKNodeUpdateData)(id value);
 - (NSString*)identifierForNode:(T)node;
 
 /**
-  When the setData command is received from Flipper to change a node's data,
-  an "invalidateWithData" command is sent back to signal that the node has
-  changed. However sometimes you may want to invalidate some other node,
-  not the node that had its data actually modified; usually some ancestor.
-  This method allows you to substitute another node's identifier.
-  If you do not override it, the default behavior is to simply return
-  the node's identifier.
+  An ID which is equal between reflowing components is needed to get the
+  identifier of root node of a tree which need to be invalidated on
+  FlipperKitLayoutPlugin side.
 */
 - (NSString*)identifierForInvalidation:(T)node;
 

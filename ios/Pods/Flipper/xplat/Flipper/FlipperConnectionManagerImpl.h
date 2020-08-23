@@ -68,8 +68,8 @@ class FlipperConnectionManagerImpl : public FlipperConnectionManager {
   std::shared_ptr<ConnectionContextStore> contextStore_;
 
   void startSync();
-  bool doCertificateExchange();
-  bool connectSecurely();
+  void doCertificateExchange();
+  void connectSecurely();
   bool isCertificateExchangeNeeded();
   void requestSignedCertFromFlipper();
   bool isRunningInOwnThread();

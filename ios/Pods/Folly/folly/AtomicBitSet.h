@@ -1,11 +1,11 @@
 /*
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright 2013-present Facebook, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,26 +22,22 @@
 #include <cstddef>
 #include <limits>
 
+#include <boost/noncopyable.hpp>
+
 #include <folly/Portability.h>
 
 namespace folly {
 
 /**
  * An atomic bitset of fixed size (specified at compile time).
- *
- * Formerly known as AtomicBitSet. It was renamed while fixing a bug
- * to avoid any silent breakages during run time.
  */
 template <size_t N>
-class ConcurrentBitSet {
+class AtomicBitSet : private boost::noncopyable {
  public:
   /**
-   * Construct a ConcurrentBitSet; all bits are initially false.
+   * Construct an AtomicBitSet; all bits are initially false.
    */
-  ConcurrentBitSet();
-
-  ConcurrentBitSet(const ConcurrentBitSet&) = delete;
-  ConcurrentBitSet& operator=(const ConcurrentBitSet&) = delete;
+  AtomicBitSet();
 
   /**
    * Set bit idx to true, using the given memory order. Returns the
@@ -119,44 +115,43 @@ class ConcurrentBitSet {
 
   // avoid casts
   static constexpr BlockType kOne = 1;
-  static constexpr size_t kNumBlocks = (N + kBitsPerBlock - 1) / kBitsPerBlock;
-  std::array<AtomicBlockType, kNumBlocks> data_;
+
+  std::array<AtomicBlockType, N> data_;
 };
 
 // value-initialize to zero
 template <size_t N>
-inline ConcurrentBitSet<N>::ConcurrentBitSet() : data_() {}
+inline AtomicBitSet<N>::AtomicBitSet() : data_() {}
 
 template <size_t N>
-inline bool ConcurrentBitSet<N>::set(size_t idx, std::memory_order order) {
-  assert(idx < N);
+inline bool AtomicBitSet<N>::set(size_t idx, std::memory_order order) {
+  assert(idx < N * kBitsPerBlock);
   BlockType mask = kOne << bitOffset(idx);
   return data_[blockIndex(idx)].fetch_or(mask, order) & mask;
 }
 
 template <size_t N>
-inline bool ConcurrentBitSet<N>::reset(size_t idx, std::memory_order order) {
-  assert(idx < N);
+inline bool AtomicBitSet<N>::reset(size_t idx, std::memory_order order) {
+  assert(idx < N * kBitsPerBlock);
   BlockType mask = kOne << bitOffset(idx);
   return data_[blockIndex(idx)].fetch_and(~mask, order) & mask;
 }
 
 template <size_t N>
 inline bool
-ConcurrentBitSet<N>::set(size_t idx, bool value, std::memory_order order) {
+AtomicBitSet<N>::set(size_t idx, bool value, std::memory_order order) {
   return value ? set(idx, order) : reset(idx, order);
 }
 
 template <size_t N>
-inline bool ConcurrentBitSet<N>::test(size_t idx, std::memory_order order)
-    const {
-  assert(idx < N);
+inline bool AtomicBitSet<N>::test(size_t idx, std::memory_order order) const {
+  assert(idx < N * kBitsPerBlock);
   BlockType mask = kOne << bitOffset(idx);
   return data_[blockIndex(idx)].load(order) & mask;
 }
 
 template <size_t N>
-inline bool ConcurrentBitSet<N>::operator[](size_t idx) const {
+inline bool AtomicBitSet<N>::operator[](size_t idx) const {
   return test(idx);
 }
 

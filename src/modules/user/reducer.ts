@@ -166,10 +166,10 @@ export const reducer = (
           }),
         success: (prevState) =>
           produce(prevState, (draft) => {
-            removeAxiosHeaders();
-            removeToken();
             draft.data = null;
             draft.logOut.status = AsyncStatus.SUCCESS;
+            removeAxiosHeaders();
+            removeToken();
           }),
       });
     case FIND_MASKING_USERNAME:

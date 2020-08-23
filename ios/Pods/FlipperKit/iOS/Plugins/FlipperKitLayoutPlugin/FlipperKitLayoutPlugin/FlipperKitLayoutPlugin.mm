@@ -24,8 +24,9 @@
   NSMapTable<NSString*, id>* _trackedObjects;
   NSString* _lastHighlightedNode;
   NSMutableSet* _invalidObjects;
-  BOOL _invalidateMessageQueued;
-  std::mutex _invalidObjectsMutex;
+  Boolean _invalidateMessageQueued;
+  NSDate* _lastInvalidateMessage;
+  std::mutex invalidObjectsMutex;
 
   id<NSObject> _rootNode;
   id<SKTapListener> _tapListener;
@@ -48,7 +49,10 @@
   if (self = [super init]) {
     _descriptorMapper = mapper;
     _trackedObjects = [NSMapTable strongToWeakObjectsMapTable];
+    _lastHighlightedNode = nil;
     _invalidObjects = [NSMutableSet new];
+    _invalidateMessageQueued = false;
+    _lastInvalidateMessage = [NSDate date];
     _rootNode = rootNode;
     _tapListener = tapListener;
 
@@ -87,6 +91,15 @@
               FlipperPerformBlockOnMainThread(
                   ^{
                     [weakSelf onCallGetRoot:responder];
+                  },
+                  responder);
+            }];
+
+  [connection receive:@"getAllNodes"
+            withBlock:^(NSDictionary* params, id<FlipperResponder> responder) {
+              FlipperPerformBlockOnMainThread(
+                  ^{
+                    [weakSelf onCallGetAllNodesWithResponder:responder];
                   },
                   responder);
             }];
@@ -177,6 +190,19 @@
 }
 
 - (void)populateAllNodesFromNode:(nonnull NSString*)identifier
+                    inDictionary:
+                        (nonnull NSMutableDictionary<NSString*, NSDictionary*>*)
+                            mutableDict {
+  NSDictionary* nodeDict = [self getNode:identifier];
+  mutableDict[identifier] = nodeDict;
+  NSArray* arr = nodeDict[@"children"];
+  for (NSString* childIdentifier in arr) {
+    [self populateAllNodesFromNode:childIdentifier inDictionary:mutableDict];
+  }
+  return;
+}
+
+- (void)populateAllNodesFromNode:(nonnull NSString*)identifier
                          inArray:(nonnull NSMutableArray<NSDictionary*>*)
                                      mutableArray {
   NSDictionary* nodeDict = [self getNode:identifier];
@@ -188,6 +214,26 @@
   for (NSString* childIdentifier in children) {
     [self populateAllNodesFromNode:childIdentifier inArray:mutableArray];
   }
+}
+
+- (void)onCallGetAllNodesWithResponder:(nonnull id<FlipperResponder>)responder {
+  NSMutableArray<NSDictionary*>* allNodes = @[].mutableCopy;
+  NSString* identifier = [self trackObject:_rootNode];
+  NSDictionary* rootNode = [self getNode:identifier];
+  if (!rootNode) {
+    return [responder error:@{
+      @"error" : [NSString
+          stringWithFormat:
+              @"getNode returned nil for the rootNode %@, while getting all the nodes",
+              identifier]
+    }];
+  }
+  [allNodes addObject:rootNode];
+  NSMutableDictionary* allNodesDict = @{}.mutableCopy;
+  [self populateAllNodesFromNode:identifier inDictionary:allNodesDict];
+  [responder success:@{
+    @"allNodes" : @{@"rootElement" : identifier, @"elements" : allNodesDict}
+  }];
 }
 
 - (NSMutableArray*)getChildrenForNode:(id)node
@@ -216,10 +262,7 @@
     [elements addObject:node];
   }
 
-  // Converting to folly::dynamic is expensive, do it on a bg queue:
-  dispatch_async(SKLayoutPluginSerialBackgroundQueue(), ^{
-    [responder success:@{@"elements" : elements}];
-  });
+  [responder success:@{@"elements" : elements}];
 }
 
 - (void)onCallSetData:(NSString*)objectId
@@ -356,37 +399,36 @@
   [descriptor invalidateNode:node];
 
   // Collect invalidate messages before sending in a batch
-  std::lock_guard<std::mutex> lock(_invalidObjectsMutex);
+  std::lock_guard<std::mutex> lock(invalidObjectsMutex);
   [_invalidObjects addObject:nodeId];
   if (_invalidateMessageQueued) {
     return;
   }
-  _invalidateMessageQueued = YES;
+  _invalidateMessageQueued = true;
 
-  dispatch_after(
-      dispatch_time(DISPATCH_TIME_NOW, 500 * NSEC_PER_MSEC),
-      dispatch_get_main_queue(),
-      ^{
-        [self _reportInvalidatedObjects];
-      });
+  if (_lastInvalidateMessage.timeIntervalSinceNow < -1) {
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, 500 * NSEC_PER_MSEC),
+        dispatch_get_main_queue(),
+        ^{
+          [self reportInvalidatedObjects];
+        });
+  }
 }
 
-- (void)invalidateRootNode {
-  [self invalidateNode:_rootNode];
-}
-
-- (void)_reportInvalidatedObjects {
+- (void)reportInvalidatedObjects {
+  std::lock_guard<std::mutex> lock(invalidObjectsMutex);
   NSMutableArray* nodes = [NSMutableArray new];
-  { // scope mutex acquisition
-    std::lock_guard<std::mutex> lock(_invalidObjectsMutex);
-    for (NSString* nodeId in _invalidObjects) {
-      [nodes addObject:@{@"id" : nodeId}];
-    }
-    _invalidObjects = [NSMutableSet new];
-    _invalidateMessageQueued = NO;
-  } // release mutex before calling out to other code
-
-  [_connection send:@"invalidate" withParams:@{@"nodes" : nodes}];
+  for (NSString* nodeId in self->_invalidObjects) {
+    [nodes addObject:[NSDictionary dictionaryWithObject:nodeId forKey:@"id"]];
+  }
+  [self->_connection send:@"invalidate"
+               withParams:[NSDictionary dictionaryWithObject:nodes
+                                                      forKey:@"nodes"]];
+  self->_lastInvalidateMessage = [NSDate date];
+  self->_invalidObjects = [NSMutableSet new];
+  self->_invalidateMessageQueued = false;
+  return;
 }
 
 - (void)updateNodeReference:(id<NSObject>)node {
@@ -524,23 +566,5 @@
 }
 
 @end
-
-/**
- Operations like converting NSDictionary to folly::dynamic can be expensive.
- Do them on this serial background queue to avoid blocking the main thread.
- (Of course, ideally we wouldn't bother with building NSDictionary objects
- in the first place, in favor of just using folly::dynamic directly...)
- */
-dispatch_queue_t SKLayoutPluginSerialBackgroundQueue(void) {
-  static dispatch_queue_t queue;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    queue = dispatch_queue_create("flipper.layout.bg", DISPATCH_QUEUE_SERIAL);
-    // This should be relatively high priority, to prevent Flipper lag.
-    dispatch_set_target_queue(
-        queue, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0));
-  });
-  return queue;
-}
 
 #endif

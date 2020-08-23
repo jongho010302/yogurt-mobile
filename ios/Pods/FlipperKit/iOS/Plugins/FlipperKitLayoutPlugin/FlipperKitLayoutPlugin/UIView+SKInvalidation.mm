@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+
 #import "SKInvalidation.h"
 #import "SKSwizzle.h"
 #import "UIView+SKInvalidation.h"
@@ -30,14 +31,6 @@ FB_LINKABLE(UIView_SKInvalidation)
   });
 }
 
-/**
-This function takes in a view and returns true if the view is a UIWindow and its
-windowLevel is an alert one otherwise it returns false.
-*/
-static auto shouldInvalidateRootNode(UIView* view) -> bool {
-  return [view isKindOfClass:[UIWindow class]];
-}
-
 - (void)swizzle_setHidden:(BOOL)hidden {
   [self swizzle_setHidden:hidden];
 
@@ -54,11 +47,7 @@ static auto shouldInvalidateRootNode(UIView* view) -> bool {
   id<SKInvalidationDelegate> delegate =
       [SKInvalidation sharedInstance].delegate;
   if (delegate != nil) {
-    if (shouldInvalidateRootNode(view.superview)) {
-      [delegate invalidateRootNode];
-      return;
-    }
-    [delegate invalidateNode:view.superview];
+    [delegate invalidateNode:view];
   }
 }
 
@@ -66,10 +55,6 @@ static auto shouldInvalidateRootNode(UIView* view) -> bool {
   id<SKInvalidationDelegate> delegate =
       [SKInvalidation sharedInstance].delegate;
   if (delegate != nil && self.superview != nil) {
-    if (shouldInvalidateRootNode(self.superview)) {
-      [delegate invalidateRootNode];
-      return;
-    }
     [delegate invalidateNode:self.superview];
   }
 

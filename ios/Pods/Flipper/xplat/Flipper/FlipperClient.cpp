@@ -69,6 +69,12 @@ void FlipperClient::addPlugin(std::shared_ptr<FlipperPlugin> plugin) {
     step->complete();
     if (connected_) {
       refreshPlugins();
+      if (plugin->runInBackground()) {
+        auto& conn = connections_[plugin->identifier()];
+        conn = std::make_shared<FlipperConnectionImpl>(
+            socket_.get(), plugin->identifier());
+        plugin->didConnect(conn);
+      }
     }
   });
 }
@@ -89,6 +95,27 @@ void FlipperClient::removePlugin(std::shared_ptr<FlipperPlugin> plugin) {
   });
 }
 
+void FlipperClient::startBackgroundPlugins() {
+  std::cout << "Activating Background Plugins..." << std::endl;
+  for (std::map<std::string, std::shared_ptr<FlipperPlugin>>::iterator it =
+           plugins_.begin();
+       it != plugins_.end();
+       ++it) {
+    std::cout << it->first << std::endl;
+    if (it->second.get()->runInBackground()) {
+      try {
+        auto& conn = connections_[it->first];
+        conn =
+            std::make_shared<FlipperConnectionImpl>(socket_.get(), it->first);
+        it->second.get()->didConnect(conn);
+      } catch (std::exception& e) {
+        log("Exception starting background plugin: " + it->first + ". " +
+            e.what());
+      }
+    }
+  }
+}
+
 std::shared_ptr<FlipperPlugin> FlipperClient::getPlugin(
     const std::string& identifier) {
   std::lock_guard<std::mutex> lock(mutex_);
@@ -101,15 +128,6 @@ std::shared_ptr<FlipperPlugin> FlipperClient::getPlugin(
 bool FlipperClient::hasPlugin(const std::string& identifier) {
   std::lock_guard<std::mutex> lock(mutex_);
   return plugins_.find(identifier) != plugins_.end();
-}
-
-void FlipperClient::connect(std::shared_ptr<FlipperPlugin> plugin) {
-  if (connections_.find(plugin->identifier()) == connections_.end()) {
-    auto& conn = connections_[plugin->identifier()];
-    conn = std::make_shared<FlipperConnectionImpl>(
-        socket_.get(), plugin->identifier());
-    plugin->didConnect(conn);
-  }
 }
 
 void FlipperClient::disconnect(std::shared_ptr<FlipperPlugin> plugin) {
@@ -133,6 +151,7 @@ void FlipperClient::onConnected() {
 
     std::lock_guard<std::mutex> lock(mutex_);
     connected_ = true;
+    startBackgroundPlugins();
   });
 }
 
@@ -170,18 +189,6 @@ void FlipperClient::onMessageReceived(
       return;
     }
 
-    if (method == "getBackgroundPlugins") {
-      dynamic identifiers = dynamic::array();
-      for (const auto& elem : plugins_) {
-        if (elem.second->runInBackground()) {
-          identifiers.push_back(elem.first);
-        }
-      }
-      dynamic response = dynamic::object("plugins", identifiers);
-      responder->success(response);
-      return;
-    }
-
     if (method == "init") {
       const auto identifier = params["plugin"].getString();
       if (plugins_.find(identifier) == plugins_.end()) {
@@ -193,7 +200,12 @@ void FlipperClient::onMessageReceived(
         return;
       }
       const auto plugin = plugins_.at(identifier);
-      connect(plugin);
+      if (!plugin.get()->runInBackground()) {
+        auto& conn = connections_[plugin->identifier()];
+        conn = std::make_shared<FlipperConnectionImpl>(
+            socket_.get(), plugin->identifier());
+        plugin->didConnect(conn);
+      }
       return;
     }
 
@@ -208,7 +220,9 @@ void FlipperClient::onMessageReceived(
         return;
       }
       const auto plugin = plugins_.at(identifier);
-      disconnect(plugin);
+      if (!plugin.get()->runInBackground()) {
+        disconnect(plugin);
+      }
       return;
     }
 

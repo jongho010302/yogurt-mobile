@@ -18,7 +18,7 @@ const Setting: React.FC<NavigationProps> = ({ navigation }) => {
     if (user.logOut.status === AsyncStatus.SUCCESS) {
       navigate('AuthLoading');
     }
-  }, [user.logOut, navigate]);
+  }, [user.logOut.status, navigate]);
 
   useEffect(() => {
     return () => {
@@ -28,10 +28,6 @@ const Setting: React.FC<NavigationProps> = ({ navigation }) => {
       });
     };
   }, [handleChangeField]);
-
-  const onLogOutClick = async () => {
-    handleLogOut();
-  };
 
   const settingItemList = [
     {
@@ -49,7 +45,7 @@ const Setting: React.FC<NavigationProps> = ({ navigation }) => {
       screen: 'CustomerService',
       method: (item: any) => navigate(item),
     },
-    { name: '로그아웃', method: () => onLogOutClick() },
+    { name: '로그아웃', method: () => handleLogOut() },
   ];
 
   return (
