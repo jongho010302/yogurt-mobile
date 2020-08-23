@@ -26,28 +26,28 @@ const Footer: React.FC<NavigationProps> = ({ navigation }) => {
             navState={navState}
             routePath="Home"
             iconName="ios-home"
-            navName="Home"
+            navName="홈"
           />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Notification"
             iconName="ios-notifications"
-            navName="Notification"
+            navName="알림"
           />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Profile"
             iconName="ios-person"
-            navName="My page"
+            navName="마이페이지"
           />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Setting"
             iconName="ios-settings"
-            navName="Settings"
+            navName="설정"
           />
         </FooterTab>
       </FooterBase>
