@@ -29,7 +29,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
   const lectureList = [
     {
-      date: '2020-02-09',
+      dateTime: '2020-02-09 13:44:55',
       name: '전다은1-1',
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
@@ -38,7 +38,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      dateTime: '2020-02-09 13:33:44',
       name: '전다은2-1',
       lectureName: '기구 필라테스',
       lecturer: '전다은',
@@ -48,7 +48,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      dateTime: '2020-02-09 13:32:22',
       name: '전다은1-1',
       lectureName: '기구 필라테스',
       time: '10:00~10:50',
@@ -57,7 +57,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      dateTime: '2020-02-09 11:24:44',
       name: '전다은2-1',
       lectureName: '기구 필라테스',
       lecturer: '전다은',
@@ -67,7 +67,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      dateTime: '2020-02-09 10:22:34',
       name: '전다은1-1',
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
@@ -76,7 +76,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
         'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
-      date: '2020-02-09',
+      dateTime: '2020-02-09 09:12:33',
       name: '전다은2-1',
       lectureName: '기구 필라테스',
       lecturer: '전다은',
@@ -87,16 +87,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
     },
   ];
 
-  // const ShowNotificationDetails = () => {
-  //   return (
-  //     <View style={{flex:1, width: '100%', height: '100%', backgroundColor: 'black'}}>
-  //       <Text>Jieun</Text>
-  //     </View>
-  //   );
-  // };
-
   const ShowNotificationComponent = (item: any) => {
-    console.log(item);
     return (
       <TouchableOpacity
         style={{}}
@@ -115,7 +106,7 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
         <FlatList
           data={lectureList}
           renderItem={({ item }) => ShowNotificationComponent(item)}
-          keyExtractor={(item) => item.date}
+          keyExtractor={(item) => item.dateTime}
         />
       </ScrollView>
     </View>

@@ -70,6 +70,7 @@ const Setting: React.FC<NavigationProps> = ({ navigation }) => {
       <FlatList
         data={settingItemList}
         renderItem={({ item }) => CreateSettingComponent(item)}
+        keyExtractor={(item) => item.name}
       />
     </View>
   );

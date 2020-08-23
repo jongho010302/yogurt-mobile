@@ -39,7 +39,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
           'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
       },
       {
-        date: '2020-02-09',
+        date: '2020-02-10',
         name: '전다은2-1',
         lectureName: '기구 필라테스',
         lecturer: '전다은',
@@ -52,13 +52,13 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
         date: '2020-02-09',
         name: '전다은1-1',
         lectureName: '기구 필라테스',
-        time: '9:00~9:50',
+        time: '10:00~11:50',
         attendedCount: '3/5',
         profileUrl:
           'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
       },
       {
-        date: '2020-02-09',
+        date: '2020-02-11',
         name: '전다은2-1',
         lectureName: '기구 필라테스',
         lecturer: '전다은',
@@ -68,7 +68,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
           'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
       },
       {
-        date: '2020-02-09',
+        date: '2020-02-13',
         name: '전다은1-1',
         lectureName: '기구 필라테스',
         time: '9:00~9:50',
@@ -77,7 +77,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
           'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
       },
       {
-        date: '2020-02-09',
+        date: '2020-02-16',
         name: '전다은2-1',
         lectureName: '기구 필라테스',
         lecturer: '전다은',
@@ -93,7 +93,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
         <FlatList
           data={lectureList}
           renderItem={({ item }) => createLectureComponent(item)}
-          keyExtractor={(item) => item.date}
+          keyExtractor={(item) => item.date + item.time}
         />
       );
     }
