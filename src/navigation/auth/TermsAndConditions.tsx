@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import { Card } from 'native-base';
 import BaseButton from '../../components/base/BaseButton';
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
@@ -35,7 +34,7 @@ const TermsAndConditions: React.FC<NavigationProps> = ({ navigation }) => {
             checked={isFirstCheckBox}
             onIconPress={() => SetFirstCheckBox()}
           />
-          <Card style={{ borderColor: colors.white }}>
+          <View style={{ borderColor: colors.white }}>
             <Text>Yogurt-Studio 이용약관</Text>
             <Text />
             <Text />
@@ -45,7 +44,7 @@ const TermsAndConditions: React.FC<NavigationProps> = ({ navigation }) => {
             <Text />
             <Text />
             <Text />
-          </Card>
+          </View>
         </View>
         <View style={{ flex: 0.45 }}>
           <CheckBox
@@ -53,7 +52,7 @@ const TermsAndConditions: React.FC<NavigationProps> = ({ navigation }) => {
             checked={isSecondCheckBox}
             onIconPress={() => SetSecondCheckBox()}
           />
-          <Card style={{ borderColor: colors.white }}>
+          <View style={{ borderColor: colors.white }}>
             <Text>Yogurt-Studio 이용약관</Text>
             <Text />
             <Text />
@@ -64,7 +63,7 @@ const TermsAndConditions: React.FC<NavigationProps> = ({ navigation }) => {
             <Text />
             <Text />
             <Text />
-          </Card>
+          </View>
         </View>
         <View
           style={{

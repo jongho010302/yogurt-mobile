@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, TouchableOpacity, FlatList } from 'react-native';
 import { NavigationProps } from '../../types';
 
 import LectureComponent from './LectureComponent';
@@ -97,13 +97,13 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
           <BaseText text="모든내역" customStyle={{ fontSize: 15 }} />
         </TouchableOpacity>
       </View>
-      <ScrollView style={{ flex: 0.9 }}>
+      <View style={{ flex: 0.9 }}>
         <FlatList
           data={lectureList}
           renderItem={({ item }) => ShowLectureComponent(item)}
           keyExtractor={(item) => item.date + item.time}
         />
-      </ScrollView>
+      </View>
     </View>
   );
   // return (

@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import BaseText from '../components/base/BaseText';
 import NotificationComponent from '../components/notification/NotificationComponent';
 import colors from '../styles/colors';
 import { NavigationProps } from '../types';
 
 const styles = StyleSheet.create({
-  scrollView: {
+  wrapper: {
     marginHorizontal: '5%',
   },
   text: {
@@ -102,13 +96,13 @@ const Notification: React.FC<NavigationProps> = ({ navigation }) => {
       <View style={styles.text}>
         <BaseText text="서울숲필라테스 일정 및 예약 내용을 확인하세요." />
       </View>
-      <ScrollView style={styles.scrollView}>
+      <View style={styles.wrapper}>
         <FlatList
           data={lectureList}
           renderItem={({ item }) => ShowNotificationComponent(item)}
           keyExtractor={(item) => item.dateTime}
         />
-      </ScrollView>
+      </View>
     </View>
   );
 };

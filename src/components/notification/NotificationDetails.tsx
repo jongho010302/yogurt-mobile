@@ -1,20 +1,22 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card } from 'native-base';
 
 import { NavigationProps } from '../../types';
 import BaseText from '../base/BaseText';
+import colors from '../../styles/colors';
 
 const NotificationDetails: React.FC<NavigationProps> = ({ navigation }) => {
   const item = navigation.getParam('item');
   return (
     <View>
-      <Card
+      <View
         style={{
           borderRadius: 5,
-          margin: '10%',
+          margin: '5%',
           padding: '5%',
           height: '90%',
+          borderColor: colors.lightSteelGray,
+          borderWidth: 0.5,
         }}>
         <View
           style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -31,7 +33,7 @@ const NotificationDetails: React.FC<NavigationProps> = ({ navigation }) => {
             customStyle={{ fontSize: 15, fontWeight: 'normal' }}
           />
         </View>
-      </Card>
+      </View>
     </View>
   );
 };

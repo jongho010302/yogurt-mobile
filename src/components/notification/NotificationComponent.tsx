@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card, CardItem, Icon } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 import BaseText from '../base/BaseText';
@@ -16,28 +16,34 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
   }
 
   return (
-    <Card
+    <View
       style={{
         borderRadius: 2,
-        borderBottomColor: 'black',
-        borderColor: 'white',
-        shadowColor: 'white',
+        borderBottomWidth: 0.5,
+        borderColor: colors.lightGray,
+        shadowColor: colors.lightGray,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        padding: '2%',
       }}>
-      <CardItem style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+      <View
+        style={{
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}>
         <BaseText
           text={`
             ${notification.lectureName} 수업이\n${notification.time}에 예약되어 있습니다`}
         />
-      </CardItem>
-      <CardItem>
+      </View>
+      <View>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginLeft: 'auto',
             marginRight: 'auto',
+            padding: '5%',
           }}>
           <View>
             <BaseText
@@ -47,7 +53,7 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
           </View>
           <View>
             <Icon
-              name="ios-arrow-forward"
+              name="chatbox"
               style={{
                 fontSize: 11,
                 color: colors.lightBlack,
@@ -56,8 +62,8 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
             />
           </View>
         </View>
-      </CardItem>
-    </Card>
+      </View>
+    </View>
   );
 };
 

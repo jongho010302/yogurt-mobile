@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import TicketExample from '../components/tickets/TicketExample';
@@ -133,7 +132,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
         </View>
       </View>
       <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
-        <ScrollView style={styles.scrollView}>{setLectureList()}</ScrollView>
+        <View style={styles.scrollView}>{setLectureList()}</View>
       </SafeAreaView>
     </View>
   );

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Alert, StyleSheet, View, Button } from 'react-native';
-import { Text, Card } from 'native-base';
+import { Alert, StyleSheet, Text, View, Button } from 'react-native';
 import LectureComponent from './LectureComponent';
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
@@ -60,21 +59,19 @@ const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.lightSkyBlue }}>
       <View>
-        <Card style={styles.card}>
+        <View style={styles.card}>
           <View style={{ alignSelf: 'center', marginTop: '8%' }}>
             <BaseText customStyle={{ fontSize: 20 }} text="서울숲필라테스" />
           </View>
           <View style={styles.lecture}>
-            <Text note>해당 수업</Text>
+            <Text>해당 수업</Text>
             <LectureComponent lecture={navigation.getParam('item')} />
           </View>
-          <Text note style={{ paddingLeft: '5%' }}>
-            사용 상품
-          </Text>
-          <Card style={styles.card_ticket}>
+          <Text style={{ paddingLeft: '5%' }}>사용 상품</Text>
+          <View style={styles.card_ticket}>
             <View style={{ flexDirection: 'column' }}>
               <Text>3:1 그룹 체험권 10회</Text>
-              <Text note>2020. 3. 17 ~ 2021. 4. 15</Text>
+              <Text>2020. 3. 17 ~ 2021. 4. 15</Text>
             </View>
             <View style={{ flexDirection: 'column' }}>
               <View
@@ -88,7 +85,7 @@ const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
                 }}
               />
             </View>
-          </Card>
+          </View>
           <View
             style={{
               flexDirection: 'row',
@@ -101,12 +98,8 @@ const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
                 padding: '1%',
                 justifyContent: 'flex-end',
               }}>
-              <Text note style={{ marginRight: '10%' }}>
-                잔여횟수
-              </Text>
-              <Text note style={{ marginRight: '10%' }}>
-                잔여일
-              </Text>
+              <Text style={{ marginRight: '10%' }}>잔여횟수</Text>
+              <Text style={{ marginRight: '10%' }}>잔여일</Text>
             </View>
             <View
               style={{
@@ -124,14 +117,10 @@ const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
               padding: '5%',
               justifyContent: 'flex-start',
             }}>
-            <Text note style={{ fontSize: 10 }}>
-              예약일시:{' '}
-            </Text>
-            <Text note style={{ fontSize: 10 }}>
-              2020. 4. 13 12:01:36
-            </Text>
+            <Text style={{ fontSize: 10 }}>예약일시: </Text>
+            <Text style={{ fontSize: 10 }}>2020. 4. 13 12:01:36</Text>
           </View>
-        </Card>
+        </View>
         <View style={styles.button}>
           <Button
             title="예약 취소"
