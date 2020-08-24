@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   Alert,
 } from 'react-native';
-import { Dropdown, DropDownData } from 'react-native-material-dropdown';
+import { Dropdown, DropDownData } from 'react-native-material-dropdown-v2';
 import DatePicker from 'react-native-datepicker';
 import BaseInput from '../../components/base/BaseInput';
 import { yogurtAlert } from '../../utils/common';
