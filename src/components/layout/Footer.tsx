@@ -1,56 +1,70 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, TouchableHighlight } from 'react-native';
 import {
   NavigationParams,
   NavigationAction,
   NavigationState,
 } from 'react-navigation';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { Footer as FooterBase, FooterTab } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 import BaseText from '../base/BaseText';
 
+const styles = StyleSheet.create({
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderColor: colors.lightGray,
+    borderTopWidth: 0.5,
+  },
+});
+
 const Footer: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const navState = navigation.state;
-  // https://oblador.github.io/react-native-vector-icons/
   return (
-    <View>
-      <FooterBase>
-        <FooterTab style={{ backgroundColor: colors.white }}>
+    <View style={styles.footer}>
+      <View>
+        <View
+          style={{
+            backgroundColor: colors.white,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            padding: '4%',
+          }}>
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Home"
             iconName="ios-home"
-            navName="Home"
+            navName="홈"
           />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Notification"
             iconName="ios-notifications"
-            navName="Notification"
+            navName="알림"
           />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Profile"
             iconName="ios-person"
-            navName="My page"
+            navName="마이 페이지"
           />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
             routePath="Setting"
             iconName="ios-settings"
-            navName="Settings"
+            navName="설정"
           />
-        </FooterTab>
-      </FooterBase>
+        </View>
+      </View>
     </View>
   );
 };

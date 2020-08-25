@@ -25,7 +25,6 @@
     "immer": "^7.0.7",
     "metro-react-native-babel-transformer": "^0.63.0",
     "moment": "^2.27.0",
-    "native-base": "^2.13.14",
     "react": "16.13.1",
     "react-dom": "~16.13.1",
     "react-native": "^0.63.2",
