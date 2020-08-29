@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-} from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+
 import BaseText from '../../components/base/BaseText';
+import BaseBottomText from '../../components/base/BaseBottomText';
 import { PhoneNumberInput } from '../../components/form/PhoneNumberInput';
 import { yogurtAlert } from '../../utils/common';
 import { NavigationProps } from '../../types';
@@ -41,17 +36,11 @@ const styles = StyleSheet.create({
 
 const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const {
-    user,
-    handleCheckUser,
-    handleChangePhone,
-    handleChangeField,
-  } = useUser();
+  const { user, handleCheckUser, handleChangePhone, handleChangeField } = useUser();
   const [isPhoneNumberAvailable, setPhoneNumberAvailability] = useState(false);
 
   const userData = user.data!;
-  const instructionMessage =
-    '변경 할 휴대폰 번호를 입력하고 번호 변경하기 버튼을 누르세요.';
+  const instructionMessage = '변경 할 휴대폰 번호를 입력하고 번호 변경하기 버튼을 누르세요.';
   const changePhoneNumberMessage = '입력된 값으로 휴대폰 번호가 변경됩니다.';
 
   useEffect(() => {
@@ -70,14 +59,6 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
     };
   }, [handleChangeField]);
 
-  const printBottomText = (text: string, color: string) => {
-    return (
-      <View style={{ paddingTop: -10 }}>
-        <BaseText text={text} customStyle={{ fontSize: 11, color }} />
-      </View>
-    );
-  };
-
   const savePhoneNumberInfo = async () => {
     handleChangePhone(phoneNumber);
   };
@@ -88,19 +69,11 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
         <BaseText text={instructionMessage} customStyle={{}} />
         <View style={styles.phoneNumberWrapper}>
           <View>
-            <PhoneNumberInput
-              phoneNumber={phoneNumber}
-              setPhoneNumber={setPhoneNumber}
-              setPhoneNumberAvailability={setPhoneNumberAvailability}
-              placeholder={userData.phone}
-            />
-            {printBottomText(changePhoneNumberMessage, colors.lightGray)}
+            <PhoneNumberInput phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} setPhoneNumberAvailability={setPhoneNumberAvailability} placeholder={userData.phone} />
+            <BaseBottomText text={changePhoneNumberMessage} color={colors.lightGray} />
           </View>
           <View style={styles.button}>
-            <TouchableHighlight
-              style={[{ opacity: isPhoneNumberAvailable ? 1 : 0.2 }]}
-              onPress={() => savePhoneNumberInfo()}
-              disabled={!isPhoneNumberAvailable}>
+            <TouchableHighlight style={[{ opacity: isPhoneNumberAvailable ? 1 : 0.2 }]} onPress={() => savePhoneNumberInfo()} disabled={!isPhoneNumberAvailable}>
               <View>
                 <Text
                   style={{
