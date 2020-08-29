@@ -26,8 +26,8 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
     return <LectureComponent lecture={item} />;
   };
 
-  const setLectureList = () => {
-    const lectureList = [
+  const setLectures = () => {
+    const lectures = [
       {
         date: '2020-02-09',
         name: '전다은1-1',
@@ -87,10 +87,10 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
       },
     ];
 
-    if (lectureList.length > 0) {
+    if (lectures.length > 0) {
       return (
         <FlatList
-          data={lectureList}
+          data={lectures}
           renderItem={({ item }) => createLectureComponent(item)}
           keyExtractor={(item) => item.date + item.time}
         />
@@ -132,7 +132,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
         </View>
       </View>
       <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
-        <View style={styles.scrollView}>{setLectureList()}</View>
+        <View style={styles.scrollView}>{setLectures()}</View>
       </SafeAreaView>
     </View>
   );

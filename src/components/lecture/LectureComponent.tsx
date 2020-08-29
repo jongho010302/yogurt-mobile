@@ -104,19 +104,6 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
         />
       </View>
     </View>
-    // <Card style={{ borderRadius: 10, marginRight: '5%' }}>
-    //   <CardItem style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-    //     <Left>
-    //       <Body>
-    //
-    //       </Body>
-    //     </Left>
-    //   </CardItem>
-    //   <CardItem
-    //     >
-    //
-    //   </CardItem>
-    // </Card>
   );
 };
 
