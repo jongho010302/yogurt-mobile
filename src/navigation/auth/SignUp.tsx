@@ -24,6 +24,7 @@ import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
+import BaseBottomText from '../../components/base/BaseBottomText';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -355,14 +356,6 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     );
   };
 
-  const printBottomText = (text: string, color: string) => {
-    return (
-      <View style={{ paddingTop: -10 }}>
-        <Text style={{ fontSize: 11, color }}>{text}</Text>
-      </View>
-    );
-  };
-
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.white }}
@@ -381,14 +374,19 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             onChangeText={onNameChange}
             autoFocus
           />
-          {name
-            ? isNameVaildated
-              ? printBottomText('이름이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText(
-                  '올바른 이름을 입력해주세요.',
-                  colors.darkOrange,
-                )
-            : null}
+          {name ? (
+            isNameVaildated ? (
+              <BaseBottomText
+                text="이름이 올바릅니다."
+                color={colors.lightSkyBlue}
+              />
+            ) : (
+              <BaseBottomText
+                text="올바른 이름을 입력해주세요."
+                color={colors.darkOrange}
+              />
+            )
+          ) : null}
         </View>
 
         {/* 아이디 */}
@@ -436,19 +434,24 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               </TouchableHighlight>
             </View>
           </View>
-          {username
-            ? !isUsernameValidationVisible
-              ? printBottomText(
-                  '형식에 맞는 아이디를 입력해주세요.',
-                  colors.darkOrange,
-                )
-              : isUsernameValidated
-              ? printBottomText(
-                  '사용 가능한 아이디입니다.',
-                  colors.lightSkyBlue,
-                )
-              : printBottomText('중복검사를 해주세요.', colors.darkOrange)
-            : null}
+          {username ? (
+            !isUsernameValidationVisible ? (
+              <BaseBottomText
+                text="형식에 맞는 아이디를 입력해주세요."
+                color={colors.darkOrange}
+              />
+            ) : isUsernameValidated ? (
+              <BaseBottomText
+                text="사용 가능한 아이디입니다."
+                color={colors.lightSkyBlue}
+              />
+            ) : (
+              <BaseBottomText
+                text="중복검사를 해주세요."
+                color={colors.darkOrange}
+              />
+            )
+          ) : null}
         </View>
 
         {/* 비밀번호 */}
@@ -465,14 +468,19 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             onChangeText={onPasswordChange}
             autoFocus
           />
-          {password
-            ? isPasswordValidated
-              ? printBottomText('형식이 올바릅니다.', colors.lightSkyBlue)
-              : printBottomText(
-                  '비밀번호 형식이 올바르지 않습니다.',
-                  colors.darkOrange,
-                )
-            : null}
+          {password ? (
+            isPasswordValidated ? (
+              <BaseBottomText
+                text="형식이 올바릅니다."
+                color={colors.lightSkyBlue}
+              />
+            ) : (
+              <BaseBottomText
+                text="비밀번호 형식이 올바르지 않습니다."
+                color={colors.darkOrange}
+              />
+            )
+          ) : null}
         </View>
 
         {/* 중복 비밀번호 */}
@@ -489,11 +497,19 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             onChangeText={onSecondPasswordChange}
             autoFocus
           />
-          {secondPassword
-            ? isPasswordSame
-              ? printBottomText('비밀번호가 같습니다.', colors.lightSkyBlue)
-              : printBottomText('비밀번호가 다릅니다.', colors.darkOrange)
-            : null}
+          {secondPassword ? (
+            isPasswordSame ? (
+              <BaseBottomText
+                text="비밀번호가 같습니다."
+                color={colors.lightSkyBlue}
+              />
+            ) : (
+              <BaseBottomText
+                text="비밀번호가 다릅니다."
+                color={colors.darkOrange}
+              />
+            )
+          ) : null}
         </View>
 
         {/* 이메일 주소 */}
@@ -541,19 +557,24 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               </TouchableHighlight>
             </View>
           </View>
-          {email
-            ? !isEmailValidated
-              ? printBottomText(
-                  '형식에 맞는 이메일을 입력해주세요.',
-                  colors.darkOrange,
-                )
-              : !isVerifyCodeSend
-              ? printBottomText('인증번호를 전송해 주세요.', colors.darkOrange)
-              : printBottomText(
-                  '인증번호가 전송되었습니다.',
-                  colors.lightSkyBlue,
-                )
-            : null}
+          {email ? (
+            !isEmailValidated ? (
+              <BaseBottomText
+                text="형식에 맞는 이메일을 입력해주세요."
+                color={colors.darkOrange}
+              />
+            ) : !isVerifyCodeSend ? (
+              <BaseBottomText
+                text="인증번호를 전송해 주세요."
+                color={colors.darkOrange}
+              />
+            ) : (
+              <BaseBottomText
+                text="인증번호가 전송되었습니다."
+                color={colors.lightSkyBlue}
+              />
+            )
+          ) : null}
         </View>
 
         {/* 이메일 인증번호 */}
@@ -602,11 +623,16 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               </TouchableHighlight>
             </View>
           </View>
-          {isVerifyCodeSend
-            ? !isEmailVerified
-              ? printBottomText('인증해주세요.', colors.darkOrange)
-              : printBottomText('인증돠었습니다.', colors.lightSkyBlue)
-            : null}
+          {isVerifyCodeSend ? (
+            !isEmailVerified ? (
+              <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
+            ) : (
+              <BaseBottomText
+                text="인증돠었습니다."
+                color={colors.lightSkyBlue}
+              />
+            )
+          ) : null}
         </View>
 
         {/* 성별 */}

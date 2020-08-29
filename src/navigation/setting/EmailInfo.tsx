@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  TouchableHighlight,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, TouchableHighlight, Text } from 'react-native';
 
 import { NavigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
+import BaseBottomText from '../../components/base/BaseBottomText';
 import { EmailInput } from '../../components/form/EmailInput';
 import colors from '../../styles/colors';
 
@@ -38,22 +32,11 @@ const styles = StyleSheet.create({
 });
 
 const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
-  const instructionMessage =
-    '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
+  const instructionMessage = '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
   const changeEmailMessage = '입력된 값으로 이메일이 변경됩니다.';
   const [email, setEmail] = useState('');
   const [isEmailAvailable, setEmailAvailability] = useState(false);
-  const [isEmailValidationVisible, setEmailValidationVisibility] = useState(
-    false,
-  );
-
-  const printBottomText = (text: string, color: string) => {
-    return (
-      <View style={{ paddingTop: -10 }}>
-        <BaseText text={text} customStyle={{ fontSize: 11, color }} />
-      </View>
-    );
-  };
+  const [isEmailValidationVisible, setEmailValidationVisibility] = useState(false);
 
   return (
     <SafeAreaView style={styles.Wrapper}>
@@ -61,19 +44,11 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
         <BaseText text={instructionMessage} customStyle={{}} />
         <View style={styles.emailWrapper}>
           <View>
-            <EmailInput
-              email={email}
-              setEmail={setEmail}
-              setEmailAvailability={setEmailAvailability}
-              setEmailValidationVisibility={setEmailValidationVisibility}
-            />
-            {printBottomText(changeEmailMessage, colors.lightGray)}
+            <EmailInput email={email} setEmail={setEmail} setEmailAvailability={setEmailAvailability} setEmailValidationVisibility={setEmailValidationVisibility} />
+            <BaseBottomText text={changeEmailMessage} color={colors.lightGray} />
           </View>
           <View style={styles.button}>
-            <TouchableHighlight
-              style={[{ opacity: isEmailAvailable ? 1 : 0.2 }]}
-              onPress={() => console.log('change phone number api')}
-              disabled={!isEmailAvailable}>
+            <TouchableHighlight style={[{ opacity: isEmailAvailable ? 1 : 0.2 }]} onPress={() => console.log('change phone number api')} disabled={!isEmailAvailable}>
               <View>
                 <Text
                   style={{

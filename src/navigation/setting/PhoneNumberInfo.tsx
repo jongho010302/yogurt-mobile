@@ -7,7 +7,9 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from 'react-native';
+
 import BaseText from '../../components/base/BaseText';
+import BaseBottomText from '../../components/base/BaseBottomText';
 import { PhoneNumberInput } from '../../components/form/PhoneNumberInput';
 import { yogurtAlert } from '../../utils/common';
 import { NavigationProps } from '../../types';
@@ -70,14 +72,6 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
     };
   }, [handleChangeField]);
 
-  const printBottomText = (text: string, color: string) => {
-    return (
-      <View style={{ paddingTop: -10 }}>
-        <BaseText text={text} customStyle={{ fontSize: 11, color }} />
-      </View>
-    );
-  };
-
   const savePhoneNumberInfo = async () => {
     handleChangePhone(phoneNumber);
   };
@@ -94,7 +88,10 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
               setPhoneNumberAvailability={setPhoneNumberAvailability}
               placeholder={userData.phone}
             />
-            {printBottomText(changePhoneNumberMessage, colors.lightGray)}
+            <BaseBottomText
+              text={changePhoneNumberMessage}
+              color={colors.lightGray}
+            />
           </View>
           <View style={styles.button}>
             <TouchableHighlight
