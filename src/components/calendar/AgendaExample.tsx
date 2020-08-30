@@ -1,4 +1,4 @@
-import React, { useState, use } from 'react';
+import React, { useState } from 'react';
 import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 import moment from 'moment';
@@ -16,10 +16,10 @@ const DayScheduleCard: React.FC<{ item: any }> = ({ item }) => {
 };
 
 const AgendaExample: React.FC = () => {
-  const [items, setItems] = useState<any>({});
+  const [lectures, setLectures] = useState<any>({});
 
   const loadItems = (day: any) => {
-    let newItems: any = {};
+    const newItems: any = {};
     for (let i = -15; i < 85; i++) {
       const date = day.timestamp + i * 24 * 60 * 60 * 1000;
       const dateKey = moment(date).format('YYYY-MM-DD');
@@ -27,8 +27,8 @@ const AgendaExample: React.FC = () => {
     }
 
     // TODO:
-    // const lectureList = await getLectureList();
-    const lectureList = [
+    // const lectures = await getLectureList();
+    const lecturesExample = [
       {
         date: '2020-02-09',
         name: '전다은1-1',
@@ -48,20 +48,36 @@ const AgendaExample: React.FC = () => {
         profileUrl:
           'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
       },
+      {
+        date: '2020-08-28',
+        name: '전다은2-1',
+        lectureName: '기구 필라테스',
+        lecturer: '전다은',
+        time: '10:00~10:50',
+        attendedCount: '3/5',
+        profileUrl:
+          'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      },
+      {
+        date: '2020-08-29',
+        name: '전다은2-1',
+        lectureName: '기구 필라테스',
+        lecturer: '전다은',
+        time: '9:00~9:50',
+        attendedCount: '3/5',
+        profileUrl:
+          'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      },
     ];
 
-    let newLectureList: any = {};
+    const tempLectures: any = {};
+    lecturesExample.forEach((el) => {
+      tempLectures[el.date] = tempLectures[el.date]
+        ? [...tempLectures[el.date], el]
+        : [el];
+    });
 
-    for (const lecture of lectureList) {
-      newLectureList[lecture.date] = [{}];
-    }
-
-    for (const lecture of lectureList) {
-      newLectureList[lecture.date].push(lecture);
-    }
-
-    newLectureList = Object.assign({}, newItems, newLectureList);
-    setItems(newLectureList);
+    setLectures({ ...newItems, ...tempLectures });
   };
 
   const renderItem = (item: any) => {
@@ -86,7 +102,7 @@ const AgendaExample: React.FC = () => {
 
   return (
     <Agenda
-      items={items}
+      items={lectures}
       loadItemsForMonth={loadItems}
       selected={moment(new Date()).format('YYYY-MM-DD')}
       renderItem={renderItem}

@@ -8,7 +8,7 @@ import BaseText from '../base/BaseText';
 const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
-  const lectureList = [
+  const lectures = [
     {
       date: '2020-02-03',
       name: '전다은1-1',
@@ -90,7 +90,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
           marginTop: '5%',
         }}>
         <BaseText
-          text={`${lectureList.length}개의 내역`}
+          text={`${lectures.length}개의 내역`}
           customStyle={{ fontSize: 15 }}
         />
         <TouchableOpacity>
@@ -99,32 +99,13 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       </View>
       <View style={{ flex: 0.9 }}>
         <FlatList
-          data={lectureList}
+          data={lectures}
           renderItem={({ item }) => ShowLectureComponent(item)}
           keyExtractor={(item) => item.date + item.time}
         />
       </View>
     </View>
   );
-  // return (
-  //   <View style={{ flex: 1 }}>
-  //     <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', marginLeft: '10%', marginRight: '10%', marginTop: '5%'}}>
-  //       <BaseText text={lectureList.length + '개의 내역'} customStyle={{fontSize: 15}}/>
-  //       <TouchableOpacity>
-  //         <BaseText text='모든내역' customStyle={{fontSize: 15}}/>
-  //       </TouchableOpacity>
-  //     </View>
-  //     <ScrollView style={{ flex: 0.9}}>
-  //       <TouchableOpacity style={{ marginLeft: '10%', marginRight: '5%' }} onPress={() => navigate('BookingDetails')}>
-  //         <FlatList
-  //           data={lectureList}
-  //           renderItem={({ item }) => <LectureComponent lecture={item} />}
-  //           keyExtractor={item => item.date}>
-  //         </FlatList>
-  //       </TouchableOpacity>
-  //     </ScrollView>
-  //   </View>
-  // );
 };
 
 export default BookingHistory;
