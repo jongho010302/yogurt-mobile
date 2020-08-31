@@ -9,7 +9,9 @@ import BaseText from '../base/BaseText';
 
 const DayScheduleCard: React.FC<{ item: any }> = ({ item }) => {
   return (
-    <TouchableOpacity onPress={() => Alert.alert(item.name)}>
+    <TouchableOpacity
+      onPress={() => Alert.alert(item.name)}
+      style={{ marginRight: '2%' }}>
       <LectureComponent lecture={item} />
     </TouchableOpacity>
   );

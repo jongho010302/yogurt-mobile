@@ -87,7 +87,7 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
       },
     ];
 
-    if (lectures.length > 0) {
+    if (lectures) {
       return (
         <FlatList
           data={lectures}
@@ -113,7 +113,6 @@ const Home: React.FC<NavigationProps> = ({ navigation }) => {
         </TouchableOpacity>
       </View>
     );
-    // });
   };
 
   return (

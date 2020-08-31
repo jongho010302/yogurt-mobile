@@ -25,9 +25,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginRight: '5%',
   },
-  lecture: {
-    margin: '10%',
-  },
+  lecture: {},
   card_ticket: {
     flexDirection: 'row',
     alignSelf: 'center',
@@ -63,7 +61,7 @@ const BookingDetails: React.FC<NavigationProps> = ({ navigation }) => {
           <View style={{ alignSelf: 'center', marginTop: '8%' }}>
             <BaseText customStyle={{ fontSize: 20 }} text="서울숲필라테스" />
           </View>
-          <View style={styles.lecture}>
+          <View>
             <Text>해당 수업</Text>
             <LectureComponent lecture={navigation.getParam('item')} />
           </View>
