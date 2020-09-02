@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 const Profile: React.FC<NavigationProps> = ({ navigation }) => {
   const { user } = useUser();
-  const userData = user.data!;
+  const userData = user.data;
 
   const FirstRoute = () => (
     <View style={{ flex: 1 }}>
@@ -82,17 +82,17 @@ const Profile: React.FC<NavigationProps> = ({ navigation }) => {
             marginLeft: '10%',
           }}>
           <BaseText
-            text={userData.name}
+            text={userData?.name || ''}
             customStyle={{
               fontSize: 22,
               fontWeight: '500',
             }}
           />
-          <BaseText text={userData.phone} />
-          <BaseText text={userData.email} />
+          <BaseText text={userData?.phone || ''} />
+          <BaseText text={userData?.email || ''} />
         </View>
         <Image
-          source={{ uri: userData.profileUrl }}
+          source={{ uri: userData?.profileUrl }}
           style={styles.profileImage}
         />
       </View>

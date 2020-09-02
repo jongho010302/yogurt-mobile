@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView, TouchableHighlight, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableHighlight,
+  Text,
+} from 'react-native';
 
 import { NavigationProps } from '../../types';
+import colors from '../../styles/colors';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 import BaseText from '../../components/base/BaseText';
 import BaseBottomText from '../../components/base/BaseBottomText';
 import { EmailInput } from '../../components/form/EmailInput';
-import colors from '../../styles/colors';
+import { EmailVerifyCodeInput } from '../../components/form/EmailVerifyCodeInput';
 
 const styles = StyleSheet.create({
   Wrapper: {
@@ -26,17 +36,39 @@ const styles = StyleSheet.create({
     padding: '4%',
     paddingLeft: '8%',
     paddingRight: '8%',
-    height: '70%',
+    height: '80%',
     position: 'relative',
   },
 });
 
 const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
-  const instructionMessage = '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
-  const changeEmailMessage = '입력된 값으로 이메일이 변경됩니다.';
+  const instructionMessage =
+    '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
   const [email, setEmail] = useState('');
-  const [isEmailAvailable, setEmailAvailability] = useState(false);
-  const [isEmailValidationVisible, setEmailValidationVisibility] = useState(false);
+  const [isEmailValidated, setEmailValidated] = useState(false);
+  const [verifyCode, setVerifyCode] = useState('');
+  const [isVerifyCodeSend, setIsVerifyCodeSend] = useState(false);
+  const [isEmailVerified, setEmailVerified] = useState(false);
+
+  const { user, handleVerifySignUpCode, handleSendSignUpCode } = useUser();
+
+  // 이메일 인증코드 인증
+  useEffect(() => {
+    if (user.verifySignUpCode.status === AsyncStatus.SUCCESS) {
+      setEmailVerified(true);
+    } else if (user.verifySignUpCode.status === AsyncStatus.FAILURE) {
+      setEmailVerified(false);
+    }
+  }, [user.verifySignUpCode.status]);
+
+  const onSendSignUpCodeClick = () => {
+    setIsVerifyCodeSend(true);
+    handleSendSignUpCode(email);
+  };
+
+  const onVerifySignUpCodeClick = () => {
+    handleVerifySignUpCode(email, verifyCode);
+  };
 
   return (
     <SafeAreaView style={styles.Wrapper}>
@@ -44,11 +76,19 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
         <BaseText text={instructionMessage} customStyle={{}} />
         <View style={styles.emailWrapper}>
           <View>
-            <EmailInput email={email} setEmail={setEmail} setEmailAvailability={setEmailAvailability} setEmailValidationVisibility={setEmailValidationVisibility} />
-            <BaseBottomText text={changeEmailMessage} color={colors.lightGray} />
+            <EmailInput
+              email={email}
+              setEmail={setEmail}
+              setEmailValidated={setEmailValidated}
+              setEmailVerified={setEmailVerified}
+              setIsVerifyCodeSend={setIsVerifyCodeSend}
+            />
           </View>
           <View style={styles.button}>
-            <TouchableHighlight style={[{ opacity: isEmailAvailable ? 1 : 0.2 }]} onPress={() => console.log('change phone number api')} disabled={!isEmailAvailable}>
+            <TouchableHighlight
+              style={[{ opacity: isEmailValidated ? 1 : 0.2 }]}
+              onPress={() => onSendSignUpCodeClick()}
+              disabled={!isEmailValidated}>
               <View>
                 <Text
                   style={{
@@ -56,12 +96,67 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
                     fontSize: 11,
                     fontWeight: '700',
                   }}>
-                  이메일 변경하기
+                  인증번호 전송
                 </Text>
               </View>
             </TouchableHighlight>
           </View>
         </View>
+        {email ? (
+          !isEmailValidated ? (
+            <BaseBottomText
+              text="형식에 맞는 이메일을 입력해주세요."
+              color={colors.darkOrange}
+            />
+          ) : !isVerifyCodeSend ? (
+            <BaseBottomText
+              text="인증번호를 전송해 주세요."
+              color={colors.darkOrange}
+            />
+          ) : (
+            <BaseBottomText
+              text="인증번호가 전송되었습니다."
+              color={colors.lightSkyBlue}
+            />
+          )
+        ) : null}
+        <View style={styles.emailWrapper}>
+          <View>
+            <EmailVerifyCodeInput
+              verifyCode={verifyCode}
+              isVerifyCodeSend={isVerifyCodeSend}
+              setVerifyCode={setVerifyCode}
+              setEmailVerified={setEmailVerified}
+            />
+          </View>
+          <View style={styles.button}>
+            <TouchableHighlight
+              style={[{ opacity: isVerifyCodeSend ? 1 : 0.2 }]}
+              onPress={onVerifySignUpCodeClick}
+              disabled={!isVerifyCodeSend}>
+              <View>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: 11,
+                    fontWeight: '700',
+                  }}>
+                  인증
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+        {isVerifyCodeSend ? (
+          !isEmailVerified ? (
+            <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
+          ) : (
+            <BaseBottomText
+              text="인증돠었습니다."
+              color={colors.lightSkyBlue}
+            />
+          )
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

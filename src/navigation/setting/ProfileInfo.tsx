@@ -50,7 +50,7 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const [isNameValidated, setNameValidated] = useState(false);
   const [photo, setPhoto] = useState<Photo>();
 
-  const userData = user.data!;
+  const userData = user.data;
 
   useEffect(() => {
     if (
@@ -163,7 +163,7 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
     <SafeAreaView style={styles.profileWrapper}>
       <TouchableOpacity onPress={() => selectProfilePhoto()}>
         <Image
-          source={{ uri: photo?.uri || userData.profileUrl }}
+          source={{ uri: photo?.uri || userData?.profileUrl }}
           style={styles.profileImage}
         />
       </TouchableOpacity>
@@ -177,7 +177,7 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
           borderBottomColor={colors.lightGray}
           inputType="text"
           onChangeText={onNameChange}
-          placeholder={userData.name}
+          placeholder={userData?.name}
           autoFocus
         />
         <BaseButton

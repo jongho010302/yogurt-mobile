@@ -6,24 +6,27 @@ import { emailRegex } from '../../utils/regex';
 interface Props {
   email: string;
   setEmail: (phoneNumber: string) => void;
-  setEmailAvailability: (isAvailable: boolean) => void;
-  setEmailValidationVisibility: (isAvailable: boolean) => void;
+  setEmailValidated: (isAvailable: boolean) => void;
+  setEmailVerified: (isEmailVerified: boolean) => void;
+  setIsVerifyCodeSend: (isSent: boolean) => void;
 }
 
 export const EmailInput: React.FC<Props> = ({
   email,
   setEmail,
-  setEmailAvailability,
-  setEmailValidationVisibility,
+  setEmailValidated,
+  setEmailVerified,
+  setIsVerifyCodeSend,
 }) => {
   const handleEmailChange = (paramEmail: string) => {
     setEmail(paramEmail);
-    setEmailAvailability(false);
+    setEmailVerified(false);
+    setIsVerifyCodeSend(false);
 
     if (emailRegex.test(paramEmail)) {
-      setEmailValidationVisibility(true);
+      setEmailValidated(true);
     } else {
-      setEmailValidationVisibility(false);
+      setEmailValidated(false);
     }
   };
 
@@ -31,12 +34,13 @@ export const EmailInput: React.FC<Props> = ({
     <BaseInput
       inputValue={email}
       labelText="이메일 주소를 입력하세요"
-      placeholder="e.g. yogurt@yogurt-studio.com"
+      placeholder="contact@yogurt-studio.com"
       labelTextSize={12}
       labelColor={colors.lightSkyBlue}
       textColor={colors.lightBlack}
       borderBottomColor={colors.lightGray}
       inputType="email"
+      inputStyle={{ width: 200 }}
       onChangeText={handleEmailChange}
       autoFocus
     />

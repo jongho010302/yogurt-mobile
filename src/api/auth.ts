@@ -26,23 +26,28 @@ export const verifyFindPasswordCodeApi = (email: string, verifyCode: string) =>
     verifyCode,
   });
 
-export const findPasswordApi = (email: string, password: string, verifyCode: string) =>
+export const findPasswordApi = (
+  email: string,
+  password: string,
+  verifyCode: string,
+) =>
   makeRequest('put', `${BACK_URL}/auth/find/password`, {
     email,
     password,
     verifyCode,
   });
 
-export const getStudiosApi = () => makeRequest('get', `${BACK_URL}/auth/studio`);
+export const getStudiosApi = () =>
+  makeRequest('get', `${BACK_URL}/auth/studio`);
 
 export const verifyUsernameApi = (username: string) =>
-  makeRequest('get', `${BACK_URL}/auth/sign-up/verify/username?username=${username}`);
+  makeRequest('get', `${BACK_URL}/auth/sign-up/verify?username=${username}`);
 
 export const sendSignUpCodeApi = (email: string) =>
-  makeRequest('get', `${BACK_URL}/auth/sign-up/verify/email?email=${email}`);
+  makeRequest('get', `${BACK_URL}/auth/sign-up/verify?email=${email}`);
 
 export const verifySignUpCodeApi = (email: string, verifyCode: string) =>
-  makeRequest('post', `${BACK_URL}/auth/sign-up/verify/email`, {
+  makeRequest('post', `${BACK_URL}/auth/sign-up/verify`, {
     email,
     verifyCode,
   });

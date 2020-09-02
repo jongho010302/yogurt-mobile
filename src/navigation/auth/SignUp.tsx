@@ -12,6 +12,8 @@ import {
 import { Dropdown, DropDownData } from 'react-native-material-dropdown-v2';
 import DatePicker from 'react-native-datepicker';
 import BaseInput from '../../components/base/BaseInput';
+import { EmailInput } from '../../components/form/EmailInput';
+import { EmailVerifyCodeInput } from '../../components/form/EmailVerifyCodeInput';
 import { yogurtAlert } from '../../utils/common';
 import { formatDate } from '../../utils/date';
 import {
@@ -291,7 +293,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   // gender
   const printGenderDropdownBox = () => {
     const genders = [
-      { value: '', label: '선택' },
+      { value: '', label: '' },
       { value: 'M', label: '남' },
       { value: 'F', label: '여' },
     ];
@@ -516,18 +518,12 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
         <View style={{ marginBottom: '6%' }}>
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <BaseInput
-              inputValue={email}
-              labelText="이메일 주소를 입력하세요"
-              placeholder="contact@yogurt-studio.com"
-              labelTextSize={12}
-              labelColor={colors.lightSkyBlue}
-              textColor={colors.lightBlack}
-              borderBottomColor={colors.lightGray}
-              inputType="email"
-              onChangeText={onEmailChange}
-              autoFocus
-              inputStyle={{ width: 200 }}
+            <EmailInput
+              email={email}
+              setEmail={setEmail}
+              setEmailValidated={setEmailValidated}
+              setEmailVerified={setEmailVerified}
+              setIsVerifyCodeSend={setIsVerifyCodeSend}
             />
             <View
               style={{
@@ -581,19 +577,11 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
         <View style={{ marginBottom: '6%' }}>
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <BaseInput
-              inputValue={verifyCode}
-              labelText="인증번호를 입력하세요"
-              placeholder=""
-              labelTextSize={12}
-              labelColor={colors.lightSkyBlue}
-              textColor={colors.lightBlack}
-              borderBottomColor={colors.lightGray}
-              inputType="text"
-              onChangeText={onVerfiyCodeChange}
-              autoFocus
-              inputStyle={{ width: 200 }}
-              disable={!isVerifyCodeSend}
+            <EmailVerifyCodeInput
+              verifyCode={verifyCode}
+              isVerifyCodeSend={isVerifyCodeSend}
+              setVerifyCode={setVerifyCode}
+              setEmailVerified={setEmailVerified}
             />
             <View
               style={{
