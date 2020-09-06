@@ -6,11 +6,10 @@ export const changeNameApi = (name: string) =>
     name,
   });
 
-export const changePasswordApi = (password: string) => {
+export const changePasswordApi = (password: string) =>
   makeRequest('post', `${BACK_URL}/user/change-password`, {
     password,
   });
-};
 
 export const changeProfileApi = (formData: FormData) =>
   makeRequest('post', `${BACK_URL}/user/change-profileUrl`, formData, {
