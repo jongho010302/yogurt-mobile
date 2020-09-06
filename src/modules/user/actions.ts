@@ -15,6 +15,7 @@ import {
 } from '../../api/auth';
 import {
   changeNameApi,
+  changePasswordApi,
   changePhoneApi,
   changeProfileApi,
 } from '../../api/settings';
@@ -34,6 +35,7 @@ import {
   SIGN_UP,
   GET_STUDIOS,
   CHANGE_NAME,
+  CHANGE_PASSWORD,
   CHANGE_PHONE,
   CHANGE_PROFILE,
 } from './constants';
@@ -166,6 +168,13 @@ export const changeName = (name: string) => {
   return {
     type: CHANGE_NAME,
     promise: changeNameApi(name),
+  };
+};
+
+export const changePassword = (password: string) => {
+  return {
+    type: CHANGE_PASSWORD,
+    promise: changePasswordApi(password),
   };
 };
 

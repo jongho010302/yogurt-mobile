@@ -45,29 +45,29 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage =
     '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
   const [email, setEmail] = useState('');
+  const [verifiedEmail, setVerifiedEmail] = useState('');
   const [isEmailValidated, setEmailValidated] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
-  const [isVerifyCodeSend, setIsVerifyCodeSend] = useState(false);
-  const [isEmailVerified, setEmailVerified] = useState(false);
+  const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
 
   const { user, handleVerifySignUpCode, handleSendSignUpCode } = useUser();
 
   // 이메일 인증코드 인증
   useEffect(() => {
     if (user.verifySignUpCode.status === AsyncStatus.SUCCESS) {
-      setEmailVerified(true);
+      setIsVerifyCodeSent(true);
     } else if (user.verifySignUpCode.status === AsyncStatus.FAILURE) {
-      setEmailVerified(false);
+      setIsVerifyCodeSent(false);
     }
   }, [user.verifySignUpCode.status]);
 
   const onSendSignUpCodeClick = () => {
-    setIsVerifyCodeSend(true);
+    setVerifiedEmail(email);
     handleSendSignUpCode(email);
   };
 
   const onVerifySignUpCodeClick = () => {
-    handleVerifySignUpCode(email, verifyCode);
+    handleVerifySignUpCode(verifiedEmail, verifyCode);
   };
 
   return (
@@ -80,8 +80,7 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
               email={email}
               setEmail={setEmail}
               setEmailValidated={setEmailValidated}
-              setEmailVerified={setEmailVerified}
-              setIsVerifyCodeSend={setIsVerifyCodeSend}
+              setIsVerifyCodeSent={setIsVerifyCodeSent}
             />
           </View>
           <View style={styles.button}>
@@ -108,7 +107,7 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
               text="형식에 맞는 이메일을 입력해주세요."
               color={colors.darkOrange}
             />
-          ) : !isVerifyCodeSend ? (
+          ) : !isVerifyCodeSent ? (
             <BaseBottomText
               text="인증번호를 전송해 주세요."
               color={colors.darkOrange}
@@ -124,16 +123,14 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
           <View>
             <EmailVerifyCodeInput
               verifyCode={verifyCode}
-              isVerifyCodeSend={isVerifyCodeSend}
               setVerifyCode={setVerifyCode}
-              setEmailVerified={setEmailVerified}
             />
           </View>
           <View style={styles.button}>
             <TouchableHighlight
-              style={[{ opacity: isVerifyCodeSend ? 1 : 0.2 }]}
+              style={[{ opacity: isVerifyCodeSent ? 1 : 0.2 }]}
               onPress={onVerifySignUpCodeClick}
-              disabled={!isVerifyCodeSend}>
+              disabled={!isVerifyCodeSent}>
               <View>
                 <Text
                   style={{
@@ -147,16 +144,11 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
             </TouchableHighlight>
           </View>
         </View>
-        {isVerifyCodeSend ? (
-          !isEmailVerified ? (
-            <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
-          ) : (
-            <BaseBottomText
-              text="인증돠었습니다."
-              color={colors.lightSkyBlue}
-            />
-          )
-        ) : null}
+        {isVerifyCodeSent ? (
+          <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
+        ) : (
+          <BaseBottomText text="인증돠었습니다." color={colors.lightSkyBlue} />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

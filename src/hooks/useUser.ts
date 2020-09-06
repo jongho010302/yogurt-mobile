@@ -17,6 +17,7 @@ import {
   signUp,
   getStudios,
   changeName,
+  changePassword,
   changePhone,
   changeProfile,
 } from '../modules/user/actions';
@@ -121,6 +122,11 @@ function useUser() {
     [dispatch],
   );
 
+  const handleChangePassword = useCallback(
+    (password: string) => dispatch(changePassword(password)),
+    [dispatch],
+  );
+
   const handleChangePhone = useCallback(
     (phone: string) => dispatch(changePhone(phone)),
     [dispatch],
@@ -148,6 +154,7 @@ function useUser() {
     handleVerifySignUpCode,
     handleSignUp,
     handleChangeName,
+    handleChangePassword,
     handleChangePhone,
     handleChangeProfile,
   };

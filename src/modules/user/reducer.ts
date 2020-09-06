@@ -18,6 +18,7 @@ import {
   CHANGE_NAME,
   CHANGE_PHONE,
   CHANGE_PROFILE,
+  CHANGE_PASSWORD,
 } from './constants';
 import { AsyncStatus } from '../types';
 import { UserState } from './types';
@@ -86,6 +87,10 @@ const initialState: UserState = {
     errorMessage: '',
   },
   changeName: {
+    status: AsyncStatus.INIT,
+    errorMessage: '',
+  },
+  changePassword: {
     status: AsyncStatus.INIT,
     errorMessage: '',
   },
@@ -394,6 +399,24 @@ export const reducer = (
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changeProfile.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
+          }),
+      });
+    case CHANGE_PASSWORD:
+      return handle(state, action, {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
+            draft.changePassword.status = AsyncStatus.WAITING;
+          }),
+        failure: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.changePassword.status = AsyncStatus.FAILURE;
+            draft.changePassword.errorMessage =
+              payload.message || 'Failed to check user.';
+          }),
+        success: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.changePassword.status = AsyncStatus.SUCCESS;
             draft.data = payload.data;
           }),
       });

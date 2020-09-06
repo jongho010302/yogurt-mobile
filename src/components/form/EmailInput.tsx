@@ -7,21 +7,18 @@ interface Props {
   email: string;
   setEmail: (phoneNumber: string) => void;
   setEmailValidated: (isAvailable: boolean) => void;
-  setEmailVerified: (isEmailVerified: boolean) => void;
-  setIsVerifyCodeSend: (isSent: boolean) => void;
+  setIsVerifyCodeSent: (isSent: boolean) => void;
 }
 
 export const EmailInput: React.FC<Props> = ({
   email,
   setEmail,
   setEmailValidated,
-  setEmailVerified,
-  setIsVerifyCodeSend,
+  setIsVerifyCodeSent,
 }) => {
   const handleEmailChange = (paramEmail: string) => {
     setEmail(paramEmail);
-    setEmailVerified(false);
-    setIsVerifyCodeSend(false);
+    setIsVerifyCodeSent(false);
 
     if (emailRegex.test(paramEmail)) {
       setEmailValidated(true);
