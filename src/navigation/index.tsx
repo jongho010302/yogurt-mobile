@@ -32,6 +32,7 @@ import AuthLoading from './auth/AuthLoading';
 import BookingDetails from '../components/lecture/BookingDetails';
 import EmailSearch from './auth/EmailSearch';
 import PasswordSearch from './auth/PasswordSearch';
+import PasswordReset from './auth/PasswordReset';
 
 const HomeNavigator = createStackNavigator(
   {
@@ -69,14 +70,13 @@ const HomeNavigator = createStackNavigator(
 );
 
 HomeNavigator.navigationOptions = ({ navigation }: any) => {
-  let tabBarVisible = true;
   if (navigation.state.index > 0) {
     return {
       tabBarVisible: false,
     };
   }
   return {
-    tabBarVisible,
+    tabBarVisible: true,
   };
 };
 
@@ -167,7 +167,7 @@ const SettingNavigation = createStackNavigator(
     PasswordInfo: {
       screen: PasswordInfo,
       navigationOptions: {
-        headerTitle: '비밀번호 변경',
+        headerTitle: '비밀번호 재설정',
         headerBackTitleVisible: false,
       },
     },
@@ -261,7 +261,14 @@ const AuthNavigator = createStackNavigator(
     PasswordSearch: {
       screen: PasswordSearch,
       navigationOptions: {
-        headerTitle: '비밀번호 보내기',
+        headerTitle: '이메일 인증',
+        headerBackTitle: ' ',
+      },
+    },
+    PasswordReset: {
+      screen: PasswordReset,
+      navigationOptions: {
+        headerTitle: '비밀번호 재설정',
         headerBackTitle: ' ',
       },
     },

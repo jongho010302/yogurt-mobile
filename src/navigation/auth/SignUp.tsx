@@ -16,12 +16,7 @@ import { EmailInput } from '../../components/form/EmailInput';
 import { EmailVerifyCodeInput } from '../../components/form/EmailVerifyCodeInput';
 import { yogurtAlert } from '../../utils/common';
 import { formatDate } from '../../utils/date';
-import {
-  passwordRegex,
-  emailRegex,
-  usernameRegex,
-  nameRegex,
-} from '../../utils/regex';
+import { passwordRegex, usernameRegex, nameRegex } from '../../utils/regex';
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
 import { useUser } from '../../hooks';
@@ -67,11 +62,11 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   const [isPasswordSame, setIsPasswordSame] = useState(false);
   // email
   const [email, setEmail] = useState('');
+  const [verifiedEmail, setVerifiedEmail] = useState('');
   const [isEmailValidated, setEmailValidated] = useState(false);
   // verifyCode
   const [verifyCode, setVerifyCode] = useState('');
-  const [isVerifyCodeSend, setIsVerifyCodeSend] = useState(false);
-  const [isEmailVerified, setEmailVerified] = useState(false);
+  const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
   // gender
   const [gender, setGender] = useState('');
   // studio
@@ -141,7 +136,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
 
       studioData.unshift({
         value: '',
-        label: '선택',
+        label: '',
       });
 
       setStudios(studioData);
@@ -157,12 +152,20 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
 
   // 이메일 인증코드 인증
   useEffect(() => {
-    if (user.verifySignUpCode.status === AsyncStatus.SUCCESS) {
-      setEmailVerified(true);
-    } else if (user.verifySignUpCode.status === AsyncStatus.FAILURE) {
-      setEmailVerified(false);
+    if (user.sendSignUpCode.status === AsyncStatus.SUCCESS) {
+      setIsVerifyCodeSent(true);
+    } else if (user.sendSignUpCode.status === AsyncStatus.FAILURE) {
+      setIsVerifyCodeSent(false);
     }
-  }, [user.verifySignUpCode.status]);
+  }, [user.sendSignUpCode.status]);
+
+  useEffect(() => {
+    if (user.verifySignUpCode.status === AsyncStatus.SUCCESS) {
+      setVerifiedEmail(email);
+    } else if (user.verifySignUpCode.status === AsyncStatus.FAILURE) {
+      setVerifiedEmail('');
+    }
+  }, [user.verifySignUpCode.status, email]);
 
   // 회원가입 성공
   useEffect(() => {
@@ -212,25 +215,6 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
     }
   };
 
-  // email, must do validation check to proceed to sign up
-  const onEmailChange = (paramEmail: string) => {
-    setIsVerifyCodeSend(false);
-    setEmail(paramEmail);
-    setEmailVerified(false);
-    setVerifyCode('');
-
-    if (emailRegex.test(paramEmail)) {
-      setEmailValidated(true);
-    } else {
-      setEmailValidated(false);
-    }
-  };
-
-  const onVerfiyCodeChange = (paramVerifyCode: string) => {
-    setVerifyCode(paramVerifyCode);
-    setEmailVerified(false);
-  };
-
   // TODO: phone number to be displayed with a format(010-1234-1234)
   const onPhoneNumberChange = (paramPhoneNumber: string) => {
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
@@ -251,7 +235,6 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   };
 
   const onSendSignUpCodeClick = () => {
-    setIsVerifyCodeSend(true);
     handleSendSignUpCode(email);
   };
 
@@ -276,7 +259,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               selectedStudio!,
               username,
               password,
-              email,
+              verifiedEmail,
               name,
               gender,
               birthDay,
@@ -522,8 +505,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               email={email}
               setEmail={setEmail}
               setEmailValidated={setEmailValidated}
-              setEmailVerified={setEmailVerified}
-              setIsVerifyCodeSend={setIsVerifyCodeSend}
+              setIsVerifyCodeSent={setIsVerifyCodeSent}
             />
             <View
               style={{
@@ -538,7 +520,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               }}>
               <TouchableHighlight
                 style={[{ opacity: isEmailValidated ? 1 : 0.2 }]}
-                onPress={onSendSignUpCodeClick}
+                onPress={() => onSendSignUpCodeClick()}
                 disabled={!isEmailValidated}>
                 <View>
                   <Text
@@ -559,7 +541,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
                 text="형식에 맞는 이메일을 입력해주세요."
                 color={colors.darkOrange}
               />
-            ) : !isVerifyCodeSend ? (
+            ) : !isVerifyCodeSent ? (
               <BaseBottomText
                 text="인증번호를 전송해 주세요."
                 color={colors.darkOrange}
@@ -579,9 +561,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <EmailVerifyCodeInput
               verifyCode={verifyCode}
-              isVerifyCodeSend={isVerifyCodeSend}
               setVerifyCode={setVerifyCode}
-              setEmailVerified={setEmailVerified}
             />
             <View
               style={{
@@ -596,7 +576,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               }}>
               <TouchableHighlight
                 style={[{ opacity: isEmailValidated ? 1 : 0.2 }]}
-                onPress={onVerifySignUpCodeClick}
+                onPress={() => onVerifySignUpCodeClick()}
                 disabled={!isEmailValidated}>
                 <View>
                   <Text
@@ -611,16 +591,14 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               </TouchableHighlight>
             </View>
           </View>
-          {isVerifyCodeSend ? (
-            !isEmailVerified ? (
-              <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
-            ) : (
-              <BaseBottomText
-                text="인증돠었습니다."
-                color={colors.lightSkyBlue}
-              />
-            )
-          ) : null}
+          {verifiedEmail ? (
+            <BaseBottomText
+              text="인증돠었습니다."
+              color={colors.lightSkyBlue}
+            />
+          ) : (
+            <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
+          )}
         </View>
 
         {/* 성별 */}

@@ -5,16 +5,16 @@ import { ApiResponse } from '../types';
 import { User } from '../modules/user';
 
 export const getToken = async () => {
-  const token = (await AsyncStorage.getItem('jwtToken')) as string | null;
+  const token = (await AsyncStorage.getItem('accessToken')) as string | null;
   return token;
 };
 
-export const setToken = async (jwtToken: string) => {
-  await AsyncStorage.setItem('jwtToken', jwtToken);
+export const setToken = async (accessToken: string) => {
+  await AsyncStorage.setItem('accessToken', accessToken);
 };
 
 export const removeToken = async () => {
-  await AsyncStorage.removeItem('jwtToken');
+  await AsyncStorage.removeItem('accessToken');
 };
 
 export const getUser = async () => {

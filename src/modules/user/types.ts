@@ -108,6 +108,21 @@ export interface ChangePhone {
   errorMessage: string;
 }
 
+export interface SendVerificationCode {
+  status: AsyncStatus;
+  errorMessage: string;
+}
+
+export interface ChangeEmail {
+  status: AsyncStatus;
+  errorMessage: string;
+}
+
+export interface ChangePassword {
+  status: AsyncStatus;
+  errorMessage: string;
+}
+
 export interface UserState {
   data: User | null;
   check: Check;
@@ -126,4 +141,7 @@ export interface UserState {
   changeName: ChangeName;
   changeProfile: ChangeProfile;
   changePhone: ChangePhone;
+  sendVerificationCode: SendVerificationCode;
+  changeEmail: ChangeEmail;
+  changePassword: ChangePassword;
 }

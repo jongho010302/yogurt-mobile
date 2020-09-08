@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   ScrollView,
   KeyboardAvoidingView,
   StyleSheet,
+  TouchableHighlight,
 } from 'react-native';
 import { NavigationProps } from '../../types';
-import BaseInput from '../../components/base/BaseInput';
-import BaseButton from '../../components/base/BaseButton';
+import BaseBottomText from '../../components/base/BaseBottomText';
+import { EmailInput } from '../../components/form/EmailInput';
+import { EmailVerifyCodeInput } from '../../components/form/EmailVerifyCodeInput';
+import { useUser } from '../../hooks';
+import { AsyncStatus } from '../../modules/types';
 import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
@@ -18,95 +22,161 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     flex: 1,
   },
+  emailWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '20%',
+  },
+  button: {
+    backgroundColor: colors.lightSkyBlue,
+    borderRadius: 10,
+    alignItems: 'center',
+    padding: '4%',
+    paddingLeft: '8%',
+    paddingRight: '8%',
+    height: '80%',
+    position: 'relative',
+  },
 });
 
-const PasswordSearch: React.FC<NavigationProps> = () => {
+const PasswordSearch: React.FC<NavigationProps> = ({ navigation }) => {
+  const { navigate } = navigation;
   const [email, setEmail] = useState('');
-  const [isEmailAvailable, setEmailAvailability] = useState(false);
-  const [username, setUsername] = useState('');
+  const [verifiedEmail, setVerifiedEmail] = useState('');
+  const [isEmailValidated, setEmailValidated] = useState(false);
+  const [verifyCode, setVerifyCode] = useState('');
+  const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
+  const {
+    user,
+    handleSendFindPasswordCode,
+    handleVerifyFindPasswordCode,
+    handleChangeField,
+  } = useUser();
 
-  const handleEmailChange = (paramEmail: string) => {
-    const emailCheckRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    setEmail(paramEmail);
-
-    if (!emailCheckRegex.test(paramEmail)) {
-      setEmailAvailability(true);
-    } else {
-      setEmailAvailability(false);
+  // 이메일 인증코드 인증
+  useEffect(() => {
+    if (user.sendFindPasswordCode.status === AsyncStatus.SUCCESS) {
+      setIsVerifyCodeSent(true);
+    } else if (user.sendFindPasswordCode.status === AsyncStatus.FAILURE) {
+      setIsVerifyCodeSent(false);
     }
-  };
+  }, [user.sendFindPasswordCode.status]);
 
-  const handleUsernameChange = (paramUsername: string) => {
-    setUsername(paramUsername);
-  };
-
-  const toggleNextButtonState = (): boolean => {
-    if (isEmailAvailable) {
-      return false;
+  useEffect(() => {
+    if (user.verifyFindPasswordCode.status === AsyncStatus.SUCCESS) {
+      setVerifiedEmail(email);
+      navigate('PasswordReset', { verifiedEmail, verifyCode });
+    } else if (user.verifyFindPasswordCode.status === AsyncStatus.FAILURE) {
+      setVerifiedEmail('');
     }
-    return true;
+  }, [user.verifyFindPasswordCode, navigate, email, verifiedEmail, verifyCode]);
+
+  useEffect(() => {
+    return () => {
+      handleChangeField('sendFindPasswordCode', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+      handleChangeField('verifyFindPasswordCode', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+    };
+  }, [handleChangeField]);
+
+  const onSendSignUpCodeClick = () => {
+    setVerifiedEmail(email);
+    handleSendFindPasswordCode(email);
   };
 
-  const handleNextButton = async (): Promise<void> => {};
-
-  const setBottomText = (text: string, color: string) => {
-    return (
-      <View style={{ paddingTop: -30 }}>
-        <Text style={{ fontSize: 11, color }}>{text}</Text>
-      </View>
-    );
+  const onVerifyPasswordCodeClick = () => {
+    handleVerifyFindPasswordCode(verifiedEmail, verifyCode);
   };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.white }}>
       <ScrollView style={styles.scrollView}>
         <View>
-          <Text>이메일로 비밀번호 변경 정보를 보내드립니다.</Text>
-          <Text>이메일과 아이디와 입력해주세요.</Text>
+          <Text>이메일로 인증번호를 보내드립니다.</Text>
+          <Text>인증번호를 입력해주세요.</Text>
         </View>
-        <View>
+        <View style={styles.emailWrapper}>
           <View>
-            <BaseInput
-              inputValue={email}
-              placeholder="이메일 주소"
-              labelTextSize={14}
-              labelColor={colors.lightBlack}
-              textColor={colors.black}
-              borderBottomColor={colors.lightGray}
-              inputType="email"
-              customStyle={{}}
-              onChangeText={handleEmailChange}
-              autoFocus
+            <EmailInput
+              email={email}
+              setEmail={setEmail}
+              setEmailValidated={setEmailValidated}
+              setIsVerifyCodeSent={setIsVerifyCodeSent}
             />
           </View>
-          {isEmailAvailable
-            ? setBottomText('이메일을 입력해주세요.', colors.lightSkyBlue)
-            : setBottomText(
-                '형식에 맞는 이메일을 입력해주세요.',
-                colors.darkOrange,
-              )}
-          <View>
-            <BaseInput
-              inputValue={username}
-              placeholder="아이디"
-              labelTextSize={14}
-              labelColor={colors.lightBlack}
-              textColor={colors.black}
-              borderBottomColor={colors.lightGray}
-              inputType="text"
-              customStyle={{}}
-              onChangeText={handleUsernameChange}
-            />
+          <View style={styles.button}>
+            <TouchableHighlight
+              style={[{ opacity: isEmailValidated ? 1 : 0.2 }]}
+              onPress={() => onSendSignUpCodeClick()}
+              disabled={!isEmailValidated}>
+              <View>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: 11,
+                    fontWeight: '700',
+                  }}>
+                  인증번호 전송
+                </Text>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
+        {email ? (
+          !isEmailValidated ? (
+            <BaseBottomText
+              text="형식에 맞는 이메일을 입력해주세요."
+              color={colors.darkOrange}
+            />
+          ) : !isVerifyCodeSent ? (
+            <BaseBottomText
+              text="인증번호를 전송해 주세요."
+              color={colors.darkOrange}
+            />
+          ) : (
+            <BaseBottomText
+              text="인증번호가 전송되었습니다."
+              color={colors.lightSkyBlue}
+            />
+          )
+        ) : null}
+        <View style={styles.emailWrapper}>
+          <View>
+            <EmailVerifyCodeInput
+              verifyCode={verifyCode}
+              setVerifyCode={setVerifyCode}
+            />
+          </View>
+          <View style={styles.button}>
+            <TouchableHighlight
+              style={[{ opacity: isVerifyCodeSent ? 1 : 0.2 }]}
+              onPress={() => onVerifyPasswordCodeClick()}
+              disabled={!isVerifyCodeSent}>
+              <View>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: 11,
+                    fontWeight: '700',
+                  }}>
+                  인증
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+        {verifiedEmail ? (
+          <BaseBottomText text="인증돠었습니다." color={colors.lightSkyBlue} />
+        ) : (
+          <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
+        )}
       </ScrollView>
-      <BaseButton
-        handleClick={handleNextButton}
-        disabled={toggleNextButtonState()}
-        text="임시 비밀번호 보내기"
-        backgroundColor={colors.lightSkyBlue}
-        customStyle={{ margin: '10%', marginBottom: '15%' }}
-      />
     </KeyboardAvoidingView>
   );
 };

@@ -15,3 +15,6 @@ export const SIGN_UP = 'user/SIGN_UP';
 export const CHANGE_NAME = 'user/CHANGE_NAME';
 export const CHANGE_PROFILE = 'user/CHANGE_PROFILE';
 export const CHANGE_PHONE = 'user/CHANGE_PHONE';
+export const SEND_VERIFICATION_CODE = 'user/SEND_VERIFICATION_CODE';
+export const CHANGE_EMAIL = 'user/CHANGE_EMAIL';
+export const CHANGE_PASSWORD = 'user/CHANGE_PASSWORD';

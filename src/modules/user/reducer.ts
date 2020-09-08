@@ -16,8 +16,11 @@ import {
   VERIFY_SIGN_UP_CODE,
   SIGN_UP,
   CHANGE_NAME,
-  CHANGE_PHONE,
   CHANGE_PROFILE,
+  CHANGE_PHONE,
+  CHANGE_EMAIL,
+  CHANGE_PASSWORD,
+  SEND_VERIFICATION_CODE,
 } from './constants';
 import { AsyncStatus } from '../types';
 import { UserState } from './types';
@@ -89,11 +92,23 @@ const initialState: UserState = {
     status: AsyncStatus.INIT,
     errorMessage: '',
   },
+  changeProfile: {
+    status: AsyncStatus.INIT,
+    errorMessage: '',
+  },
   changePhone: {
     status: AsyncStatus.INIT,
     errorMessage: '',
   },
-  changeProfile: {
+  sendVerificationCode: {
+    status: AsyncStatus.INIT,
+    errorMessage: '',
+  },
+  changeEmail: {
+    status: AsyncStatus.INIT,
+    errorMessage: '',
+  },
+  changePassword: {
     status: AsyncStatus.INIT,
     errorMessage: '',
   },
@@ -144,13 +159,12 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
-            const { jwtToken, user } = payload.data;
-
+            const { accessToken, user } = payload.data;
             draft.data = user;
             draft.logIn.status = AsyncStatus.SUCCESS;
 
-            setAxiosHeaders(jwtToken);
-            setToken(jwtToken);
+            setAxiosHeaders(accessToken);
+            setToken(accessToken);
           }),
       });
     case LOG_OUT:
@@ -394,6 +408,60 @@ export const reducer = (
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             draft.changeProfile.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
+          }),
+      });
+    case CHANGE_EMAIL:
+      return handle(state, action, {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
+            draft.changeEmail.status = AsyncStatus.WAITING;
+          }),
+        failure: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.changeEmail.status = AsyncStatus.FAILURE;
+            draft.changeEmail.errorMessage =
+              payload.message || 'Failed to change email.';
+          }),
+        success: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.changeEmail.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
+          }),
+      });
+    case SEND_VERIFICATION_CODE:
+      return handle(state, action, {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
+            draft.sendVerificationCode.status = AsyncStatus.WAITING;
+          }),
+        failure: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.sendVerificationCode.status = AsyncStatus.FAILURE;
+            draft.sendVerificationCode.errorMessage =
+              payload.message || 'Failed to send verification code';
+          }),
+        success: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.sendVerificationCode.status = AsyncStatus.SUCCESS;
+            draft.data = payload.data;
+          }),
+      });
+    case CHANGE_PASSWORD:
+      return handle(state, action, {
+        start: (prevState) =>
+          produce(prevState, (draft) => {
+            draft.changePassword.status = AsyncStatus.WAITING;
+          }),
+        failure: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.changePassword.status = AsyncStatus.FAILURE;
+            draft.changePassword.errorMessage =
+              payload.message || 'Failed to change password.';
+          }),
+        success: (prevState, { payload }: { payload: ApiResponse }) =>
+          produce(prevState, (draft) => {
+            draft.changePassword.status = AsyncStatus.SUCCESS;
             draft.data = payload.data;
           }),
       });
