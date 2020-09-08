@@ -50,24 +50,42 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const [verifyCode, setVerifyCode] = useState('');
   const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
 
-  const { user, handleVerifySignUpCode, handleSendSignUpCode } = useUser();
+  const {
+    user,
+    handleSendVerificationCode,
+    handleChangeEmail,
+    handleChangeField,
+  } = useUser();
 
   // 이메일 인증코드 인증
   useEffect(() => {
-    if (user.verifySignUpCode.status === AsyncStatus.SUCCESS) {
+    if (user.sendVerificationCode.status === AsyncStatus.SUCCESS) {
       setIsVerifyCodeSent(true);
-    } else if (user.verifySignUpCode.status === AsyncStatus.FAILURE) {
+    } else if (user.sendVerificationCode.status === AsyncStatus.FAILURE) {
       setIsVerifyCodeSent(false);
     }
-  }, [user.verifySignUpCode.status]);
+  }, [user.sendVerificationCode.status]);
+
+  useEffect(() => {
+    return () => {
+      handleChangeField('sendVerificationCode', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+      handleChangeField('changeEmail', {
+        status: AsyncStatus.INIT,
+        errorMessage: '',
+      });
+    };
+  }, [handleChangeField]);
 
   const onSendSignUpCodeClick = () => {
     setVerifiedEmail(email);
-    handleSendSignUpCode(email);
+    handleSendVerificationCode(email);
   };
 
   const onVerifySignUpCodeClick = () => {
-    handleVerifySignUpCode(verifiedEmail, verifyCode);
+    handleChangeEmail(verifiedEmail, verifyCode);
   };
 
   return (
@@ -145,9 +163,9 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
           </View>
         </View>
         {isVerifyCodeSent ? (
-          <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
-        ) : (
           <BaseBottomText text="인증돠었습니다." color={colors.lightSkyBlue} />
+        ) : (
+          <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
         )}
       </ScrollView>
     </SafeAreaView>

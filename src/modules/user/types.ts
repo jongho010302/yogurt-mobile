@@ -98,17 +98,27 @@ export interface ChangeName {
   errorMessage: string;
 }
 
-export interface ChangePassword {
-  status: AsyncStatus;
-  errorMessage: string;
-}
-
 export interface ChangeProfile {
   status: AsyncStatus;
   errorMessage: string;
 }
 
 export interface ChangePhone {
+  status: AsyncStatus;
+  errorMessage: string;
+}
+
+export interface SendVerificationCode {
+  status: AsyncStatus;
+  errorMessage: string;
+}
+
+export interface ChangeEmail {
+  status: AsyncStatus;
+  errorMessage: string;
+}
+
+export interface ChangePassword {
   status: AsyncStatus;
   errorMessage: string;
 }
@@ -129,7 +139,9 @@ export interface UserState {
   verifySignUpCode: VerifySignUpCode;
   signUp: SignUp;
   changeName: ChangeName;
-  changePassword: ChangePassword;
   changeProfile: ChangeProfile;
   changePhone: ChangePhone;
+  sendVerificationCode: SendVerificationCode;
+  changeEmail: ChangeEmail;
+  changePassword: ChangePassword;
 }

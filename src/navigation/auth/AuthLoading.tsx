@@ -7,8 +7,8 @@ const AuthLoadingScreen: React.FC<NavigationProps> = ({ navigation }) => {
   const { navigate } = navigation;
 
   const navigateUser = useCallback(async () => {
-    const jwtToken = await getToken();
-    navigate(jwtToken ? 'App' : 'Auth');
+    const accessToken = await getToken();
+    navigate(accessToken ? 'App' : 'Auth');
   }, [navigate]);
 
   useEffect(() => {

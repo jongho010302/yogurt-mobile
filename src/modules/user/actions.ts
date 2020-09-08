@@ -15,9 +15,11 @@ import {
 } from '../../api/auth';
 import {
   changeNameApi,
-  changePasswordApi,
-  changePhoneApi,
   changeProfileApi,
+  changePhoneApi,
+  sendVerificationCodeApi,
+  changeEmailApi,
+  changePasswordApi,
 } from '../../api/settings';
 import {
   CHANGE_FIELD,
@@ -35,9 +37,11 @@ import {
   SIGN_UP,
   GET_STUDIOS,
   CHANGE_NAME,
-  CHANGE_PASSWORD,
-  CHANGE_PHONE,
   CHANGE_PROFILE,
+  CHANGE_PHONE,
+  SEND_VERIFICATION_CODE,
+  CHANGE_EMAIL,
+  CHANGE_PASSWORD,
 } from './constants';
 
 export const changeField = (key: string, value: any) => {
@@ -164,6 +168,7 @@ export const signUp = (
   };
 };
 
+// Api in settings
 export const changeName = (name: string) => {
   return {
     type: CHANGE_NAME,
@@ -171,10 +176,10 @@ export const changeName = (name: string) => {
   };
 };
 
-export const changePassword = (password: string) => {
+export const changeProfile = (formData: FormData) => {
   return {
-    type: CHANGE_PASSWORD,
-    promise: changePasswordApi(password),
+    type: CHANGE_PROFILE,
+    promise: changeProfileApi(formData),
   };
 };
 
@@ -185,9 +190,23 @@ export const changePhone = (phone: string) => {
   };
 };
 
-export const changeProfile = (formData: FormData) => {
+export const sendVerificationCode = (email: string) => {
   return {
-    type: CHANGE_PROFILE,
-    promise: changeProfileApi(formData),
+    type: SEND_VERIFICATION_CODE,
+    promise: sendVerificationCodeApi(email),
+  };
+};
+
+export const changeEmail = (email: string, verifyCode: string) => {
+  return {
+    type: CHANGE_EMAIL,
+    promise: changeEmailApi(email, verifyCode),
+  };
+};
+
+export const changePassword = (password: string) => {
+  return {
+    type: CHANGE_PASSWORD,
+    promise: changePasswordApi(password),
   };
 };

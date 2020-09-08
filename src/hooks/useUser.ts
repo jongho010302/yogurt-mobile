@@ -17,9 +17,11 @@ import {
   signUp,
   getStudios,
   changeName,
-  changePassword,
   changePhone,
   changeProfile,
+  sendVerificationCode,
+  changeEmail,
+  changePassword,
 } from '../modules/user/actions';
 
 function useUser() {
@@ -117,13 +119,15 @@ function useUser() {
     [dispatch],
   );
 
+  // api in settings
+
   const handleChangeName = useCallback(
     (name: string) => dispatch(changeName(name)),
     [dispatch],
   );
 
-  const handleChangePassword = useCallback(
-    (password: string) => dispatch(changePassword(password)),
+  const handleChangeProfile = useCallback(
+    (formData: FormData) => dispatch(changeProfile(formData)),
     [dispatch],
   );
 
@@ -131,9 +135,19 @@ function useUser() {
     (phone: string) => dispatch(changePhone(phone)),
     [dispatch],
   );
+  const handleSendVerificationCode = useCallback(
+    (email: string) => dispatch(sendVerificationCode(email)),
+    [dispatch],
+  );
 
-  const handleChangeProfile = useCallback(
-    (formData: FormData) => dispatch(changeProfile(formData)),
+  const handleChangeEmail = useCallback(
+    (email: string, verifyCode: string) =>
+      dispatch(changeEmail(email, verifyCode)),
+    [dispatch],
+  );
+
+  const handleChangePassword = useCallback(
+    (password: string) => dispatch(changePassword(password)),
     [dispatch],
   );
 
@@ -154,9 +168,11 @@ function useUser() {
     handleVerifySignUpCode,
     handleSignUp,
     handleChangeName,
-    handleChangePassword,
-    handleChangePhone,
     handleChangeProfile,
+    handleChangePhone,
+    handleSendVerificationCode,
+    handleChangeEmail,
+    handleChangePassword,
   };
 }
 
