@@ -8,9 +8,9 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      const token = await getToken();
-      if (token) {
-        setAxiosHeaders(token);
+      const accessToken = await getToken();
+      if (accessToken) {
+        setAxiosHeaders(accessToken);
         handleCheckUser();
       }
     })();

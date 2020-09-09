@@ -16,6 +16,7 @@ import BaseText from '../../components/base/BaseText';
 import BaseBottomText from '../../components/base/BaseBottomText';
 import { EmailInput } from '../../components/form/EmailInput';
 import { EmailVerifyCodeInput } from '../../components/form/EmailVerifyCodeInput';
+import { yogurtAlert } from '../../utils/common';
 
 const styles = StyleSheet.create({
   Wrapper: {
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
 const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage =
     '변경 할 이메일을 입력하고 이메일 변경하기 버튼을 누르세요.';
+  const { navigate } = navigation;
   const [email, setEmail] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState('');
   const [isEmailValidated, setEmailValidated] = useState(false);
@@ -65,6 +67,13 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
       setIsVerifyCodeSent(false);
     }
   }, [user.sendVerificationCode.status]);
+
+  useEffect(() => {
+    if (user.changeEmail.status === AsyncStatus.SUCCESS) {
+      yogurtAlert('이메일이 성공적으로 변경되었습니다.');
+      navigate('PersonalInfo');
+    }
+  }, [user.changeEmail.status, navigate]);
 
   useEffect(() => {
     return () => {
@@ -163,10 +172,8 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
           </View>
         </View>
         {isVerifyCodeSent ? (
-          <BaseBottomText text="인증돠었습니다." color={colors.lightSkyBlue} />
-        ) : (
           <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
-        )}
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

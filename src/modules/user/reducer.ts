@@ -141,7 +141,7 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
-            draft.data = payload.data;
+            draft.data = payload.data.data;
             draft.check.status = AsyncStatus.SUCCESS;
           }),
       });
@@ -159,7 +159,7 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
-            const { accessToken, user } = payload.data;
+            const { accessToken, user } = payload.data.data;
             draft.data = user;
             draft.logIn.status = AsyncStatus.SUCCESS;
 
@@ -200,7 +200,7 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
-            draft.findMaskingUsername.data = payload.data;
+            draft.findMaskingUsername.data = payload.data.data;
             draft.findMaskingUsername.status = AsyncStatus.SUCCESS;
           }),
       });
@@ -286,7 +286,7 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
-            draft.getStudios.data = payload.data;
+            draft.getStudios.data = payload.data.data;
             draft.getStudios.status = AsyncStatus.SUCCESS;
           }),
       });
@@ -371,8 +371,8 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
+            draft.data = payload.data.data;
             draft.changeName.status = AsyncStatus.SUCCESS;
-            draft.data = payload.data;
           }),
       });
     case CHANGE_PHONE:
@@ -389,8 +389,8 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
+            draft.data = payload.data.data;
             draft.changePhone.status = AsyncStatus.SUCCESS;
-            draft.data = payload.data;
           }),
       });
     case CHANGE_PROFILE:
@@ -407,8 +407,8 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
+            draft.data = payload.data.data;
             draft.changeProfile.status = AsyncStatus.SUCCESS;
-            draft.data = payload.data;
           }),
       });
     case CHANGE_EMAIL:
@@ -425,8 +425,8 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
+            draft.data = payload.data.data;
             draft.changeEmail.status = AsyncStatus.SUCCESS;
-            draft.data = payload.data;
           }),
       });
     case SEND_VERIFICATION_CODE:
@@ -443,8 +443,8 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
+            draft.data = payload.data.data;
             draft.sendVerificationCode.status = AsyncStatus.SUCCESS;
-            draft.data = payload.data;
           }),
       });
     case CHANGE_PASSWORD:
@@ -461,8 +461,8 @@ export const reducer = (
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
+            draft.data = payload.data.data;
             draft.changePassword.status = AsyncStatus.SUCCESS;
-            draft.data = payload.data;
           }),
       });
     default:
