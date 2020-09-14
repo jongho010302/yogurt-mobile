@@ -1,27 +1,26 @@
-import { BACK_URL } from 'react-native-dotenv';
-import { makeRequest } from '../utils/common';
+import apiAxios from './client';
 
-export const checkUserApi = () => makeRequest('get', `${BACK_URL}/user/check`);
+export const checkUserApi = () => apiAxios.get('/user/check');
 
 export const logInApi = (username: string, password: string) =>
-  makeRequest('post', `${BACK_URL}/auth/log-in`, {
+  apiAxios.post('/auth/log-in', {
     username,
     password,
   });
 
-export const logOutApi = () => makeRequest('post', `${BACK_URL}/user/log-out`);
+export const logOutApi = () => apiAxios.post('/user/log-out');
 
 export const findMaskingUsernameApi = (name: string) =>
-  makeRequest('get', `${BACK_URL}/auth/find/masking-username?name=${name}`);
+  apiAxios.get(`/auth/find/masking-username?name=${name}`);
 
 export const findUsernameApi = (email: string) =>
-  makeRequest('get', `${BACK_URL}/auth/find/username?email=${email}`);
+  apiAxios.get(`/auth/find/username?email=${email}`);
 
 export const sendFindPasswordCodeApi = (email: string) =>
-  makeRequest('get', `${BACK_URL}/auth/find/password/verify?email=${email}`);
+  apiAxios.get(`/auth/find/password/verify?email=${email}`);
 
 export const verifyFindPasswordCodeApi = (email: string, verifyCode: string) =>
-  makeRequest('post', `${BACK_URL}/auth/find/password/verify`, {
+  apiAxios.post('/auth/find/password/verify', {
     email,
     verifyCode,
   });
@@ -31,23 +30,22 @@ export const findPasswordApi = (
   password: string,
   verifyCode: string,
 ) =>
-  makeRequest('put', `${BACK_URL}/auth/find/password`, {
+  apiAxios.put('/auth/find/password', {
     email,
     password,
     verifyCode,
   });
 
-export const getStudiosApi = () =>
-  makeRequest('get', `${BACK_URL}/auth/studio`);
+export const getStudiosApi = () => apiAxios.get('/auth/studio');
 
 export const verifyUsernameApi = (username: string) =>
-  makeRequest('get', `${BACK_URL}/auth/sign-up/verify?username=${username}`);
+  apiAxios.get(`/auth/sign-up/verify?username=${username}`);
 
 export const sendSignUpCodeApi = (email: string) =>
-  makeRequest('get', `${BACK_URL}/auth/sign-up/verify?email=${email}`);
+  apiAxios.get(`/auth/sign-up/verify?email=${email}`);
 
 export const verifySignUpCodeApi = (email: string, verifyCode: string) =>
-  makeRequest('post', `${BACK_URL}/auth/sign-up/verify`, {
+  apiAxios.post('/auth/sign-up/verify', {
     email,
     verifyCode,
   });
@@ -64,7 +62,7 @@ export const signUpApi = (
   profileUrl: string,
   verifyCode: string,
 ) =>
-  makeRequest('post', `${BACK_URL}/auth/sign-up`, {
+  apiAxios.post('/auth/sign-up', {
     studioId,
     username,
     password,

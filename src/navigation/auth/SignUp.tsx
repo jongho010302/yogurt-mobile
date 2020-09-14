@@ -254,7 +254,6 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
         {
           text: '확인',
           onPress: () => {
-            console.log(selectedStudio);
             handleSignUp(
               selectedStudio!,
               username,

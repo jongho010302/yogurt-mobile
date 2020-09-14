@@ -36,24 +36,3 @@ export const setAxiosHeaders = (token: string) => {
 export const removeAxiosHeaders = () => {
   axios.defaults.headers.common.Authorization = undefined;
 };
-
-export const makeRequest = async (
-  method: Method,
-  url: string,
-  data?: any,
-  headers?: any,
-): Promise<ApiResponse> => {
-  try {
-    const res = await axios({
-      method,
-      url,
-      data,
-      headers,
-    });
-
-    return res.data;
-  } catch (err) {
-    yogurtAlert(err.response.data.message);
-    throw err.response.data;
-  }
-};

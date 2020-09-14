@@ -14,6 +14,7 @@ import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
 import BaseText from '../../components/base/BaseText';
 import BaseBottomText from '../../components/base/BaseBottomText';
+import { yogurtAlert } from '../../utils/common';
 import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
@@ -38,9 +39,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const PasswordInfo: React.FC<NavigationProps> = () => {
+const PasswordInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const instructionMessage =
     '변경 할 비밀번호를 입력하고 이메일 변경하기 버튼을 누르세요.';
+  const { navigate } = navigation;
   const changePasswordMessage = '입력된 값으로 비밀번호가 변경됩니다.';
   const [password, setPassword] = useState('');
   const [secondPassword, setSecondPassword] = useState('');
@@ -52,9 +54,10 @@ const PasswordInfo: React.FC<NavigationProps> = () => {
 
   useEffect(() => {
     if (user.changePassword.status === AsyncStatus.SUCCESS) {
-      console.log('바꼇다리');
+      yogurtAlert('비밀번호를 성공적으로 변경되었습니다.');
+      navigate('PersonalInfo');
     }
-  }, [user.changePassword]);
+  }, [user.changePassword, navigate]);
 
   const onChangePassword = () => {
     handleChangePassword(password);

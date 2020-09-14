@@ -159,6 +159,10 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
     );
   };
 
+  const canChangeProfile = () => {
+    return isNameValidated && name !== userData?.name;
+  };
+
   return (
     <SafeAreaView style={styles.profileWrapper}>
       <TouchableOpacity onPress={() => selectProfilePhoto()}>
@@ -183,7 +187,7 @@ const ProfileInfo: React.FC<NavigationProps> = ({ navigation }) => {
         <BaseButton
           customStyle={{ marginTop: '20%' }}
           handleClick={() => saveProfileInfo()}
-          disabled={!isNameValidated}
+          disabled={!canChangeProfile()}
           text="저장하기"
           backgroundColor={colors.lightSkyBlue}
         />

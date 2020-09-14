@@ -51,7 +51,7 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
   } = useUser();
   const [isPhoneNumberAvailable, setPhoneNumberAvailability] = useState(false);
 
-  const userData = user.data!;
+  const userData = user.data;
   const instructionMessage =
     '변경 할 휴대폰 번호를 입력하고 번호 변경하기 버튼을 누르세요.';
   const changePhoneNumberMessage = '입력된 값으로 휴대폰 번호가 변경됩니다.';
@@ -86,7 +86,7 @@ const PhoneNumberInfo: React.FC<NavigationProps> = ({ navigation }) => {
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
               setPhoneNumberAvailability={setPhoneNumberAvailability}
-              placeholder={userData.phone}
+              placeholder={userData?.phone || '010-1234-1234'}
             />
             <BaseBottomText
               text={changePhoneNumberMessage}
