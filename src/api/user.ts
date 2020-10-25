@@ -2,52 +2,65 @@ import apiAxios from './client';
 
 export const checkUserApi = () => apiAxios.get('/user/check');
 
-export const logInApi = (username: string, password: string) =>
-  apiAxios.post('/auth/log-in', {
+export const logoutApi = () => apiAxios.post('/user/logout');
+
+export const loginApi = (username: string, password: string) =>
+  apiAxios.post('/auth/login', {
     username,
     password,
   });
-
-export const logOutApi = () => apiAxios.post('/user/log-out');
 
 export const findMaskingUsernameApi = (name: string) =>
   apiAxios.get(`/auth/find/masking-username?name=${name}`);
 
 export const findUsernameApi = (email: string) =>
-  apiAxios.get(`/auth/find/username?email=${email}`);
+  apiAxios.post('/auth/find/username?email', { email });
 
 export const sendFindPasswordCodeApi = (email: string) =>
-  apiAxios.get(`/auth/find/password/verify?email=${email}`);
-
-export const verifyFindPasswordCodeApi = (email: string, verifyCode: string) =>
-  apiAxios.post('/auth/find/password/verify', {
+  apiAxios.post('/auth/verification/send', {
     email,
-    verifyCode,
+    verificationType: 'FIND_PASSWORD',
+  });
+
+export const verifyFindPasswordCodeApi = (
+  email: string,
+  verificationCode: string,
+) =>
+  apiAxios.post('/auth/verification/verify', {
+    email,
+    verificationCode,
+    verificationType: 'FIND_PASSWORD',
   });
 
 export const findPasswordApi = (
   email: string,
   password: string,
-  verifyCode: string,
+  verificationCode: string,
 ) =>
   apiAxios.put('/auth/find/password', {
     email,
     password,
-    verifyCode,
+    verificationCode,
   });
 
 export const getStudiosApi = () => apiAxios.get('/auth/studio');
 
 export const verifyUsernameApi = (username: string) =>
-  apiAxios.get(`/auth/sign-up/verify?username=${username}`);
+  apiAxios.post('/auth/validate/username', {
+    username,
+  });
 
 export const sendSignUpCodeApi = (email: string) =>
-  apiAxios.get(`/auth/sign-up/verify?email=${email}`);
-
-export const verifySignUpCodeApi = (email: string, verifyCode: string) =>
-  apiAxios.post('/auth/sign-up/verify', {
+  apiAxios.post('/auth/verification/send', {
     email,
-    verifyCode,
+    verificationType: 'SIGNUP',
+  });
+
+export const verifySignUpCodeApi = (email: string, verificationCode: string) =>
+  apiAxios.post('/auth/verification/verify', {
+    email,
+    verificationCode,
+    verificationType: 'SIGNUP',
   });
 
 export const signUpApi = (
@@ -60,7 +73,7 @@ export const signUpApi = (
   birth: string,
   phone: string,
   profileUrl: string,
-  verifyCode: string,
+  verificationCode: string,
 ) =>
   apiAxios.post('/auth/sign-up', {
     studioId,
@@ -72,5 +85,5 @@ export const signUpApi = (
     birth,
     phone,
     profileUrl,
-    verifyCode,
+    verificationCode,
   });

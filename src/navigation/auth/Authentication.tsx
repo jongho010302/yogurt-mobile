@@ -80,14 +80,14 @@ const Authentication: React.FC<NavigationProps> = ({ navigation }) => {
   const [isPasswordValidatde, setPasswordValidation] = useState(false);
 
   useEffect(() => {
-    if (user.logIn.status === AsyncStatus.SUCCESS) {
+    if (user.login.status === AsyncStatus.SUCCESS) {
       navigate('App');
     }
-  }, [user.logIn.status, navigate]);
+  }, [user.login.status, navigate]);
 
   useEffect(() => {
     return () => {
-      handleChangeField('logIn', {
+      handleChangeField('login', {
         status: AsyncStatus.INIT,
         errorMessage: '',
       });

@@ -74,9 +74,9 @@ const PasswordReset: React.FC<NavigationProps> = ({ navigation }) => {
 
   const onChangePassword = () => {
     const verifiedEmail = navigation.getParam('verifiedEmail');
-    const verifyCode = navigation.getParam('verifyCode');
+    const verificationCode = navigation.getParam('verificationCode');
 
-    handleFindPassword(verifiedEmail, password, verifyCode);
+    handleFindPassword(verifiedEmail, password, verificationCode);
   };
 
   const confirmChangePasswordDialog = () => {

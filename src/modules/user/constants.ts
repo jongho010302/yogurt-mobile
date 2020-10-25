@@ -1,6 +1,6 @@
 export const CHANGE_FIELD = 'user/CHANGE_FIELD';
 export const CHECK_USER = 'user/CHECK_USER';
-export const LOG_IN = 'user/LOG_IN';
+export const LOGIN = 'user/LOGIN';
 export const LOG_OUT = 'user/LOG_OUT';
 export const FIND_MASKING_USERNAME = 'user/FIND_MASKING_USERNAME';
 export const FIND_USERNAME = 'user/FIND_USERNAME';

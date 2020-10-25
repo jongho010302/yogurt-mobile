@@ -3,12 +3,12 @@ import BaseInput from '../base/BaseInput';
 import colors from '../../styles/colors';
 
 interface Props {
-  verifyCode: string;
+  verificationCode: string;
   setVerifyCode: (code: string) => void;
 }
 
 export const EmailVerifyCodeInput: React.FC<Props> = ({
-  verifyCode,
+  verificationCode,
   setVerifyCode,
 }) => {
   const onVerfiyCodeChange = (paramVerifyCode: string) => {
@@ -17,7 +17,7 @@ export const EmailVerifyCodeInput: React.FC<Props> = ({
 
   return (
     <BaseInput
-      inputValue={verifyCode}
+      inputValue={verificationCode}
       labelText="인증번호를 입력하세요"
       placeholder=""
       labelTextSize={12}

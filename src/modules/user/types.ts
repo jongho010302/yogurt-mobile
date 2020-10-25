@@ -126,7 +126,7 @@ export interface ChangePassword {
 export interface UserState {
   data: User | null;
   check: Check;
-  logIn: LogIn;
+  login: LogIn;
   logOut: LogOut;
   findMaskingUsername: FindMaskingUsername;
   findUsername: FindUsername;

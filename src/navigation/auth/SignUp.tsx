@@ -64,8 +64,8 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState('');
   const [isEmailValidated, setEmailValidated] = useState(false);
-  // verifyCode
-  const [verifyCode, setVerifyCode] = useState('');
+  // verificationCode
+  const [verificationCode, setVerifyCode] = useState('');
   const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
   // gender
   const [gender, setGender] = useState('');
@@ -239,7 +239,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
   };
 
   const onVerifySignUpCodeClick = () => {
-    handleVerifySignUpCode(email, verifyCode);
+    handleVerifySignUpCode(email, verificationCode);
   };
 
   const completeSignUp = () => {
@@ -264,7 +264,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
               birthDay,
               phoneNumber,
               'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
-              verifyCode,
+              verificationCode,
             );
           },
         },
@@ -559,7 +559,7 @@ const SignUp: React.FC<NavigationProps> = ({ navigation }) => {
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <EmailVerifyCodeInput
-              verifyCode={verifyCode}
+              verificationCode={verificationCode}
               setVerifyCode={setVerifyCode}
             />
             <View

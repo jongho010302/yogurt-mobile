@@ -1,7 +1,7 @@
 import {
   checkUserApi,
-  logInApi,
-  logOutApi,
+  loginApi,
+  logoutApi,
   findMaskingUsernameApi,
   findUsernameApi,
   sendFindPasswordCodeApi,
@@ -12,19 +12,19 @@ import {
   sendSignUpCodeApi,
   verifySignUpCodeApi,
   signUpApi,
-} from '../../api/auth';
+} from '../../api/user';
 import {
   changeNameApi,
   changeProfileApi,
   changePhoneApi,
-  sendVerificationCodeApi,
+  sendChangeEmailVerificationCodeApi,
   changeEmailApi,
   changePasswordApi,
 } from '../../api/settings';
 import {
   CHANGE_FIELD,
   CHECK_USER,
-  LOG_IN,
+  LOGIN,
   LOG_OUT,
   FIND_MASKING_USERNAME,
   FIND_USERNAME,
@@ -58,17 +58,17 @@ export const checkUser = () => {
   };
 };
 
-export const logIn = (username: string, password: string) => {
+export const login = (username: string, password: string) => {
   return {
-    type: LOG_IN,
-    promise: logInApi(username, password),
+    type: LOGIN,
+    promise: loginApi(username, password),
   };
 };
 
 export const logOut = () => {
   return {
     type: LOG_OUT,
-    promise: logOutApi(),
+    promise: logoutApi(),
   };
 };
 
@@ -93,21 +93,24 @@ export const sendFindPasswordCode = (email: string) => {
   };
 };
 
-export const verifyFindPasswordCode = (email: string, verifyCode: string) => {
+export const verifyFindPasswordCode = (
+  email: string,
+  verificationCode: string,
+) => {
   return {
     type: VERIFY_FIND_PASSWORD_CODE,
-    promise: verifyFindPasswordCodeApi(email, verifyCode),
+    promise: verifyFindPasswordCodeApi(email, verificationCode),
   };
 };
 
 export const findPassword = (
   email: string,
   password: string,
-  verifyCode: string,
+  verificationCode: string,
 ) => {
   return {
     type: FIND_PASSWORD,
-    promise: findPasswordApi(email, password, verifyCode),
+    promise: findPasswordApi(email, password, verificationCode),
   };
 };
 
@@ -132,10 +135,10 @@ export const sendSignUpCode = (email: string) => {
   };
 };
 
-export const verifySignUpCode = (email: string, verifyCode: string) => {
+export const verifySignUpCode = (email: string, verificationCode: string) => {
   return {
     type: VERIFY_SIGN_UP_CODE,
-    promise: verifySignUpCodeApi(email, verifyCode),
+    promise: verifySignUpCodeApi(email, verificationCode),
   };
 };
 
@@ -193,14 +196,14 @@ export const changePhone = (phone: string) => {
 export const sendVerificationCode = (email: string) => {
   return {
     type: SEND_VERIFICATION_CODE,
-    promise: sendVerificationCodeApi(email),
+    promise: sendChangeEmailVerificationCodeApi(email),
   };
 };
 
-export const changeEmail = (email: string, verifyCode: string) => {
+export const changeEmail = (email: string, verificationCode: string) => {
   return {
     type: CHANGE_EMAIL,
-    promise: changeEmailApi(email, verifyCode),
+    promise: changeEmailApi(email, verificationCode),
   };
 };
 

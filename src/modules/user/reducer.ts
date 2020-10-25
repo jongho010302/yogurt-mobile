@@ -3,7 +3,7 @@ import { produce } from 'immer';
 import {
   CHANGE_FIELD,
   CHECK_USER,
-  LOG_IN,
+  LOGIN,
   LOG_OUT,
   FIND_MASKING_USERNAME,
   FIND_USERNAME,
@@ -38,7 +38,7 @@ const initialState: UserState = {
     status: AsyncStatus.INIT,
     errorMessage: '',
   },
-  logIn: {
+  login: {
     status: AsyncStatus.INIT,
     errorMessage: '',
   },
@@ -145,23 +145,23 @@ export const reducer = (
             draft.check.status = AsyncStatus.SUCCESS;
           }),
       });
-    case LOG_IN:
+    case LOGIN:
       return handle(state, action, {
         start: (prevState) =>
           produce(prevState, (draft) => {
-            draft.logIn.status = AsyncStatus.WAITING;
+            draft.login.status = AsyncStatus.WAITING;
           }),
         failure: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
-            draft.logIn.status = AsyncStatus.FAILURE;
-            draft.logIn.errorMessage = payload.message || 'Failed to login.';
+            draft.login.status = AsyncStatus.FAILURE;
+            draft.login.errorMessage = payload.message || 'Failed to login.';
             removeToken();
           }),
         success: (prevState, { payload }: { payload: ApiResponse }) =>
           produce(prevState, (draft) => {
             const { accessToken, user } = payload.data.data;
             draft.data = user;
-            draft.logIn.status = AsyncStatus.SUCCESS;
+            draft.login.status = AsyncStatus.SUCCESS;
 
             setAxiosHeaders(accessToken);
             setToken(accessToken);

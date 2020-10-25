@@ -1,30 +1,34 @@
 import apiAxios from './client';
 
 export const changeNameApi = (name: string) =>
-  apiAxios.put('/user/change-name', {
+  apiAxios.put('/user/name', {
     name,
   });
 
 export const changeProfileApi = (formData: FormData) =>
-  apiAxios.put('/user/change-profileUrl', formData, {
+  apiAxios.put('/user/profile', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
 export const changePhoneApi = (phone: string) =>
-  apiAxios.put('/user/change-phone', {
+  apiAxios.put('/user/phone', {
     phone,
   });
 
-export const sendVerificationCodeApi = (email: string) =>
-  apiAxios.get(`/user/change-email?email=${email}`);
+export const sendChangeEmailVerificationCodeApi = (email: string) =>
+  apiAxios.post('/auth/verification/send', {
+    email,
+    verificationType: 'CHANGE_EMAIL',
+  });
 
-export const changeEmailApi = (email: string, verifyCode: string) =>
+export const changeEmailApi = (email: string, verificationCode: string) =>
   apiAxios.put('/user/change-email', {
     email,
-    verifyCode,
+    verificationCode,
+    verificationType: 'CHANGE_EMAIL',
   });
 
 export const changePasswordApi = (password: string) =>
-  apiAxios.put('/user/change-password', {
+  apiAxios.put('/user/password', {
     password,
   });

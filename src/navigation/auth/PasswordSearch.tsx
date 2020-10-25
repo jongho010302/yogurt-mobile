@@ -45,7 +45,7 @@ const PasswordSearch: React.FC<NavigationProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState('');
   const [isEmailValidated, setEmailValidated] = useState(false);
-  const [verifyCode, setVerifyCode] = useState('');
+  const [verificationCode, setVerifyCode] = useState('');
   const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
   const {
     user,
@@ -66,11 +66,17 @@ const PasswordSearch: React.FC<NavigationProps> = ({ navigation }) => {
   useEffect(() => {
     if (user.verifyFindPasswordCode.status === AsyncStatus.SUCCESS) {
       setVerifiedEmail(email);
-      navigate('PasswordReset', { verifiedEmail, verifyCode });
+      navigate('PasswordReset', { verifiedEmail, verificationCode });
     } else if (user.verifyFindPasswordCode.status === AsyncStatus.FAILURE) {
       setVerifiedEmail('');
     }
-  }, [user.verifyFindPasswordCode, navigate, email, verifiedEmail, verifyCode]);
+  }, [
+    user.verifyFindPasswordCode,
+    navigate,
+    email,
+    verifiedEmail,
+    verificationCode,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -91,7 +97,7 @@ const PasswordSearch: React.FC<NavigationProps> = ({ navigation }) => {
   };
 
   const onVerifyPasswordCodeClick = () => {
-    handleVerifyFindPasswordCode(verifiedEmail, verifyCode);
+    handleVerifyFindPasswordCode(verifiedEmail, verificationCode);
   };
 
   return (
@@ -149,7 +155,7 @@ const PasswordSearch: React.FC<NavigationProps> = ({ navigation }) => {
         <View style={styles.emailWrapper}>
           <View>
             <EmailVerifyCodeInput
-              verifyCode={verifyCode}
+              verificationCode={verificationCode}
               setVerifyCode={setVerifyCode}
             />
           </View>

@@ -4,7 +4,7 @@ import { RootState } from '../modules';
 import {
   changeField,
   checkUser,
-  logIn,
+  login,
   logOut,
   findMaskingUsername,
   findUsername,
@@ -36,7 +36,7 @@ function useUser() {
   const handleCheckUser = useCallback(() => dispatch(checkUser()), [dispatch]);
 
   const handleLogIn = useCallback(
-    (username: string, password: string) => dispatch(logIn(username, password)),
+    (username: string, password: string) => dispatch(login(username, password)),
     [dispatch],
   );
 
@@ -58,14 +58,14 @@ function useUser() {
   );
 
   const handleVerifyFindPasswordCode = useCallback(
-    (email: string, verifyCode: string) =>
-      dispatch(verifyFindPasswordCode(email, verifyCode)),
+    (email: string, verificationCode: string) =>
+      dispatch(verifyFindPasswordCode(email, verificationCode)),
     [dispatch],
   );
 
   const handleFindPassword = useCallback(
-    (email: string, password: string, verifyCode: string) =>
-      dispatch(findPassword(email, password, verifyCode)),
+    (email: string, password: string, verificationCode: string) =>
+      dispatch(findPassword(email, password, verificationCode)),
     [dispatch],
   );
 
@@ -84,8 +84,8 @@ function useUser() {
   );
 
   const handleVerifySignUpCode = useCallback(
-    (email: string, verifyCode: string) =>
-      dispatch(verifySignUpCode(email, verifyCode)),
+    (email: string, verificationCode: string) =>
+      dispatch(verifySignUpCode(email, verificationCode)),
     [dispatch],
   );
 
@@ -141,8 +141,8 @@ function useUser() {
   );
 
   const handleChangeEmail = useCallback(
-    (email: string, verifyCode: string) =>
-      dispatch(changeEmail(email, verifyCode)),
+    (email: string, verificationCode: string) =>
+      dispatch(changeEmail(email, verificationCode)),
     [dispatch],
   );
 

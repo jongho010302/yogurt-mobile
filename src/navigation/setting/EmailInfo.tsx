@@ -49,7 +49,7 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState('');
   const [isEmailValidated, setEmailValidated] = useState(false);
-  const [verifyCode, setVerifyCode] = useState('');
+  const [verificationCode, setVerifyCode] = useState('');
   const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
 
   const {
@@ -94,7 +94,7 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
   };
 
   const onVerifySignUpCodeClick = () => {
-    handleChangeEmail(verifiedEmail, verifyCode);
+    handleChangeEmail(verifiedEmail, verificationCode);
   };
 
   return (
@@ -149,7 +149,7 @@ const EmailInfo: React.FC<NavigationProps> = ({ navigation }) => {
         <View style={styles.emailWrapper}>
           <View>
             <EmailVerifyCodeInput
-              verifyCode={verifyCode}
+              verificationCode={verificationCode}
               setVerifyCode={setVerifyCode}
             />
           </View>
