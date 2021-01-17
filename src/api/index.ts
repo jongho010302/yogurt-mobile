@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Alert } from 'react-native';
 import Config from 'react-native-config';
+import { getJwtToken } from '~/utils/storage';
 
 const instance = axios.create({
   baseURL: Config.API_SERVER,
@@ -9,6 +10,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async (config) => {
+    const accessToken = await getJwtToken();
+    config.headers.Authorization = accessToken;
     return config;
   },
   (error) => Promise.reject(error),

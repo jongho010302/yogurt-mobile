@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, View, Button } from 'react-native';
-import LectureComponent from '../../../components/lecture/LectureComponent';
-import colors from '../../../styles/colors';
+import LectureComponent from '../../../components/Lecture/LectureComponent';
+import colors from '../../../..';
 import BaseText from '../../../components/base/BaseText';
 
 const styles = StyleSheet.create({

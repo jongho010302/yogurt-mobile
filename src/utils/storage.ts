@@ -29,6 +29,7 @@ export const removeJwtToken = async (): Promise<void> => {
 export const getUser = async (): Promise<User | null> => {
   try {
     const token = await AsyncStorage.getItem('user');
+    console.log(token);
     if (token) {
       return JSON.parse(token) as User;
     } else {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, KeyboardAvoidingView, StyleSheet, TouchableHighlight } from 'react-native';
 import BaseBottomText from '../../components/base/BaseBottomText';
-import { EmailInput } from '../../components/form/EmailInput';
-import { EmailVerifyCodeInput } from '../../components/form/EmailVerifyCodeInput';
+import { EmailInput } from '../../components/Form/EmailInput';
+import { EmailVerifyCodeInput } from '../../components/Form/EmailVerifyCodeInput';
 import { useUser } from '../../hooks';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 const styles = StyleSheet.create({
   scrollView: {

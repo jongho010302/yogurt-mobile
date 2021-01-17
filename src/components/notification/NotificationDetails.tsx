@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { NavigationProps } from '../../types';
 import BaseText from '../base/BaseText';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 const NotificationDetails: React.FC = () => {
   const item = navigation.getParam('item');

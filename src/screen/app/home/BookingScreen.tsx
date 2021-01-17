@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import AgendaExample from '../../../components/calendar/AgendaExample';
-import TicketExample from '../../../components/tickets/TicketExample';
-import BookingHistory from '../../../components/lecture/BookingHistory';
-import TicketInformation from '../../../components/tickets/TicketInformation';
+import AgendaExample from '../../../components/Calendar/AgendaExample';
+import TicketExample from '../../../components/Ticket/TicketExample';
+import BookingHistory from '../../../components/Lecture/BookingHistory';
+import TicketInformation from '../../../components/Ticket/TicketInformation';
+import Layout from '~/components/Layout/Layout';
 
 const BookingScreen: React.FC = () => {
   const FirstRoute = () => (
@@ -48,7 +49,7 @@ const BookingScreen: React.FC = () => {
   });
 
   return (
-    <View style={{ flex: 1 }}>
+    <Layout>
       <View style={{ flex: 2, marginTop: '10%' }}>
         <TicketExample />
       </View>
@@ -66,7 +67,7 @@ const BookingScreen: React.FC = () => {
           onIndexChange={setIndex}
         />
       </View>
-    </View>
+    </Layout>
   );
 };
 

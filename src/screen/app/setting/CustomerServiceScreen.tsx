@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { openComposer } from 'react-native-email-link';
-import { CreateSettingComponent } from '../../../components/layout/NavigationButton';
+import { CreateSettingComponent } from '../../../components/Layout/NavigationButton';
 
 const CustomerServiceScreen: React.FC = () => {
   const createEmailRequest = () => {

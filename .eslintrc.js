@@ -54,5 +54,7 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 'off',
     'no-else-return': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'global-require': 'off',
+    'no-plusplus': 'off',
   },
 };

@@ -12,7 +12,7 @@ import {
 } from '~/api/auth';
 import { changeNameApi, changePasswordApi, changeProfileApi, getUserApi } from '~/api/user';
 import { removeAxiosHeaders, setAxiosHeaders } from '~/utils/http';
-import { removeUser, setUser } from '~/utils/storage';
+import { removeJwtToken, removeUser, setJwtToken, setUser } from '~/utils/storage';
 import { ApiState, AsyncStatus } from '../types';
 import { User } from './types';
 
@@ -69,8 +69,12 @@ class UserStore {
    * Private Actions
    */
 
-  @action private setUser = (user: User | null) => {
+  @action private setUser = (user: User) => {
     this.user = user;
+  };
+
+  @action private removeUser = () => {
+    this.user = null;
   };
 
   /**
@@ -163,8 +167,9 @@ class UserStore {
     try {
       const res = await loginApi(email, password);
       this.setUser(res.data.user);
+      setJwtToken(res.data.accessToken);
       setUser(res.data.user);
-      setAxiosHeaders(res.data);
+      setAxiosHeaders(res.data.accessToken);
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -175,7 +180,8 @@ class UserStore {
     this.loadApiState();
     try {
       await logoutApi();
-      this.setUser(null);
+      this.removeUser();
+      removeJwtToken();
       removeUser();
       removeAxiosHeaders();
       this.succeedApiState();
@@ -236,8 +242,10 @@ class UserStore {
     this.loadApiState();
     try {
       await deleteAccountApi();
-      this.setUser(null);
+      this.removeUser();
+      removeJwtToken();
       removeUser();
+      removeAxiosHeaders();
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -252,6 +260,7 @@ class UserStore {
     this.loadApiState();
     try {
       const res = await getUserApi();
+      this.setUser(res.data);
       setUser(res.data);
     } catch (error) {
       this.failApiState(error.error);

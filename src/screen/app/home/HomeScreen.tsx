@@ -1,9 +1,10 @@
+import { View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import BaseText from '~/components/base/BaseText';
-import LectureComponent from '~/components/lecture/LectureComponent';
-import TicketExample from '~/components/tickets/TicketExample';
+import LectureComponent from '~/components/Lecture/LectureComponent';
+import TicketExample from '~/components/Ticket/TicketExample';
+import Layout from '~/components/Layout/Layout';
 
 const Lectures = () => {
   const { navigate } = useNavigation();
@@ -58,7 +59,7 @@ const HomeScreen: React.FC = () => {
   const { navigate } = useNavigation();
 
   return (
-    <View style={{ flex: 1 }}>
+    <Layout>
       <View style={{ flex: 0.8 }}>
         <View
           style={{
@@ -75,7 +76,7 @@ const HomeScreen: React.FC = () => {
       <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
         <View style={styles.scrollView}>{Lectures()}</View>
       </SafeAreaView>
-    </View>
+    </Layout>
   );
 };
 

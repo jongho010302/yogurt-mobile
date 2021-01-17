@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseInput from '../base/BaseInput';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 interface Props {
   password: string;
@@ -8,11 +8,7 @@ interface Props {
   setPasswordValidation: (validated: boolean) => void;
 }
 
-export const PasswordInput: React.FC<Props> = ({
-  password,
-  setPassword,
-  setPasswordValidation,
-}) => {
+export const PasswordInput: React.FC<Props> = ({ password, setPassword, setPasswordValidation }) => {
   // password
   const handlePasswordChange = (paramPassword: string) => {
     // 특수문자 / 문자 / 숫자 포함 형태의 8~15자리 이내의 암호 정규식

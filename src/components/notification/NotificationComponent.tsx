@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 import BaseText from '../base/BaseText';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 interface Props {
   notification?: any;
@@ -46,10 +46,7 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
             padding: '5%',
           }}>
           <View>
-            <BaseText
-              text={moment(new Date()).format('YYYY-MM-DD')}
-              customStyle={{ fontSize: 11 }}
-            />
+            <BaseText text={moment(new Date()).format('YYYY-MM-DD')} customStyle={{ fontSize: 11 }} />
           </View>
           <View>
             <Icon

@@ -3,7 +3,6 @@ import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 
 import { NavigationProps } from '../../types';
 import BaseText from '../../components/base/BaseText';
-import BaseStatusBar from '../../components/base/StatusBar';
 
 const styles = StyleSheet.create({
   Wrapper: {

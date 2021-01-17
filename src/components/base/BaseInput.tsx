@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StyleProp, TextStyle } from 'react-native';
-import colors from '../../styles/colors';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  StyleProp,
+  TextStyle,
+} from 'react-native';
+import colors from '../../..';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -42,7 +50,18 @@ interface Props {
   autoFocus?: boolean;
   disable?: boolean;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  labelTextWeight?: '700' | 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '800' | '900';
+  labelTextWeight?:
+    | '700'
+    | 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '800'
+    | '900';
   placeholder?: string;
   inputStyle?: StyleProp<TextStyle>;
 }
@@ -114,7 +133,11 @@ const BaseInput: React.FC<Props> = ({
         </TouchableOpacity>
       ) : null}
       <TextInput
-        style={[{ color: inputColor, borderBottomColor: borderBottom }, inputStyle, styles.BaseInput]}
+        style={[
+          { color: inputColor, borderBottomColor: borderBottom },
+          inputStyle,
+          styles.BaseInput,
+        ]}
         secureTextEntry={secureInput}
         onChangeText={onChangeText}
         keyboardType={setKeyboardType(inputType)}

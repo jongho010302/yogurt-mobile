@@ -17,13 +17,13 @@ const AuthStack = () => {
           headerTitle: () => '',
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Signup"
         component={SignupScreen}
         options={{
           headerTitle: () => '',
         }}
-      />
+      /> */}
       {/* <Stack.Screen
         name="PasswordSearch"
         component={PasswordSearchScreen}

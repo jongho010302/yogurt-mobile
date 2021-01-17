@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import BaseButton from '../../components/base/BaseButton';
 import { NavigationProps } from '../../types';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 const TermsAndConditionsScreen: React.FC = () => {
   const { navigate } = navigation;

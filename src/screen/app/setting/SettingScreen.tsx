@@ -3,7 +3,6 @@ import { View, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationProps } from '../../types';
 import { CreateSettingComponent } from '../../components/layout/NavigationButton';
-import BaseStatusBar from '../../components/base/StatusBar';
 import BaseText from '../../components/base/BaseText';
 import colors from '../../styles/colors';
 import { useUser } from '../../hooks';

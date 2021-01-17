@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import colors from '../../styles/colors';
+import colors from '../../..';
 import BaseText from '../base/BaseText';
 
 interface Props {
@@ -50,8 +50,7 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
         }}>
         <Image
           source={{
-            uri:
-              'http://www.futurekorea.co.kr/news/photo/201903/116160_116410_1321.jpg',
+            uri: 'http://www.futurekorea.co.kr/news/photo/201903/116160_116410_1321.jpg',
           }}
           style={{
             width: 40,
@@ -68,18 +67,10 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
               flexDirection: 'column',
               justifyContent: 'space-between',
             }}>
-            <BaseText
-              text={lecture.lectureName}
-              customStyle={{ fontSize: 10 }}
-            />
-            <BaseText
-              text={`${lecture.lecturer}강사`}
-              customStyle={{ fontSize: 12 }}
-            />
+            <BaseText text={lecture.lectureName} customStyle={{ fontSize: 10 }} />
+            <BaseText text={`${lecture.lecturer}강사`} customStyle={{ fontSize: 12 }} />
           </View>
-          <Text style={{ color: colors.lightSkyBlue, fontSize: 12 }}>
-            예약완료
-          </Text>
+          <Text style={{ color: colors.lightSkyBlue, fontSize: 12 }}>예약완료</Text>
         </View>
       </View>
       <View
@@ -89,19 +80,10 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
           borderBottomRightRadius: 10,
           justifyContent: 'space-evenly',
         }}>
-        <Icon
-          name="time-outline"
-          style={{ marginLeft: '5%', color: '#BDBDBD', fontSize: 12 }}
-        />
+        <Icon name="time-outline" style={{ marginLeft: '5%', color: '#BDBDBD', fontSize: 12 }} />
         <BaseText text={lecture.time} customStyle={{ fontSize: 12 }} />
-        <Icon
-          name="person"
-          style={{ marginLeft: '10%', color: '#BDBDBD', fontSize: 12 }}
-        />
-        <BaseText
-          text={lecture.attendedCount}
-          customStyle={{ fontSize: 12, marginRight: '20%' }}
-        />
+        <Icon name="person" style={{ marginLeft: '10%', color: '#BDBDBD', fontSize: 12 }} />
+        <BaseText text={lecture.attendedCount} customStyle={{ fontSize: 12, marginRight: '20%' }} />
       </View>
     </View>
   );

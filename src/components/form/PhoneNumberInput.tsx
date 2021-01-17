@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BaseInput from '../base/BaseInput';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 interface Props {
   phoneNumber: string;
@@ -20,10 +20,7 @@ export const PhoneNumberInput: React.FC<Props> = ({
     const phoneNumberCheckRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     const parsingPhoneNumber = paramPhoneNumber
       .replace(/[^0-9]/g, '')
-      .replace(
-        /(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,
-        '$1-$2-$3',
-      )
+      .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
       .replace('--', '-');
     setPhoneNumber(parsingPhoneNumber);
 

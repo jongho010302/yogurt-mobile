@@ -1,16 +1,13 @@
 import React from 'react';
 import BaseInput from '../base/BaseInput';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 interface Props {
   verificationCode: string;
   setVerifyCode: (code: string) => void;
 }
 
-export const EmailVerifyCodeInput: React.FC<Props> = ({
-  verificationCode,
-  setVerifyCode,
-}) => {
+export const EmailVerifyCodeInput: React.FC<Props> = ({ verificationCode, setVerifyCode }) => {
   const onVerfiyCodeChange = (paramVerifyCode: string) => {
     setVerifyCode(paramVerifyCode);
   };

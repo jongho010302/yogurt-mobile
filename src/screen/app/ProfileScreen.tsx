@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
-import { NavigationProps } from '../types';
-import BaseStatusBar from '../components/base/StatusBar';
 import { useUser } from '../hooks';
 import BookingHistory from '../components/lecture/BookingHistory';
 import TicketExample from '../components/tickets/TicketExample';

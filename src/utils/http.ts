@@ -6,10 +6,11 @@ export interface ApiResponse {
   data: any;
 }
 
-export const setAxiosHeaders = (token: string) => {
-  axios.defaults.headers.common.Authorization = token;
+export const setAxiosHeaders = (token: string | null) => {
+  console.log(token);
+  // axios.defaults.headers.common[Authorization = token;
 };
 
 export const removeAxiosHeaders = () => {
-  axios.defaults.headers.common.Authorization = undefined;
+  axios.defaults.headers.common.Authorization = null;
 };

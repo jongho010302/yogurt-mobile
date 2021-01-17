@@ -4,10 +4,10 @@ import { NavigationProps } from '../../types';
 import BaseButton from '../../components/base/BaseButton';
 import BaseBottomText from '../../components/base/BaseBottomText';
 import { yogurtAlert } from '../../utils/common';
-import { PasswordInput } from '../../components/form/PasswordInput';
+import { PasswordInput } from '../../components/Form/PasswordInput';
 import { useUser } from '../../hooks';
 import { AsyncStatus } from '../../modules/types';
-import colors from '../../styles/colors';
+import colors from '../../..';
 
 const PasswordResetScreen: React.FC = () => {
   const changePasswordMessage = '입력된 값으로 비밀번호가 변경됩니다.';

@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableHighlight } from 'react-native';
 import { NavigationParams, NavigationAction, NavigationState } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationProps } from '../../types';
-import colors from '../../styles/colors';
+import colors from '../../..';
 import BaseText from '../base/BaseText';
 
 const styles = StyleSheet.create({
