@@ -3,8 +3,47 @@ import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../styles/colors';
 
+const TicketExample: React.FC = () => {
+  Icon.loadFont();
+
+  return (
+    <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: '1%',
+          justifyContent: 'space-evenly',
+        }}>
+        <Text style={styles.headerText}>그룹형 수업 전용 · 횟수제</Text>
+        <View style={styles.button}>
+          <Text
+            style={{
+              fontSize: 10,
+              color: colors.lightSkyBlue,
+              paddingRight: '2%',
+              paddingLeft: '2%',
+            }}>
+            사용중
+          </Text>
+        </View>
+      </View>
+      <Text style={styles.centerText}>그룹 수업 주2회 24회</Text>
+      <View style={styles.bottomTextRow}>
+        <Icon style={styles.icon} name="md-time" />
+        <Text style={styles.bottomText}>그룹 수업 주2회 24회</Text>
+      </View>
+      <View style={styles.bottomTextRow}>
+        <Text style={styles.bottomText}>현재 이용권의 잔여 횟수</Text>
+        <Text style={styles.bottomText}> 10회 남음</Text>
+      </View>
+    </View>
+  );
+};
+
+export default TicketExample;
+
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
     alignSelf: 'center',
     marginLeft: '5%',
     marginRight: '5%',
@@ -19,7 +58,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-
     elevation: 6,
   },
   headerText: {
@@ -60,42 +98,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-const TicketExample: React.FC = () => {
-  Icon.loadFont();
-
-  return (
-    <View style={styles.wrapper}>
-      <View
-        style={{
-          flexDirection: 'row',
-          padding: '1%',
-          justifyContent: 'space-evenly',
-        }}>
-        <Text style={styles.headerText}>그룹형 수업 전용 · 횟수제</Text>
-        <View style={styles.button}>
-          <Text
-            style={{
-              fontSize: 10,
-              color: colors.lightSkyBlue,
-              paddingRight: '2%',
-              paddingLeft: '2%',
-            }}>
-            사용중
-          </Text>
-        </View>
-      </View>
-      <Text style={styles.centerText}>그룹 수업 주2회 24회</Text>
-      <View style={styles.bottomTextRow}>
-        <Icon style={styles.icon} name="md-time" />
-        <Text style={styles.bottomText}>그룹 수업 주2회 24회</Text>
-      </View>
-      <View style={styles.bottomTextRow}>
-        <Text style={styles.bottomText}>현재 이용권의 잔여 횟수</Text>
-        <Text style={styles.bottomText}> 10회 남음</Text>
-      </View>
-    </View>
-  );
-};
-
-export default TicketExample;

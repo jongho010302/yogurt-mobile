@@ -1,10 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableHighlight } from 'react-native';
-import {
-  NavigationParams,
-  NavigationAction,
-  NavigationState,
-} from 'react-navigation';
+import { NavigationParams, NavigationAction, NavigationState } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationProps } from '../../types';
 import colors from '../../styles/colors';
@@ -21,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Footer: React.FC<NavigationProps> = ({ navigation }) => {
+const Footer: React.FC = () => {
   const { navigate } = navigation;
 
   const navState = navigation.state;
@@ -35,13 +31,7 @@ const Footer: React.FC<NavigationProps> = ({ navigation }) => {
             justifyContent: 'space-evenly',
             padding: '4%',
           }}>
-          <FooterMenu
-            navigateTo={navigate}
-            navState={navState}
-            routePath="Home"
-            iconName="ios-home"
-            navName="홈"
-          />
+          <FooterMenu navigateTo={navigate} navState={navState} routePath="Home" iconName="ios-home" navName="홈" />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
@@ -70,29 +60,16 @@ const Footer: React.FC<NavigationProps> = ({ navigation }) => {
 };
 
 interface FooterMenuProps {
-  navigateTo: (
-    routeNameOrOptions: string,
-    params?: NavigationParams,
-    action?: NavigationAction,
-  ) => boolean;
+  navigateTo: (routeNameOrOptions: string, params?: NavigationParams, action?: NavigationAction) => boolean;
   navState: NavigationState & { params?: NavigationParams };
   routePath: string;
   iconName: string;
   navName?: string;
 }
 
-const FooterMenu: React.FC<FooterMenuProps> = ({
-  navigateTo,
-  navState,
-  routePath,
-  iconName,
-  navName,
-}) => {
+const FooterMenu: React.FC<FooterMenuProps> = ({ navigateTo, navState, routePath, iconName, navName }) => {
   let isActive = false;
-  if (
-    navState.routes.findIndex((element) => element.routeName === routePath) ===
-    navState.index
-  ) {
+  if (navState.routes.findIndex((element) => element.routeName === routePath) === navState.index) {
     isActive = true;
   }
 

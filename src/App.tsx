@@ -1,22 +1,30 @@
-import React, { useEffect } from 'react';
-import Navigation from './navigation';
+import React, { useEffect, useState } from 'react';
+import RootNavigation from './navigation';
 import { useUser } from './hooks';
-import { setAxiosHeaders, getToken } from './utils/common';
+import { getJwtToken } from './utils/storage';
 
 const App = () => {
-  const { handleCheckUser } = useUser();
+  const { getUser } = useUser();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const accessToken = await getToken();
+      const accessToken = await getJwtToken();
       if (accessToken) {
-        setAxiosHeaders(accessToken);
-        handleCheckUser();
+        await getUser();
       }
     })();
-  }, [handleCheckUser]);
+  }, [getUser]);
 
-  return <Navigation />;
+  setTimeout(() => {
+    setLoading(false);
+  }, 1300);
+
+  if (loading) {
+    return <div>loading...</div>;
+  } else {
+    return <RootNavigation />;
+  }
 };
 
 export default App;

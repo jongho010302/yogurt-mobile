@@ -5,7 +5,7 @@ import { NavigationProps } from '../../types';
 import BaseText from '../base/BaseText';
 import colors from '../../styles/colors';
 
-const NotificationDetails: React.FC<NavigationProps> = ({ navigation }) => {
+const NotificationDetails: React.FC = () => {
   const item = navigation.getParam('item');
   return (
     <View>
@@ -18,16 +18,9 @@ const NotificationDetails: React.FC<NavigationProps> = ({ navigation }) => {
           borderColor: colors.lightSteelGray,
           borderWidth: 0.5,
         }}>
-        <View
-          style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-          <BaseText
-            text="서울숲필라테스"
-            customStyle={{ fontSize: 18, fontWeight: 'bold' }}
-          />
-          <BaseText
-            text="받은날짜"
-            customStyle={{ fontSize: 15, fontWeight: 'normal' }}
-          />
+        <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+          <BaseText text="서울숲필라테스" customStyle={{ fontSize: 18, fontWeight: 'bold' }} />
+          <BaseText text="받은날짜" customStyle={{ fontSize: 15, fontWeight: 'normal' }} />
           <BaseText
             text={`${item.lecturer} 강사의 ${item.lectureName} 수업에 예약했습니다.`}
             customStyle={{ fontSize: 15, fontWeight: 'normal' }}

@@ -30,3 +30,5 @@ target 'YogurtStudio-tvOS' do
     # Pods for testing
   end
 end
+
+install! 'cocoapods', :deterministic_uuids => false

@@ -5,7 +5,7 @@ import { NavigationProps } from '../../types';
 import LectureComponent from './LectureComponent';
 import BaseText from '../base/BaseText';
 
-const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
+const BookingHistory: React.FC = () => {
   const { navigate } = navigation;
 
   const lectures = [
@@ -15,8 +15,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
       attendedCount: '3/5',
-      profileUrl:
-        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
       date: '2020-02-11',
@@ -25,8 +24,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       lecturer: '전다은',
       time: '9:00~9:50',
       attendedCount: '3/5',
-      profileUrl:
-        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
       date: '2020-02-29',
@@ -34,8 +32,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
       attendedCount: '3/5',
-      profileUrl:
-        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
       date: '2020-02-19',
@@ -44,8 +41,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       lecturer: '전다은',
       time: '9:00~9:50',
       attendedCount: '3/5',
-      profileUrl:
-        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
       date: '2020-02-20',
@@ -53,8 +49,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       lectureName: '기구 필라테스',
       time: '9:00~9:50',
       attendedCount: '3/5',
-      profileUrl:
-        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
     {
       date: '2020-02-31',
@@ -63,8 +58,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
       lecturer: '전다은',
       time: '9:00~9:50',
       attendedCount: '3/5',
-      profileUrl:
-        'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+      profileUrl: 'https://seoulforest-image.s3.ap-northeast-2.amazonaws.com/default_profile.png',
     },
   ];
 
@@ -89,10 +83,7 @@ const BookingHistory: React.FC<NavigationProps> = ({ navigation }) => {
           marginRight: '10%',
           marginTop: '5%',
         }}>
-        <BaseText
-          text={`${lectures.length}개의 내역`}
-          customStyle={{ fontSize: 15 }}
-        />
+        <BaseText text={`${lectures.length}개의 내역`} customStyle={{ fontSize: 15 }} />
         <TouchableOpacity>
           <BaseText text="모든내역" customStyle={{ fontSize: 15 }} />
         </TouchableOpacity>

@@ -1,16 +1,13 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleProp, Text, TextStyle } from 'react-native';
 
 import colors from '../../styles/colors';
 
 interface Props {
-  text: string;
-  customStyle?: any;
+  style?: StyleProp<TextStyle>;
 }
-const YogurtStudioDefaultText: React.FC<Props> = ({ text, customStyle }) => {
-  return (
-    <Text style={[{ color: colors.lightBlack }, customStyle]}>{text}</Text>
-  );
-};
+const BaseText: React.FC<Props> = ({ style, children }) => (
+  <Text style={[{ color: colors.lightBlack }, style]}>{children}</Text>
+);
 
-export default YogurtStudioDefaultText;
+export default BaseText;

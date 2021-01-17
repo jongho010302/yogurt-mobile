@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  StyleProp,
-  TextStyle,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StyleProp, TextStyle } from 'react-native';
 import colors from '../../styles/colors';
 
 const styles = StyleSheet.create({
@@ -50,18 +42,7 @@ interface Props {
   autoFocus?: boolean;
   disable?: boolean;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  labelTextWeight?:
-    | '700'
-    | 'normal'
-    | 'bold'
-    | '100'
-    | '200'
-    | '300'
-    | '400'
-    | '500'
-    | '600'
-    | '800'
-    | '900';
+  labelTextWeight?: '700' | 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '800' | '900';
   placeholder?: string;
   inputStyle?: StyleProp<TextStyle>;
 }
@@ -104,9 +85,7 @@ const BaseInput: React.FC<Props> = ({
 
   // UseEffect
   useEffect(() => {
-    setSecureInput(
-      !(inputType === 'text' || inputType === 'email' || inputType === 'phone'),
-    );
+    setSecureInput(!(inputType === 'text' || inputType === 'email' || inputType === 'phone'));
   }, [setSecureInput, inputType]);
 
   // Style
@@ -128,24 +107,14 @@ const BaseInput: React.FC<Props> = ({
 
   return (
     <View style={[customStyle, styles.wrapper]}>
-      <Text style={[{ color, fontSize, fontWeight }, styles.label]}>
-        {labelText}
-      </Text>
+      <Text style={[{ color, fontSize, fontWeight }, styles.label]}>{labelText}</Text>
       {inputType === 'password' ? (
-        <TouchableOpacity
-          style={styles.showButton}
-          onPress={toggleShowPassword}>
-          <Text style={styles.showButtonText}>
-            {secureInput ? 'Show' : 'Hide'}
-          </Text>
+        <TouchableOpacity style={styles.showButton} onPress={toggleShowPassword}>
+          <Text style={styles.showButtonText}>{secureInput ? 'Show' : 'Hide'}</Text>
         </TouchableOpacity>
       ) : null}
       <TextInput
-        style={[
-          { color: inputColor, borderBottomColor: borderBottom },
-          inputStyle,
-          styles.BaseInput,
-        ]}
+        style={[{ color: inputColor, borderBottomColor: borderBottom }, inputStyle, styles.BaseInput]}
         secureTextEntry={secureInput}
         onChangeText={onChangeText}
         keyboardType={setKeyboardType(inputType)}
