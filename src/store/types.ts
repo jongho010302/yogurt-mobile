@@ -8,4 +8,7 @@ export enum AsyncStatus {
 export interface ApiState {
   status: AsyncStatus;
   error: string;
+  isLoading: () => boolean;
+  isSucess: () => boolean;
+  isFailure: () => boolean;
 }

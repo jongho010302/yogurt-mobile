@@ -40,7 +40,10 @@ const ProfileInfoScreen: React.FC = () => {
   const userData = user.data;
 
   useEffect(() => {
-    if (user.changeName.status === AsyncStatus.SUCCESS || user.changeProfile.status === AsyncStatus.SUCCESS) {
+    if (
+      user.changeName.status === AsyncStatus.SUCCESS ||
+      user.changeProfile.status === AsyncStatus.SUCCESS
+    ) {
       yogurtAlert('프로필이 성공적으로 변경되었습니다.');
       navigation.navigate('PersonalInfo');
     }
@@ -146,7 +149,7 @@ const ProfileInfoScreen: React.FC = () => {
           inputValue={name}
           labelText="이름을 입력하세요"
           labelTextSize={12}
-          labelColor={colors.lightSkyBlue}
+          labelColor={palatte.logoColor}
           textColor={colors.lightBlack}
           borderBottomColor={colors.lightGray}
           inputType="text"
@@ -159,7 +162,7 @@ const ProfileInfoScreen: React.FC = () => {
           handleClick={() => saveProfileInfo()}
           disabled={!canChangeProfile()}
           text="저장하기"
-          backgroundColor={colors.lightSkyBlue}
+          backgroundColor={palatte.logoColor}
         />
       </ScrollView>
     </SafeAreaView>

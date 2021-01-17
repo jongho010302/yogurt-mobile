@@ -20,17 +20,26 @@ const styles = StyleSheet.create({
 interface Props {
   text: string;
   handleClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
   backgroundColor?: string;
   style?: StyleProp<ViewStyle>;
 }
 
-const BaseButton: React.FC<Props> = ({ text, handleClick, disabled, backgroundColor, style }) => {
+const BaseButton: React.FC<Props> = ({
+  text,
+  handleClick,
+  disabled = false,
+  backgroundColor,
+  style,
+}) => {
   const opacity = disabled ? 0.2 : 1;
 
   return (
     <View style={[styles.buttonWrapper, { backgroundColor }, style]}>
-      <TouchableHighlight onPress={handleClick} disabled={disabled} style={[{ opacity }, styles.button]}>
+      <TouchableHighlight
+        onPress={handleClick}
+        disabled={disabled}
+        style={[{ opacity }, styles.button]}>
         <View>
           <Text style={styles.text}>{text}</Text>
         </View>

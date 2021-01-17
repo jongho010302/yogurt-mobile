@@ -11,7 +11,7 @@ const CustomText: React.FC<Props> = ({ children, style, ...props }) => {
   const defaultStyle: StyleProp<TextStyle> = Platform.select({
     ios: {
       color: palatte.black,
-      fontWeight: '700',
+      fontWeight: 'bold',
       fontSize: 20,
     },
     android: {

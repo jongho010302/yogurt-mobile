@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
-import UserStore from '~/store/user';
-import StudioStore from '~/store/studio';
+import UserStore from '~/store/user/UserStore';
+import StudioStore from '~/store/studio/StudioStore';
 
 export const UserContext = createContext<typeof UserStore>(UserStore);
 export const StudioContext = createContext<typeof StudioStore>(StudioStore);

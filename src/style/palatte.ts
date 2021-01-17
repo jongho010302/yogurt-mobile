@@ -1,4 +1,5 @@
 export const palatte = {
+  logoColor: '#87cdfa',
   black: '#000000',
   lightBlack: '#484848',
   white: '#ffffff',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text, TextInput, TextStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
 import { Controller } from 'react-hook-form';
 import CustomText from '../Text/CustomText';
 import { hitSlop } from '~/style/common';
@@ -69,7 +69,7 @@ const CustomTextInput: React.FC<Props> = ({
             style={[styles.textInput, style]}
             placeholder={placeholder}
             autoCapitalize="none"
-            selectionColor={palatte.lightSkyBlue}
+            selectionColor={palatte.logoColor}
             hitSlop={hitSlop}
             onChangeText={(text: string) => onChange(text)}
             onBlur={onBlur}

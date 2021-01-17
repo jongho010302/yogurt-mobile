@@ -31,7 +31,13 @@ const Footer: React.FC = () => {
             justifyContent: 'space-evenly',
             padding: '4%',
           }}>
-          <FooterMenu navigateTo={navigate} navState={navState} routePath="Home" iconName="ios-home" navName="홈" />
+          <FooterMenu
+            navigateTo={navigate}
+            navState={navState}
+            routePath="Home"
+            iconName="ios-home"
+            navName="홈"
+          />
           <FooterMenu
             navigateTo={navigate}
             navState={navState}
@@ -60,14 +66,24 @@ const Footer: React.FC = () => {
 };
 
 interface FooterMenuProps {
-  navigateTo: (routeNameOrOptions: string, params?: NavigationParams, action?: NavigationAction) => boolean;
+  navigateTo: (
+    routeNameOrOptions: string,
+    params?: NavigationParams,
+    action?: NavigationAction,
+  ) => boolean;
   navState: NavigationState & { params?: NavigationParams };
   routePath: string;
   iconName: string;
   navName?: string;
 }
 
-const FooterMenu: React.FC<FooterMenuProps> = ({ navigateTo, navState, routePath, iconName, navName }) => {
+const FooterMenu: React.FC<FooterMenuProps> = ({
+  navigateTo,
+  navState,
+  routePath,
+  iconName,
+  navName,
+}) => {
   let isActive = false;
   if (navState.routes.findIndex((element) => element.routeName === routePath) === navState.index) {
     isActive = true;
@@ -91,7 +107,7 @@ const FooterMenu: React.FC<FooterMenuProps> = ({ navigateTo, navState, routePath
       <TouchableHighlight onPress={() => navigateTo(routePath)}>
         <Icon
           style={{
-            color: isActive ? colors.lightSkyBlue : '#BDBDBD',
+            color: isActive ? palatte.logoColor : '#BDBDBD',
             fontSize: 25,
           }}
           name={iconName}

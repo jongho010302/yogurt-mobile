@@ -84,14 +84,18 @@ const TermsAndConditionsScreen: React.FC = () => {
           </View>
           <View
             style={{
-              backgroundColor: colors.lightSkyBlue,
+              backgroundColor: palatte.logoColor,
               borderRadius: 10,
               alignItems: 'center',
               padding: '4%',
               paddingLeft: '15%',
               paddingRight: '15%',
             }}>
-            <BaseButton handleClick={() => navigate('SignUp')} disabled={setButtonDisabled()} text="동의" />
+            <BaseButton
+              handleClick={() => navigate('SignUp')}
+              disabled={setButtonDisabled()}
+              text="동의"
+            />
           </View>
         </View>
       </View>

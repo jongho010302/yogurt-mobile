@@ -10,7 +10,12 @@ interface Props {
   setIsVerifyCodeSent: (isSent: boolean) => void;
 }
 
-export const EmailInput: React.FC<Props> = ({ email, setEmail, setEmailValidated, setIsVerifyCodeSent }) => {
+export const EmailInput: React.FC<Props> = ({
+  email,
+  setEmail,
+  setEmailValidated,
+  setIsVerifyCodeSent,
+}) => {
   const handleEmailChange = (paramEmail: string) => {
     setEmail(paramEmail);
     setIsVerifyCodeSent(false);
@@ -28,7 +33,7 @@ export const EmailInput: React.FC<Props> = ({ email, setEmail, setEmailValidated
       labelText="이메일 주소를 입력하세요"
       placeholder="contact@yogurt-studio.com"
       labelTextSize={12}
-      labelColor={colors.lightSkyBlue}
+      labelColor={palatte.logoColor}
       textColor={colors.lightBlack}
       borderBottomColor={colors.lightGray}
       inputType="email"

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     marginTop: '20%',
   },
   button: {
-    backgroundColor: colors.lightSkyBlue,
+    backgroundColor: palatte.logoColor,
     borderRadius: 10,
     alignItems: 'center',
     padding: '4%',

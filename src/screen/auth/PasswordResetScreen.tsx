@@ -71,7 +71,11 @@ const PasswordResetScreen: React.FC = () => {
           <Text>이메일과 아이디와 입력해주세요.</Text>
         </View>
         <View style={{ marginTop: '10%' }}>
-          <PasswordInput password={password} setPassword={setPassword} setPasswordValidation={setPasswordValidation} />
+          <PasswordInput
+            password={password}
+            setPassword={setPassword}
+            setPasswordValidation={setPasswordValidation}
+          />
         </View>
         <View>
           <PasswordInput
@@ -86,7 +90,7 @@ const PasswordResetScreen: React.FC = () => {
         handleClick={() => confirmChangePasswordDialog()}
         disabled={!isButtonEnabled()}
         text="비밀번호 바꾸기"
-        backgroundColor={colors.lightSkyBlue}
+        backgroundColor={palatte.logoColor}
         customStyle={{
           margin: '10%',
           marginBottom: '15%',
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   button: {
-    backgroundColor: colors.lightSkyBlue,
+    backgroundColor: palatte.logoColor,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: '10%',

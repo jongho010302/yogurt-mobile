@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: '20%',
   },
   button: {
-    backgroundColor: colors.lightSkyBlue,
+    backgroundColor: palatte.logoColor,
     borderRadius: 10,
     alignItems: 'center',
     padding: '4%',
@@ -121,12 +121,15 @@ const EmailInfoScreen: React.FC = () => {
           ) : !isVerifyCodeSent ? (
             <BaseBottomText text="인증번호를 전송해 주세요." color={colors.darkOrange} />
           ) : (
-            <BaseBottomText text="인증번호가 전송되었습니다." color={colors.lightSkyBlue} />
+            <BaseBottomText text="인증번호가 전송되었습니다." color={palatte.logoColor} />
           )
         ) : null}
         <View style={styles.emailWrapper}>
           <View>
-            <EmailVerifyCodeInput verificationCode={verificationCode} setVerifyCode={setVerifyCode} />
+            <EmailVerifyCodeInput
+              verificationCode={verificationCode}
+              setVerifyCode={setVerifyCode}
+            />
           </View>
           <View style={styles.button}>
             <TouchableHighlight
@@ -146,7 +149,9 @@ const EmailInfoScreen: React.FC = () => {
             </TouchableHighlight>
           </View>
         </View>
-        {isVerifyCodeSent ? <BaseBottomText text="인증해주세요." color={colors.darkOrange} /> : null}
+        {isVerifyCodeSent ? (
+          <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

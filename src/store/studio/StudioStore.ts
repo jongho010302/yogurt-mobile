@@ -11,6 +11,15 @@ class StudioStore {
   @observable apiState: ApiState = {
     status: AsyncStatus.INIT,
     error: '',
+    isLoading() {
+      return this.status === AsyncStatus.LOADING;
+    },
+    isSucess() {
+      return this.status === AsyncStatus.SUCCESS;
+    },
+    isFailure() {
+      return this.status === AsyncStatus.FAILURE;
+    },
   };
   @observable studios: Studio[] = [];
 

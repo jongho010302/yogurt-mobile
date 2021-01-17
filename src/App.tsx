@@ -19,7 +19,7 @@ const App = () => {
 
   setTimeout(() => {
     setLoading(false);
-  }, 1300);
+  }, 1);
 
   if (loading) {
     return <SplashScreen />;

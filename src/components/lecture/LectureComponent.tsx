@@ -70,7 +70,7 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
             <BaseText text={lecture.lectureName} customStyle={{ fontSize: 10 }} />
             <BaseText text={`${lecture.lecturer}강사`} customStyle={{ fontSize: 12 }} />
           </View>
-          <Text style={{ color: colors.lightSkyBlue, fontSize: 12 }}>예약완료</Text>
+          <Text style={{ color: palatte.logoColor, fontSize: 12 }}>예약완료</Text>
         </View>
       </View>
       <View

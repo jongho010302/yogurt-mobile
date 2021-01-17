@@ -176,7 +176,7 @@ const SignupScreen: React.FC = () => {
             inputValue={name}
             labelText="이름을 입력하세요"
             labelTextSize={12}
-            labelColor={colors.lightSkyBlue}
+            labelColor={palatte.logoColor}
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="text"
@@ -185,7 +185,7 @@ const SignupScreen: React.FC = () => {
           />
           {name ? (
             isNameVaildated ? (
-              <BaseBottomText text="이름이 올바릅니다." color={colors.lightSkyBlue} />
+              <BaseBottomText text="이름이 올바릅니다." color={palatte.logoColor} />
             ) : (
               <BaseBottomText text="올바른 이름을 입력해주세요." color={colors.darkOrange} />
             )
@@ -200,7 +200,7 @@ const SignupScreen: React.FC = () => {
               labelText="아이디를 입력하세요"
               placeholder="영문 8자 이상"
               labelTextSize={12}
-              labelColor={colors.lightSkyBlue}
+              labelColor={palatte.logoColor}
               textColor={colors.lightBlack}
               borderBottomColor={colors.lightGray}
               inputType="text"
@@ -210,7 +210,7 @@ const SignupScreen: React.FC = () => {
             />
             <View
               style={{
-                backgroundColor: colors.lightSkyBlue,
+                backgroundColor: palatte.logoColor,
                 borderRadius: 10,
                 alignItems: 'center',
                 padding: '4%',
@@ -240,7 +240,7 @@ const SignupScreen: React.FC = () => {
             !isUsernameValidationVisible ? (
               <BaseBottomText text="형식에 맞는 아이디를 입력해주세요." color={colors.darkOrange} />
             ) : isUsernameValidated ? (
-              <BaseBottomText text="사용 가능한 아이디입니다." color={colors.lightSkyBlue} />
+              <BaseBottomText text="사용 가능한 아이디입니다." color={palatte.logoColor} />
             ) : (
               <BaseBottomText text="중복검사를 해주세요." color={colors.darkOrange} />
             )
@@ -254,7 +254,7 @@ const SignupScreen: React.FC = () => {
             labelText="비밀번호를 입력하세요"
             placeholder="특수문자, 문자, 숫자 포함 형태의 8~15자리를 입력해주세요."
             labelTextSize={12}
-            labelColor={colors.lightSkyBlue}
+            labelColor={palatte.logoColor}
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="password"
@@ -263,7 +263,7 @@ const SignupScreen: React.FC = () => {
           />
           {password ? (
             isPasswordValidated ? (
-              <BaseBottomText text="형식이 올바릅니다." color={colors.lightSkyBlue} />
+              <BaseBottomText text="형식이 올바릅니다." color={palatte.logoColor} />
             ) : (
               <BaseBottomText text="비밀번호 형식이 올바르지 않습니다." color={colors.darkOrange} />
             )
@@ -277,7 +277,7 @@ const SignupScreen: React.FC = () => {
             labelText="비밀번호를 다시 입력 해주세요."
             placeholder="특수문자, 문자, 숫자 포함 형태의 8~15자리를 입력해주세요."
             labelTextSize={12}
-            labelColor={colors.lightSkyBlue}
+            labelColor={palatte.logoColor}
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="password"
@@ -286,7 +286,7 @@ const SignupScreen: React.FC = () => {
           />
           {secondPassword ? (
             isPasswordSame ? (
-              <BaseBottomText text="비밀번호가 같습니다." color={colors.lightSkyBlue} />
+              <BaseBottomText text="비밀번호가 같습니다." color={palatte.logoColor} />
             ) : (
               <BaseBottomText text="비밀번호가 다릅니다." color={colors.darkOrange} />
             )
@@ -304,7 +304,7 @@ const SignupScreen: React.FC = () => {
             />
             <View
               style={{
-                backgroundColor: colors.lightSkyBlue,
+                backgroundColor: palatte.logoColor,
                 borderRadius: 10,
                 alignItems: 'center',
                 padding: '4%',
@@ -336,7 +336,7 @@ const SignupScreen: React.FC = () => {
             ) : !isVerifyCodeSent ? (
               <BaseBottomText text="인증번호를 전송해 주세요." color={colors.darkOrange} />
             ) : (
-              <BaseBottomText text="인증번호가 전송되었습니다." color={colors.lightSkyBlue} />
+              <BaseBottomText text="인증번호가 전송되었습니다." color={palatte.logoColor} />
             )
           ) : null}
         </View> */}
@@ -347,7 +347,7 @@ const SignupScreen: React.FC = () => {
             <EmailVerifyCodeInput verificationCode={verificationCode} setVerifyCode={setVerifyCode} />
             <View
               style={{
-                backgroundColor: colors.lightSkyBlue,
+                backgroundColor: palatte.logoColor,
                 borderRadius: 10,
                 alignItems: 'center',
                 padding: '4%',
@@ -374,7 +374,7 @@ const SignupScreen: React.FC = () => {
             </View>
           </View>
           {verifiedEmail ? (
-            <BaseBottomText text="인증돠었습니다." color={colors.lightSkyBlue} />
+            <BaseBottomText text="인증돠었습니다." color={palatte.logoColor} />
           ) : (
             <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
           )}
@@ -384,7 +384,7 @@ const SignupScreen: React.FC = () => {
         <View style={{ marginBottom: '6%' }}>
           <Text
             style={{
-              color: colors.lightSkyBlue,
+              color: palatte.logoColor,
               fontSize: 12,
               fontWeight: '700',
               marginBottom: -20,
@@ -409,7 +409,7 @@ const SignupScreen: React.FC = () => {
         <View style={{ marginBottom: '6%' }}>
           <Text
             style={{
-              color: colors.lightSkyBlue,
+              color: palatte.logoColor,
               fontSize: 12,
               fontWeight: '700',
               marginBottom: -20,
@@ -422,7 +422,7 @@ const SignupScreen: React.FC = () => {
         <View style={{ marginBottom: '10%', flexDirection: 'column' }}>
           <Text
             style={{
-              color: colors.lightSkyBlue,
+              color: palatte.logoColor,
               fontSize: 12,
               fontWeight: '700',
               marginBottom: '2%',
@@ -445,8 +445,8 @@ const SignupScreen: React.FC = () => {
               customStyles={{
                 dateInput: {
                   borderRadius: 10,
-                  borderColor: colors.lightSkyBlue,
-                  backgroundColor: colors.lightSkyBlue,
+                  borderColor: palatte.logoColor,
+                  backgroundColor: palatte.logoColor,
                 },
                 dateText: {
                   color: colors.white,
@@ -466,7 +466,7 @@ const SignupScreen: React.FC = () => {
             labelText="핸드폰 번호를 입력하세요"
             placeholder="010-7570-3529"
             labelTextSize={12}
-            labelColor={colors.lightSkyBlue}
+            labelColor={palatte.logoColor}
             textColor={colors.lightBlack}
             borderBottomColor={colors.lightGray}
             inputType="phone"
@@ -506,7 +506,7 @@ const SignupScreen: React.FC = () => {
           </View>
           <View
             style={{
-              backgroundColor: colors.lightSkyBlue,
+              backgroundColor: palatte.logoColor,
               borderRadius: 10,
               alignItems: 'center',
               padding: '4%',

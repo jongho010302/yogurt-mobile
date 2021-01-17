@@ -53,7 +53,7 @@ const BookingDetailsScreen: React.FC = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.lightSkyBlue }}>
+    <View style={{ flex: 1, backgroundColor: palatte.logoColor }}>
       <View>
         <View style={styles.card}>
           <View style={{ alignSelf: 'center', marginTop: '8%' }}>
@@ -72,7 +72,7 @@ const BookingDetailsScreen: React.FC = () => {
             <View style={{ flexDirection: 'column' }}>
               <View
                 style={{
-                  backgroundColor: colors.lightSkyBlue,
+                  backgroundColor: palatte.logoColor,
                   height: '90%',
                   width: '38%',
                   marginLeft: '40%',

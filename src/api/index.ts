@@ -11,7 +11,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (config) => {
     const accessToken = await getJwtToken();
-    config.headers.Authorization = accessToken;
+    if (accessToken) {
+      config.headers.Authorization = accessToken;
+    }
     return config;
   },
   (error) => Promise.reject(error),

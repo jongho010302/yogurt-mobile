@@ -19,7 +19,7 @@ const TicketExample: React.FC = () => {
           <Text
             style={{
               fontSize: 10,
-              color: palatte.lightSkyBlue,
+              color: palatte.logoColor,
               paddingRight: '2%',
               paddingLeft: '2%',
             }}>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     height: '85%',
     width: '70%',
     borderRadius: 10,
-    backgroundColor: palatte.lightSkyBlue,
+    backgroundColor: palatte.logoColor,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

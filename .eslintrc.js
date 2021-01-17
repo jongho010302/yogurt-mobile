@@ -56,5 +56,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'global-require': 'off',
     'no-plusplus': 'off',
+    '@typescript-eslint/no-unused-expressions': 'off',
+    '@typescript-eslint/ban-types': 'off',
   },
 };

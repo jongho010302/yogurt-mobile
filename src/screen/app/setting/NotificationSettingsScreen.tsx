@@ -33,7 +33,7 @@ const NotificationSettingsScreen: React.FC = () => {
           text="알림 설정으로 이동하기"
           handleClick={() => handleClick()}
           disabled={false}
-          backgroundColor={colors.lightSkyBlue}
+          backgroundColor={palatte.logoColor}
         />
       </View>
     </View>

@@ -24,6 +24,15 @@ class UserStore {
   @observable apiState: ApiState = {
     status: AsyncStatus.INIT,
     error: '',
+    isLoading() {
+      return this.status === AsyncStatus.LOADING;
+    },
+    isSucess() {
+      return this.status === AsyncStatus.SUCCESS;
+    },
+    isFailure() {
+      return this.status === AsyncStatus.FAILURE;
+    },
   };
   @observable user: User | null = null;
 
@@ -148,7 +157,10 @@ class UserStore {
     }
   };
 
-  @action verifyCodeForFindPassword = async (email: string, verificationCode: string): Promise<void> => {
+  @action verifyCodeForFindPassword = async (
+    email: string,
+    verificationCode: string,
+  ): Promise<void> => {
     this.loadApiState();
     try {
       await verifyCodeForFindingPasswordApi(email, verificationCode);

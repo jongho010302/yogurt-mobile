@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, KeyboardAvoidingView, StyleSheet, TouchableHighlight } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  StyleSheet,
+  TouchableHighlight,
+} from 'react-native';
 import BaseBottomText from '../../components/base/BaseBottomText';
 import { EmailInput } from '../../components/Form/EmailInput';
 import { EmailVerifyCodeInput } from '../../components/Form/EmailVerifyCodeInput';
@@ -20,7 +27,7 @@ const styles = StyleSheet.create({
     marginTop: '20%',
   },
   button: {
-    backgroundColor: colors.lightSkyBlue,
+    backgroundColor: palatte.logoColor,
     borderRadius: 10,
     alignItems: 'center',
     padding: '4%',
@@ -38,7 +45,12 @@ const PasswordSearchScreen: React.FC = () => {
   const [isEmailValidated, setEmailValidated] = useState(false);
   const [verificationCode, setVerifyCode] = useState('');
   const [isVerifyCodeSent, setIsVerifyCodeSent] = useState(false);
-  const { user, handleSendFindPasswordCode, handleVerifyFindPasswordCode, handleChangeField } = useUser();
+  const {
+    user,
+    handleSendFindPasswordCode,
+    handleVerifyFindPasswordCode,
+    handleChangeField,
+  } = useUser();
 
   // 이메일 인증코드 인증
   useEffect(() => {
@@ -123,12 +135,15 @@ const PasswordSearchScreen: React.FC = () => {
           ) : !isVerifyCodeSent ? (
             <BaseBottomText text="인증번호를 전송해 주세요." color={colors.darkOrange} />
           ) : (
-            <BaseBottomText text="인증번호가 전송되었습니다." color={colors.lightSkyBlue} />
+            <BaseBottomText text="인증번호가 전송되었습니다." color={palatte.logoColor} />
           )
         ) : null}
         <View style={styles.emailWrapper}>
           <View>
-            <EmailVerifyCodeInput verificationCode={verificationCode} setVerifyCode={setVerifyCode} />
+            <EmailVerifyCodeInput
+              verificationCode={verificationCode}
+              setVerifyCode={setVerifyCode}
+            />
           </View>
           <View style={styles.button}>
             <TouchableHighlight
@@ -149,7 +164,7 @@ const PasswordSearchScreen: React.FC = () => {
           </View>
         </View>
         {verifiedEmail ? (
-          <BaseBottomText text="인증돠었습니다." color={colors.lightSkyBlue} />
+          <BaseBottomText text="인증돠었습니다." color={palatte.logoColor} />
         ) : (
           <BaseBottomText text="인증해주세요." color={colors.darkOrange} />
         )}
