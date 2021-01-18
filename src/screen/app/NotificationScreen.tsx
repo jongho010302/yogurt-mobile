@@ -1,26 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import BaseText from '../components/base/BaseText';
-import NotificationComponent from '../components/notification/NotificationComponent';
-import colors from '../styles/colors';
-import { NavigationProps } from '../types';
-
-const styles = StyleSheet.create({
-  wrapper: {
-    marginHorizontal: '5%',
-  },
-  text: {
-    backgroundColor: colors.lightGray,
-    width: '90%',
-    height: '10%',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import CText from '~/components/Common/Text/CText';
+import Layout from '~/components/Layout/Layout';
+import NotificationItem from '~/components/Notification/NotificationItem';
+import { palatte } from '~/style/palatte';
 
 const NotificationScreen: React.FC = () => {
-  const { navigate } = navigation;
+  const { navigate } = useNavigation();
   const lectureList = [
     {
       dateTime: '2020-02-09 13:44:55',
@@ -75,28 +62,42 @@ const NotificationScreen: React.FC = () => {
     },
   ];
 
-  const ShowNotificationComponent = (item: any) => {
-    return (
-      <TouchableOpacity style={{}} onPress={() => navigate('NotificationDetails', { item })}>
-        <NotificationComponent notification={item} />
-      </TouchableOpacity>
-    );
-  };
-
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.text}>
-        <BaseText text="서울숲필라테스 일정 및 예약 내용을 확인하세요." />
+    <Layout padding={[0, 0, 0, 0]}>
+      <View style={styles.header}>
+        <CText style={styles.headerText}>알림</CText>
       </View>
-      <View style={styles.wrapper}>
-        <FlatList
-          data={lectureList}
-          renderItem={({ item }) => ShowNotificationComponent(item)}
-          keyExtractor={(item) => item.dateTime}
-        />
-      </View>
-    </View>
+      <FlatList
+        data={lectureList}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigate('NotificationDetails', { item })}>
+            <NotificationItem notification={item} />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.dateTime}
+      />
+    </Layout>
   );
 };
 
 export default NotificationScreen;
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    margin: '10%',
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: '600',
+  },
+  text: {
+    backgroundColor: palatte.lightGray,
+    width: '90%',
+    height: '10%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -2,15 +2,14 @@ import React from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-
-import BaseText from '../base/BaseText';
-import colors from '../../..';
+import { palatte } from '~/style/palatte';
+import CText from '../Common/Text/CText';
 
 interface Props {
   notification?: any;
 }
 
-const NotificationComponent: React.FC<Props> = ({ notification }) => {
+const NotificationItem: React.FC<Props> = ({ notification }) => {
   if (!Object.keys(notification).length) {
     return null;
   }
@@ -18,10 +17,9 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
   return (
     <View
       style={{
-        borderRadius: 2,
         borderBottomWidth: 0.5,
-        borderColor: colors.lightGray,
-        shadowColor: colors.lightGray,
+        borderColor: palatte.lightGray,
+        shadowColor: palatte.lightGray,
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: '2%',
@@ -31,10 +29,9 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
         }}>
-        <BaseText
-          text={`
-            ${notification.lectureName} 수업이\n${notification.time}에 예약되어 있습니다`}
-        />
+        <CText>
+          {notification.lectureName} 수업이 {notification.time}에 예약되어 있습니다
+        </CText>
       </View>
       <View>
         <View
@@ -46,14 +43,14 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
             padding: '5%',
           }}>
           <View>
-            <BaseText text={moment(new Date()).format('YYYY-MM-DD')} customStyle={{ fontSize: 11 }} />
+            <CText style={{ fontSize: 11 }}>{moment(new Date()).format('YYYY-MM-DD')}</CText>
           </View>
           <View>
             <Icon
               name="chatbox"
               style={{
                 fontSize: 11,
-                color: colors.lightBlack,
+                color: palatte.lightBlack,
                 paddingLeft: '5%',
               }}
             />
@@ -64,4 +61,4 @@ const NotificationComponent: React.FC<Props> = ({ notification }) => {
   );
 };
 
-export default NotificationComponent;
+export default NotificationItem;

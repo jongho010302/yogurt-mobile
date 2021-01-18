@@ -32,12 +32,13 @@ const SettingScreen: React.FC = () => {
     <Layout padding={[0, 0, 0, 0]}>
       <View style={styles.header}>
         <Icon name="md-build" style={styles.icon} />
-        <CText style={styles.text}>환경설정</CText>
+        <CText style={styles.headerText}>환경설정</CText>
       </View>
       <FlatList
         data={settingItems}
         renderItem={({ item }) => <SettingMenu title={item.name} onPress={item.onPress} />}
         keyExtractor={(item) => item.name}
+        style={styles.listContainer}
       />
     </Layout>
   );
@@ -49,14 +50,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    margin: '10%',
+    margin: 42,
   },
   icon: {
     fontSize: 30,
     color: palatte.lightBlack,
   },
-  text: {
+  headerText: {
     fontSize: 30,
     fontWeight: '600',
+  },
+  listContainer: {
+    paddingHorizontal: 50,
   },
 });

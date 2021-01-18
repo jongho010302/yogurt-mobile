@@ -28,7 +28,7 @@ export default TicketCard;
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'center',
-    width: '80%',
+    width: '85%',
     borderRadius: 10,
     backgroundColor: palatte.logoColor,
     shadowColor: '#000',

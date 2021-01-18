@@ -19,13 +19,12 @@ export default SettingMenu;
 
 const styles = StyleSheet.create({
   container: {
-    margin: '5%',
-    marginHorizontal: '10%',
+    marginVertical: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   text: {
     fontSize: 17,
-    fontWeight: '500',
+    fontWeight: 'normal',
   },
 });

@@ -1,10 +1,9 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CText from '~/components/Common/Text/CText';
 import HomeScreen from '~/screen/app/home/HomeScreen';
 import Bottom from '~/components/Layout/Bottom';
 import SettingScreen from '~/screen/app/setting/SettingScreen';
+import NotificationScreen from '~/screen/app/NotificationScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,15 +25,13 @@ const TabNavigator = () => {
         },
       })}
       tabBarOptions={{
-        style: {
-          borderTopColor: 'transparent',
-        },
+        // style: {
+        //   borderTopColor: 'transparent',
+        // },
         showLabel: false,
-        activeTintColor: '#fff',
-        inactiveTintColor: '#414141',
       }}>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Notification" component={HomeScreen} />
+      <Tab.Screen name="Notification" component={NotificationScreen} />
       <Tab.Screen name="Profile" component={HomeScreen} />
       <Tab.Screen name="Setting" component={SettingScreen} />
     </Tab.Navigator>

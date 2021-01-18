@@ -1,12 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import SettingNavigator from './SettingNavigator';
-import HomeScreen from '~/screen/app/home/HomeScreen';
-import BookingScreen from '~/screen/app/home/BookingScreen';
-import CText from '~/components/Common/Text/CText';
-import useStudio from '~/hooks/useStudio';
-import { useUser } from '~/hooks';
 import TabNavigator from './TabNavigator';
+import CText from '~/components/Common/Text/CText';
 
 const Stack = createStackNavigator();
 
