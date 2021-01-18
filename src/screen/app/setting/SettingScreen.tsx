@@ -1,71 +1,62 @@
-import React, { useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { View, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { NavigationProps } from '../../types';
-import { CreateSettingComponent } from '../../components/layout/NavigationButton';
-import BaseText from '../../components/base/BaseText';
-import colors from '../../styles/colors';
-import { useUser } from '../../hooks';
-import { AsyncStatus } from '../../modules/types';
+import CText from '~/components/Common/Text/CText';
+import Layout from '~/components/Layout/Layout';
+import SettingMenu from '~/components/Layout/SettingMenu';
+import { useUser } from '~/hooks';
+import { palatte } from '~/style/palatte';
 
 const SettingScreen: React.FC = () => {
-  const { navigate } = navigation;
+  const { navigate } = useNavigation();
+  const { logout } = useUser();
 
-  const { user, handleChangeField, handleLogOut } = useUser();
-
-  useEffect(() => {
-    if (user.logOut.status === AsyncStatus.SUCCESS) {
-      navigate('AuthLoading');
-    }
-  }, [user.logOut.status, navigate]);
-
-  useEffect(() => {
-    return () => {
-      handleChangeField('logOut', {
-        status: AsyncStatus.INIT,
-        errorMessage: '',
-      });
-    };
-  }, [handleChangeField]);
-
-  const settingItemList = [
+  const settingItems = [
     {
       name: '회원정보 변경',
-      screen: 'PersonalInfo',
-      method: (item: any) => navigate(item),
+      onPress: () => navigate('PersonalInfo'),
     },
     {
       name: '알림설정',
-      screen: 'NotificationSettings',
-      method: (item: any) => navigate(item),
+      onPress: () => navigate('NotificationSettings'),
     },
     {
       name: '고객센터',
-      screen: 'CustomerService',
-      method: (item: any) => navigate(item),
+      onPress: () => navigate('CustomerService'),
     },
-    { name: '로그아웃', method: () => handleLogOut() },
+    { name: '로그아웃', onPress: () => logout() },
   ];
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'flex-end',
-          alignContent: 'flex-end',
-          margin: '10%',
-        }}>
-        <Icon name="md-build" style={{ fontSize: 30, color: colors.lightBlack }} />
-        <BaseText text="환경설정" customStyle={{ fontSize: 30, fontWeight: '600', marginLeft: '5%' }} />
+    <Layout padding={[0, 0, 0, 0]}>
+      <View style={styles.header}>
+        <Icon name="md-build" style={styles.icon} />
+        <CText style={styles.text}>환경설정</CText>
       </View>
       <FlatList
-        data={settingItemList}
-        renderItem={({ item }) => CreateSettingComponent(item)}
+        data={settingItems}
+        renderItem={({ item }) => <SettingMenu title={item.name} onPress={item.onPress} />}
         keyExtractor={(item) => item.name}
       />
-    </View>
+    </Layout>
   );
 };
 
 export default SettingScreen;
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    margin: '10%',
+  },
+  icon: {
+    fontSize: 30,
+    color: palatte.lightBlack,
+  },
+  text: {
+    fontSize: 30,
+    fontWeight: '600',
+  },
+});

@@ -1,8 +1,6 @@
-import { Studio } from '../studio/types';
-
 export interface User {
   id: number;
-  studio: Studio;
+  studio: number;
   username: string;
   password: string;
   email: string;

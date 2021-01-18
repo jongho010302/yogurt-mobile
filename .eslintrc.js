@@ -58,5 +58,6 @@ module.exports = {
     'no-plusplus': 'off',
     '@typescript-eslint/no-unused-expressions': 'off',
     '@typescript-eslint/ban-types': 'off',
+    'consistent-return': 'off',
   },
 };

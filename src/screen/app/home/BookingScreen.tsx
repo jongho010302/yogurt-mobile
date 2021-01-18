@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AgendaExample from '../../../components/Calendar/AgendaExample';
-import TicketExample from '../../../components/Ticket/TicketExample';
+import TicketExample from '../../../components/Ticket/TicketCard';
 import BookingHistory from '../../../components/Lecture/BookingHistory';
 import TicketInformation from '../../../components/Ticket/TicketInformation';
 import Layout from '~/components/Layout/Layout';

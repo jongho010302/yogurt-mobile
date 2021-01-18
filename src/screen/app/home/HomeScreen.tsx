@@ -1,12 +1,15 @@
-import { View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { observer } from 'mobx-react-lite';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import BaseText from '~/components/base/BaseText';
+import React, { useEffect } from 'react';
 import LectureComponent from '~/components/Lecture/LectureComponent';
-import TicketExample from '~/components/Ticket/TicketExample';
+import TicketCard from '~/components/Ticket/TicketCard';
 import Layout from '~/components/Layout/Layout';
+import CText from '~/components/Common/Text/CText';
+import { useUser } from '~/hooks';
+import { palatte } from '~/style/palatte';
 
-const Lectures = () => {
+const Lectures = observer(() => {
   const { navigate } = useNavigation();
 
   const lectures = [
@@ -41,48 +44,56 @@ const Lectures = () => {
 
   return (
     <>
-      <BaseText style={{ marginLeft: 'auto', marginRight: 'auto' }}>최근 예약 기록이 없습니다.</BaseText>
+      <CText style={{ marginLeft: 'auto', marginRight: 'auto' }}>최근 예약 기록이 없습니다.</CText>
       <TouchableOpacity
         style={{ marginLeft: 'auto', marginRight: 'auto' }}
         onPress={() => {
           navigate('Booking');
         }}>
-        <View>
-          <BaseText>예약하러가기</BaseText>
-        </View>
+        <CText>예약하러가기</CText>
       </TouchableOpacity>
     </>
   );
-};
+});
 
-const HomeScreen: React.FC = () => {
-  const { navigate } = useNavigation();
+const HomeScreen: React.FC = observer(() => {
+  const { navigate, setOptions } = useNavigation();
+  const { studio } = useUser();
+
+  useEffect(() => {
+    setOptions({
+      headerShown: true,
+      headerTitle: () => <CText style={styles.title}>{studio?.name}</CText>,
+    });
+  }, [setOptions, studio]);
+
+  const onPress = () => {
+    navigate('Booking');
+  };
 
   return (
     <Layout>
-      <View style={{ flex: 0.8 }}>
-        <View
-          style={{
-            flex: 0.8,
-            marginTop: '10%',
-            borderBottomWidth: 0.5,
-            borderBottomColor: '#b0c4de',
-          }}>
-          <TouchableOpacity onPress={() => navigate('Booking')}>
-            <TicketExample />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TicketCard onPress={onPress} style={styles.ticket} />
       <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
-        <View style={styles.scrollView}>{Lectures()}</View>
+        {/* <View style={styles.scrollView}>{Lectures()}</View> */}
       </SafeAreaView>
     </Layout>
   );
-};
+});
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: palatte.black,
+  },
+  ticket: {
+    marginTop: 80,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#b0c4de',
+  },
   scrollView: {
     flex: 1,
     paddingLeft: '5%',

@@ -28,14 +28,6 @@ class StudioStore {
   }
 
   /**
-   * Computed
-   */
-
-  @computed get isLoading() {
-    return this.apiState.status === AsyncStatus.LOADING;
-  }
-
-  /**
    * Base Actions
    */
 

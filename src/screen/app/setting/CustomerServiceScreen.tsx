@@ -1,9 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { openComposer } from 'react-native-email-link';
-import { CreateSettingComponent } from '../../../components/Layout/NavigationButton';
 
 const CustomerServiceScreen: React.FC = () => {
+  const { navigate } = useNavigation();
+
   const createEmailRequest = () => {
     const to = 'yogurtstudio0302@gmail.com';
 
@@ -14,25 +16,26 @@ const CustomerServiceScreen: React.FC = () => {
     });
   };
 
-  const settingItemList = [
-    { name: '이메일 문의하기', method: () => createEmailRequest() },
+  const settingItems = [
+    {
+      name: '이메일 문의하기',
+      onPress: () => createEmailRequest(),
+    },
     {
       name: '이용약관',
-      screen: 'TermsOfService',
-      method: (item: any) => navigate(item),
+      onPress: () => navigate('TermsOfService'),
     },
     {
       name: '개인정보처리방침',
-      screen: 'PrivacyPolicy',
-      method: (item: any) => navigate(item),
+      onPress: () => navigate('PrivacyPolicy'),
     },
   ];
 
   return (
     <View style={{ flex: 1, marginTop: '15%' }}>
       <FlatList
-        data={settingItemList}
-        renderItem={({ item }) => CreateSettingComponent(item)}
+        data={settingItems}
+        renderItem={({ item }) => <SettingMenu title={item.name} onPress={item.onPress} />}
         keyExtractor={(item) => item.name}
       />
     </View>

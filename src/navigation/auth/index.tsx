@@ -4,6 +4,7 @@ import LoginScreen from '~/screen/auth/LoginScreen';
 import SignupScreen from '~/screen/auth/SignupScreen';
 import PasswordSearchScreen from '~/screen/auth/PasswordSearchScreen';
 import PasswordResetScreen from '~/screen/auth/PasswordResetScreen';
+import CText from '~/components/Common/Text/CText';
 
 const Stack = createStackNavigator();
 
@@ -17,13 +18,14 @@ const AuthStack = () => {
           headerTitle: () => '',
         }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Signup"
         component={SignupScreen}
         options={{
-          headerTitle: () => '',
+          headerShown: true,
+          headerTitle: () => <CText />,
         }}
-      /> */}
+      />
       {/* <Stack.Screen
         name="PasswordSearch"
         component={PasswordSearchScreen}

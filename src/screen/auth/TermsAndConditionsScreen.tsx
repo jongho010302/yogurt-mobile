@@ -1,12 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { CheckBox } from 'react-native-elements';
+import { palatte } from '~/style/palatte';
 import BaseButton from '../../components/base/BaseButton';
-import { NavigationProps } from '../../types';
-import colors from '../../..';
 
 const TermsAndConditionsScreen: React.FC = () => {
-  const { navigate } = navigation;
+  const { navigate } = useNavigation();
   const [isFirstCheckBox, setFirstCheckBox] = useState<boolean>(false);
   const [isSecondCheckBox, setSecondCheckBox] = useState<boolean>(false);
 
@@ -26,7 +26,7 @@ const TermsAndConditionsScreen: React.FC = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.white }}>
+    <View style={{ flex: 1, backgroundColor: palatte.white }}>
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.45 }}>
           <CheckBox
@@ -34,7 +34,7 @@ const TermsAndConditionsScreen: React.FC = () => {
             checked={isFirstCheckBox}
             onIconPress={() => SetFirstCheckBox()}
           />
-          <View style={{ borderColor: colors.white }}>
+          <View style={{ borderColor: palatte.white }}>
             <Text>Yogurt-Studio 이용약관</Text>
             <Text />
             <Text />
@@ -52,7 +52,7 @@ const TermsAndConditionsScreen: React.FC = () => {
             checked={isSecondCheckBox}
             onIconPress={() => SetSecondCheckBox()}
           />
-          <View style={{ borderColor: colors.white }}>
+          <View style={{ borderColor: palatte.white }}>
             <Text>Yogurt-Studio 이용약관</Text>
             <Text />
             <Text />
@@ -73,7 +73,7 @@ const TermsAndConditionsScreen: React.FC = () => {
           }}>
           <View
             style={{
-              backgroundColor: colors.lightSteelGray,
+              backgroundColor: palatte.lightSteelGray,
               borderRadius: 10,
               alignItems: 'center',
               padding: '4%',

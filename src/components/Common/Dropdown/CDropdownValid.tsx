@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
-import { Controller } from 'react-hook-form';
-import CustomText from '../Text/CustomText';
-import { hitSlop } from '~/style/common';
+import RNPickerSelect, { Item, PickerStyle } from 'react-native-picker-select';
+import { StyleSheet } from 'react-native';
+import { Controller, DeepMap, FieldError } from 'react-hook-form';
+import CText from '../Text/CText';
 import { palatte } from '~/style/palatte';
 
 interface BaseRules {
@@ -11,9 +11,9 @@ interface BaseRules {
 }
 
 interface Props {
+  items: Item[];
   name: string;
-  placeholder: string;
-  errors: any;
+  errors: DeepMap<any, FieldError>;
   control: any;
   maxLength?: number;
   minLength?: number;
@@ -22,22 +22,23 @@ interface Props {
   secureTextEntry?: boolean;
   onBlur?: () => void;
   defaultValue?: string;
-  disable?: boolean;
-  style?: StyleProp<TextStyle>;
+  placeholder?: {} | Item;
+  disabled?: boolean;
+  style?: PickerStyle;
 }
 
-const CustomTextInput: React.FC<Props> = ({
+const CDropdownValid: React.FC<Props> = ({
+  items,
   name,
-  placeholder,
   errors,
   control,
   maxLength,
   minLength,
   pattern,
+  placeholder,
   validate,
-  secureTextEntry,
   defaultValue = '',
-  disable = false,
+  disabled = false,
   style,
 }) => {
   const baseRules: BaseRules = { required: true };
@@ -65,65 +66,54 @@ const CustomTextInput: React.FC<Props> = ({
         rules={setRules()}
         defaultValue={defaultValue}
         render={({ onChange, onBlur, value }) => (
-          <TextInput
-            style={[styles.textInput, style]}
+          <RNPickerSelect
             placeholder={placeholder}
-            autoCapitalize="none"
-            selectionColor={palatte.logoColor}
-            hitSlop={hitSlop}
-            onChangeText={(text: string) => onChange(text)}
-            onBlur={onBlur}
             value={value}
-            editable={!disable}
-            autoCorrect={false}
-            underlineColorAndroid="transparent"
-            secureTextEntry={secureTextEntry}
+            onValueChange={(pickerValue) => onChange(pickerValue)}
+            items={items}
+            disabled={disabled}
+            style={style}
           />
         )}
       />
       {/* 공통 에러 */}
       {errors[name]?.type === 'required' && (
-        <CustomText style={styles.errorText}>값이 비어있습니다</CustomText>
+        <CText style={styles.errorText}>값이 비어있습니다</CText>
       )}
       {errors[name]?.type === 'invalid' && (
-        <CustomText style={styles.errorText}>{errors[name].message}</CustomText>
+        <CText style={styles.errorText}>{errors[name].message}</CText>
       )}
       {errors[name]?.type === 'existing' && (
-        <CustomText style={styles.errorText}>{errors[name].message}</CustomText>
+        <CText style={styles.errorText}>{errors[name].message}</CText>
       )}
       {/* 이메일 에러 */}
       {errors[name]?.type === 'pattern' && (
-        <CustomText style={styles.errorText}>{errors[name].message}</CustomText>
+        <CText style={styles.errorText}>{errors[name].message}</CText>
       )}
       {errors[name]?.type === 'existingEmail' && (
-        <CustomText style={styles.errorText}>{errors[name].message}</CustomText>
+        <CText style={styles.errorText}>{errors[name].message}</CText>
       )}
       {/* 패스워드 에러 */}
       {errors[name]?.type === 'minLength' && (
-        <CustomText
+        <CText
           style={
             styles.errorText
-          }>{`Password should contain minimum ${minLength} characters.`}</CustomText>
+          }>{`Password should contain minimum ${minLength} characters.`}</CText>
       )}
       {errors[name]?.type === 'samePassword' && (
-        <CustomText style={styles.errorText}>{errors[name].message}</CustomText>
+        <CText style={styles.errorText}>{errors[name].message}</CText>
       )}
       {/* verification code 에러 */}
       {errors[name]?.type === 'isCorrectCode' && (
-        <CustomText style={styles.errorText}>{errors[name].message}</CustomText>
+        <CText style={styles.errorText}>{errors[name].message}</CText>
       )}
     </>
   );
 };
 
-export default CustomTextInput;
+export default CDropdownValid;
 
 const styles = StyleSheet.create({
-  textInput: {
-    paddingTop: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: palatte.lightGray,
-  },
   errorText: {
     marginBottom: 8,
     fontSize: 12,

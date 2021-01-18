@@ -1,25 +1,15 @@
 import React from 'react';
-import {
-  TouchableHighlight,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  StyleProp,
-  Pressable,
-  GestureResponderEvent,
-} from 'react-native';
+import { StyleSheet, Text, ViewStyle, StyleProp, GestureResponderEvent } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { palatte } from '~/style/palatte';
 
 interface Props {
-  text: string;
   onPress: (event: GestureResponderEvent) => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
-const CustomButton: React.FC<Props> = ({ text, onPress, disabled = false, style }) => {
+const CButton: React.FC<Props> = ({ onPress, disabled = false, style, children }) => {
   const opacity = disabled ? 0.2 : 1;
 
   return (
@@ -27,16 +17,16 @@ const CustomButton: React.FC<Props> = ({ text, onPress, disabled = false, style 
       onPress={onPress}
       disabled={disabled}
       style={[{ opacity }, styles.button, style]}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.text}>{children}</Text>
     </TouchableOpacity>
   );
 };
 
-export default CustomButton;
+export default CButton;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: palatte.logoColor,
     alignItems: 'center',
     padding: '5%',

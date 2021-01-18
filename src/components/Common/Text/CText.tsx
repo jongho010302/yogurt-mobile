@@ -7,18 +7,14 @@ interface Props {
   props?: any;
 }
 
-const CustomText: React.FC<Props> = ({ children, style, ...props }) => {
+const CText: React.FC<Props> = ({ children, style, ...props }) => {
   const defaultStyle: StyleProp<TextStyle> = Platform.select({
     ios: {
       color: palatte.black,
-      fontWeight: 'bold',
-      fontSize: 20,
     },
     android: {
-      includeFontPadding: false,
       color: palatte.black,
-      fontWeight: 'bold',
-      fontSize: 20,
+      includeFontPadding: false,
     },
   });
   return (
@@ -28,4 +24,4 @@ const CustomText: React.FC<Props> = ({ children, style, ...props }) => {
   );
 };
 
-export default CustomText;
+export default CText;

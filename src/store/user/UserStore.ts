@@ -8,11 +8,10 @@ import {
   sendCodeForSignUpApi,
   signUpApi,
   verifyCodeForFindingPasswordApi,
-  verifyCodeForSignUpApi,
 } from '~/api/auth';
 import { changeNameApi, changePasswordApi, changeProfileApi, getUserApi } from '~/api/user';
-import { removeAxiosHeaders, setAxiosHeaders } from '~/utils/http';
 import { removeJwtToken, removeUser, setJwtToken, setUser } from '~/utils/storage';
+import { Studio } from '../studio/types';
 import { ApiState, AsyncStatus } from '../types';
 import { User } from './types';
 
@@ -35,6 +34,7 @@ class UserStore {
     },
   };
   @observable user: User | null = null;
+  @observable studio: Studio | null = null;
 
   constructor() {
     makeObservable(this);
@@ -86,22 +86,29 @@ class UserStore {
     this.user = null;
   };
 
+  @action private setStudio = (studio: Studio) => {
+    this.studio = studio;
+  };
+
+  @action private removeStudio = () => {
+    this.studio = null;
+  };
+
   /**
    * Signup Actions
    */
 
   @action signup = async (
+    studioId: number,
     email: string,
     password: string,
     name: string,
-    gender: string,
-    birthDay: string,
     phone: string,
     verificationCode: string,
   ): Promise<void> => {
     this.loadApiState();
     try {
-      await signUpApi(email, password, name, gender, birthDay, phone, verificationCode);
+      await signUpApi(studioId, email, password, name, phone, verificationCode);
       await this.login(email, password);
       this.succeedApiState();
     } catch (error) {
@@ -113,16 +120,6 @@ class UserStore {
     this.loadApiState();
     try {
       await sendCodeForSignUpApi(email);
-      this.succeedApiState();
-    } catch (error) {
-      this.failApiState(error.error);
-    }
-  };
-
-  @action verifyCodeForSignUp = async (email: string, verificationCode: string): Promise<void> => {
-    this.loadApiState();
-    try {
-      await verifyCodeForSignUpApi(email, verificationCode);
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -179,9 +176,9 @@ class UserStore {
     try {
       const res = await loginApi(email, password);
       this.setUser(res.data.user);
+      this.setStudio(res.data.studio);
       setJwtToken(res.data.accessToken);
       setUser(res.data.user);
-      setAxiosHeaders(res.data.accessToken);
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -191,11 +188,11 @@ class UserStore {
   @action logout = async (): Promise<void> => {
     this.loadApiState();
     try {
-      await logoutApi();
       this.removeUser();
+      await logoutApi();
       removeJwtToken();
       removeUser();
-      removeAxiosHeaders();
+      this.removeStudio();
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -255,9 +252,9 @@ class UserStore {
     try {
       await deleteAccountApi();
       this.removeUser();
+      this.removeStudio();
       removeJwtToken();
       removeUser();
-      removeAxiosHeaders();
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -272,7 +269,8 @@ class UserStore {
     this.loadApiState();
     try {
       const res = await getUserApi();
-      this.setUser(res.data);
+      this.setUser(res.data.user);
+      this.setStudio(res.data.studio);
       setUser(res.data);
     } catch (error) {
       this.failApiState(error.error);

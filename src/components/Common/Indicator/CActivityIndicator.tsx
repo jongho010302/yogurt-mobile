@@ -6,8 +6,8 @@ interface Props {
   color?: string;
 }
 
-const CustomActivityIndicator: React.FC<Props> = ({ color }) => {
+const CActivityIndicator: React.FC<Props> = ({ color }) => {
   return <ActivityIndicator color={color || palatte.logoColor} />;
 };
 
-export default CustomActivityIndicator;
+export default CActivityIndicator;

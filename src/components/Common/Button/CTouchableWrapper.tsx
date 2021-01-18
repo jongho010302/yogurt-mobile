@@ -19,7 +19,7 @@ interface Props {
   onPress: (event: GestureResponderEvent) => void;
 }
 
-const CustomTouchableWrapper: React.FC<Props> = ({
+const CTouchableWrapper: React.FC<Props> = ({
   children,
   onPress,
   style,
@@ -50,7 +50,7 @@ const CustomTouchableWrapper: React.FC<Props> = ({
   );
 };
 
-export default React.memo(CustomTouchableWrapper);
+export default React.memo(CTouchableWrapper);
 
 const styles = StyleSheet.create({
   container: {

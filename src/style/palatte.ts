@@ -9,6 +9,7 @@ export const palatte = {
   lightGray: '#d8d8d8',
   lightSteelGray: '#b0c4de',
   lightSkyBlue: '#87cdfa',
+  strongBlue: '#4485F7',
   powderBlue: '#b0e0e6',
   pink: '#fc4c54',
   gray01: '#f3f3f3',

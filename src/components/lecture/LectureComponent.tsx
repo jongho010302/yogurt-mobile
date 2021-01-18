@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import colors from '../../..';
-import BaseText from '../base/BaseText';
+import { palatte } from '~/style/palatte';
+import CText from '../Common/Text/CText';
 
 interface Props {
   lecture?: any;
@@ -20,8 +19,8 @@ const styles = StyleSheet.create({
     height: '85%',
     width: '100%',
     borderRadius: 10,
-    borderColor: colors.lightSteelGray,
-    backgroundColor: colors.white,
+    borderColor: palatte.lightSteelGray,
+    backgroundColor: palatte.white,
     borderWidth: 0.5,
     shadowColor: '#000',
     shadowOffset: {
@@ -67,8 +66,8 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
               flexDirection: 'column',
               justifyContent: 'space-between',
             }}>
-            <BaseText text={lecture.lectureName} customStyle={{ fontSize: 10 }} />
-            <BaseText text={`${lecture.lecturer}강사`} customStyle={{ fontSize: 12 }} />
+            <CText style={{ fontSize: 10 }}>{lecture.lectureName}</CText>
+            <CText style={{ fontSize: 12 }}>{lecture.lecturer}강사</CText>
           </View>
           <Text style={{ color: palatte.logoColor, fontSize: 12 }}>예약완료</Text>
         </View>
@@ -81,9 +80,9 @@ const LectureComponent: React.FC<Props> = ({ lecture }) => {
           justifyContent: 'space-evenly',
         }}>
         <Icon name="time-outline" style={{ marginLeft: '5%', color: '#BDBDBD', fontSize: 12 }} />
-        <BaseText text={lecture.time} customStyle={{ fontSize: 12 }} />
+        <CText style={{ fontSize: 12 }}>{lecture.time}</CText>
         <Icon name="person" style={{ marginLeft: '10%', color: '#BDBDBD', fontSize: 12 }} />
-        <BaseText text={lecture.attendedCount} customStyle={{ fontSize: 12, marginRight: '20%' }} />
+        <CText style={{ fontSize: 12, marginRight: '20%' }}>{lecture.attendedCount}</CText>
       </View>
     </View>
   );

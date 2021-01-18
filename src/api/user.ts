@@ -1,5 +1,5 @@
 import { ApiResponse } from '~/utils/http';
-import axios from './index';
+import axios from './axios';
 
 export const getUserApi = (): Promise<ApiResponse> => axios.get('/user');
 
