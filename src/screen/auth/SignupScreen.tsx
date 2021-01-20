@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StyleSheet, Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useUser } from '../../hooks';
 import useStudio from '~/hooks/useStudio';
