@@ -15,7 +15,7 @@ const SettingScreen: React.FC = () => {
   const settingItems = [
     {
       name: '회원정보 변경',
-      onPress: () => navigate('PersonalInfo'),
+      onPress: () => navigate('Setting', { screen: 'PersonalInfo' }),
     },
     {
       name: '알림설정',

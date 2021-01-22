@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
+import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -11,7 +12,6 @@ import CButton from '~/components/Common/Button/CButton';
 import CText from '~/components/Common/Text/CText';
 import Logo from '~/components/base/Logo';
 import { palatte } from '~/style/palatte';
-import { observer } from 'mobx-react-lite';
 
 const LoginScreen: React.FC = observer(() => {
   const { navigate } = useNavigation();
@@ -52,7 +52,7 @@ const LoginScreen: React.FC = observer(() => {
         pattern={{ value: passwordRegex, message: '비밀번호의 형식을 맞춰주세요.' }}
         errors={errors}
         style={styles.input}
-        // secureTeWldms  xtEntry
+        secureTextEntry
       />
       <CButton onPress={handleSubmit(onSubmit)} style={styles.login}>
         로그인

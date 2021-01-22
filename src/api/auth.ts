@@ -16,7 +16,7 @@ export const signUpApi = async (
   phone: string,
   verificationCode: string,
 ): Promise<ApiResponse> =>
-  axios.post('/auth/users', {
+  axios.post('/auth/users/email', {
     studioId,
     email,
     password,
@@ -57,7 +57,7 @@ export const verifyCodeForFindingPasswordApi = (
  */
 
 export const loginApi = async (email: string, password: string) =>
-  axios.post('/auth/tokens', { email, password });
+  axios.post('/auth/tokens/email', { email, password });
 
 export const logoutApi = async (): Promise<ApiResponse> => axios.delete('/auth/tokens');
 
