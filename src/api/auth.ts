@@ -57,7 +57,7 @@ export const verifyCodeForFindingPasswordApi = (
  */
 
 export const loginApi = async (email: string, password: string) =>
-  axios.post('/auth/tokens/email', { email, password });
+  axios.post('/auth/tokens/email', { email, password, studioId: 1 });
 
 export const logoutApi = async (): Promise<ApiResponse> => axios.delete('/auth/tokens');
 

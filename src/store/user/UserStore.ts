@@ -1,4 +1,5 @@
 import { observable, action, makeObservable, computed } from 'mobx';
+import { Alert } from 'react-native';
 import {
   changeEmailForFindPasswordApi,
   deleteAccountApi,
@@ -10,7 +11,7 @@ import {
   verifyCodeForFindingPasswordApi,
 } from '~/api/auth';
 import { changeNameApi, changePasswordApi, changeProfileApi, getUserApi } from '~/api/user';
-import { removeJwtToken, removeUser, setJwtToken, setUser } from '~/utils/storage';
+import { removeJwtToken, setJwtToken } from '~/utils/storage';
 import { Studio } from '../studio/types';
 import { ApiState, AsyncStatus } from '../types';
 import { User } from './types';
@@ -178,9 +179,9 @@ class UserStore {
       this.setUser(res.data.user);
       this.setStudio(res.data.studio);
       setJwtToken(res.data.accessToken);
-      setUser(res.data.user);
       this.succeedApiState();
     } catch (error) {
+      // Alert.alert(error.message);
       this.failApiState(error.error);
     }
   };
@@ -191,7 +192,6 @@ class UserStore {
       this.removeUser();
       await logoutApi();
       removeJwtToken();
-      removeUser();
       this.removeStudio();
       this.succeedApiState();
     } catch (error) {
@@ -254,7 +254,6 @@ class UserStore {
       this.removeUser();
       this.removeStudio();
       removeJwtToken();
-      removeUser();
       this.succeedApiState();
     } catch (error) {
       this.failApiState(error.error);
@@ -271,8 +270,8 @@ class UserStore {
       const res = await getUserApi();
       this.setUser(res.data.user);
       this.setStudio(res.data.studio);
-      setUser(res.data);
     } catch (error) {
+      removeJwtToken();
       this.failApiState(error.error);
     }
   };
